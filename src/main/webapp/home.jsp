@@ -9,36 +9,15 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" href="assets/css/navbar.css">
+    <link rel="stylesheet" href="assets/css/home.css">
 </head>
 <body>
 <div class="div">
-    <div class="navbar">
-        <img
-                loading="lazy"
-                src="assets/images/logo.png"
-                class="img"
-        />
-        <div class="search-bar">
-            <div class="genre">Horror</div>
-            <div class="search">Search in BookVerse</div>
-            <div class="search-img">
-                <img
-                        loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/1425ed4792740a08159922acf78c8e184bb8a0f780ca7cb61106f93d548b4406?"
-                        class="img-2"
-                />
-            </div>
-        </div>
-        <div class="navbar-right">
-            <div class="sign-in">Sign in</div>
-            <div class="sign-up">Sign up</div>
-        </div>
-    </div>
+    <%@include file="templates/navbar.jsp" %>
     <div class="buy-preview">
         <img
                 loading="lazy"
-                src="assets/images/buy.png"
+                src="<%= request.getContextPath()%>/assets/images/buy.png"
                 class="img-4"
         />
         <div class="buy-text">
@@ -62,7 +41,7 @@
     <div class="publish-preview">
         <img
                 loading="lazy"
-                srcset="assets/images/publish.jpg"
+                srcset="<%= request.getContextPath()%>/assets/images/publish.jpg"
                 class="img-5"
         />
         <div class="publish-text">
