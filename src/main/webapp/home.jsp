@@ -13,16 +13,16 @@
 </head>
 <body>
 <div class="div">
-    <div class="div-2">
+    <div class="navbar">
         <img
                 loading="lazy"
                 src="assets/images/logo.png"
                 class="img"
         />
-        <div class="div-3">
-            <div class="div-4">Horror</div>
-            <div class="div-5">Search in BookVerse</div>
-            <div class="div-6">
+        <div class="search-bar">
+            <div class="genre">Horror</div>
+            <div class="search">Search in BookVerse</div>
+            <div class="search-img">
                 <img
                         loading="lazy"
                         src="https://cdn.builder.io/api/v1/image/assets/TEMP/1425ed4792740a08159922acf78c8e184bb8a0f780ca7cb61106f93d548b4406?"
@@ -30,33 +30,24 @@
                 />
             </div>
         </div>
-        <div class="div-7">
-            <div class="div-8">Sign in</div>
-            <div class="div-9">Sign up</div>
+        <div class="navbar-right">
+            <div class="sign-in">Sign in</div>
+            <div class="sign-up">Sign up</div>
         </div>
     </div>
-    <div class="div-10">
+    <div class="buy-preview">
         <img
                 loading="lazy"
-                srcset="..."
+                src="assets/images/buy.png"
                 class="img-4"
         />
-        <div class="div-11">
-      <span
-              style="
-          font-family: Comfortaa, sans-serif;
-          font-weight: 700;
-        "
-      >
+        <div class="buy-text">
+      <span>
         Welcome to BookVerse!
         <br />
         <br />
       </span>
-            <span
-                    style="
-          font-family: Comfortaa, sans-serif;
-          font-weight: 400;
-        "
+            <span class="description-text"
             >
         Explore a vast library of e-books in every genre imaginable.
         <br />
@@ -66,34 +57,36 @@
         e-books.
       </span>
         </div>
-        <div class="div-12">Explore Now</div>
+        <div class="buy-button">Explore Now</div>
     </div>
-    <div class="div-13">
+    <div class="publish-preview">
         <img
                 loading="lazy"
-                srcset="..."
+                srcset="assets/images/publish.jpg"
                 class="img-5"
         />
+        <div class="publish-text">
         <span
                 style="
         font-family: Comfortaa, sans-serif;
         font-weight: 700;
+        z-index: 1;
       "
         >
       Bring Your Story to Life!
       <br />
+      <br />
+
+
     </span>
-        <span
-                style="
-        font-family: Comfortaa, sans-serif;
-        font-weight: 400;
-      "
-        >
+        <span class="description-text">
       Have you always dreamt of writing a book? Now you can do it easily. With
       our e-book publishing service, turn your words into a professional e-book.
       Share your creativity with the world. We are here to guide you every step
       of the way, from writing to publishing.
     </span>
+        </div>
+        <div class="publish-button">Start Publishing</div>
     </div>
 </div>
 
