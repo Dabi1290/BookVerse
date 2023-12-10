@@ -21,6 +21,10 @@ https://blog.jetbrains.com/idea/2020/10/clone-a-project-from-github/
 Nel caso non è gia presente 
 ![111.png](Assets%2F111.png)
 ![11.png](Assets%2F11.png)
+Inserire il path di Tomcat: /PathTo/apache-tomcat-9.0.73/
+
+Cliccare su OK
+
 Dopo averlo aggiunto dovrebbe essere presente all'interno della schermata precedente
 ![6.png](Assets%2F6.png)
 ![7.png](Assets%2F7.png)
