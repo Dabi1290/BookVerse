@@ -1,0 +1,125 @@
+ .div {
+     background-color: #f1e9e3;
+     display: flex;
+     flex-direction: column;
+ }
+.div-10 {
+    align-items: center;
+    align-self: center;
+    display: flex;
+    margin-top: 80px;
+    width: 811px;
+    max-width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    padding: 43px 60px;
+}
+@media (max-width: 991px) {
+    .div-10 {
+        margin-top: 40px;
+        padding: 0 20px;
+    }
+}
+.div-11 {
+    display: flex;
+    width: 580px;
+    max-width: 100%;
+    flex-direction: column;
+}
+.div-12 {
+    color: #000;
+    align-self: center;
+    font: 400 40px Comfortaa, sans-serif;
+}
+@media (max-width: 991px) {
+    .div-12 {
+        max-width: 100%;
+    }
+}
+.div-13 {
+    justify-content: space-between;
+    align-self: stretch;
+    display: flex;
+    margin-top: 31px;
+    gap: 20px;
+}
+@media (max-width: 991px) {
+    .div-13 {
+        max-width: 100%;
+        flex-wrap: wrap;
+    }
+}
+.input-piccolo {
+    color: #000;
+    white-space: nowrap;
+    border-radius: 25px;
+    border: 3px solid #ee712b;
+    flex-grow: 1;
+    justify-content: center;
+    padding: 28px 19px 28px 25px;
+    font: 400 20px Comfortaa, sans-serif;
+}
+.input-piccolo:focus{
+    border-color: #dc4712;
+    outline: none;
+}
+@media (max-width: 991px) {
+    .input-piccolo {
+        white-space: initial;
+        padding-left: 20px;
+    }
+}
+.input-grande {
+    color: #000;
+    white-space: nowrap;
+    align-items: start;
+    border-radius: 25px;
+    border: 3px solid #ee712b;
+    width: 580px;
+    margin-top: 31px;
+    justify-content: center;
+    padding: 28px 60px 28px 25px;
+    font: 400 20px Comfortaa, sans-serif;
+}
+@media (max-width: 991px) {
+    .input-grande {
+        white-space: initial;
+        max-width: 100%;
+        padding: 0 20px;
+    }
+}
+
+ .input-grande:focus{
+     border-color: #dc4712;
+     outline: none;
+ }
+.div-19 {
+    color: #fff;
+    white-space: nowrap;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+
+    background-color: #ee712b;
+    margin-top: 31px;
+    padding: 19px 60px;
+    font: 400 40px Comfortaa, sans-serif;
+    display: flex;
+    width: 100px;
+
+}
+@media (max-width: 991px) {
+    .div-19 {
+        white-space: initial;
+        max-width: 100%;
+        padding: 0 20px;
+    }
+}
+
+ .div-19:hover{
+     background-color: #dc4712;
+     -webkit-transition: background-color 200ms linear;
+     -ms-transition: background-color 200ms linear;
+     transition: background-color 200ms linear;
+     cursor: pointer;
+ }
