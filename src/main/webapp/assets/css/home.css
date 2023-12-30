@@ -1,0 +1,126 @@
+
+.div {
+    background-color: #f1e9e3;
+    display: flex;
+    flex-direction: column;
+}
+
+.buy-preview {
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    min-height: 701px;
+    margin-top: -15px;
+    width: 100%;
+    justify-content: space-evenly;
+
+    /*padding: 50px 80px 50px 64px;*/
+}
+@media (max-width: 991px) {
+    .buy-preview {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+}
+.img-4 {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.buy-text {
+    position: relative;
+    color: #fff;
+    text-align: center;
+    margin: 57px 11px 0 0;
+    font: 400 30px Comfortaa, sans-serif;
+    font-family: Comfortaa, sans-serif;
+    font-weight: 700;
+}
+.description-text{
+    font-weight: 400;
+    z-index: 1;
+}
+@media (max-width: 991px) {
+    .description-text {
+        max-width: 100%;
+        margin: 40px 10px 0 0;
+    }
+}
+.buy-button {
+    position: relative;
+    color: #dc4712;
+    text-align: center;
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    background-color: #fff;
+    align-self: center;
+    width: 350px;
+    margin: 66px 0 60px;
+    padding: 33px 60px;
+    font: 400 35px Comfortaa, sans-serif;
+}
+@media (max-width: 991px) {
+    .buy-button {
+        margin: 40px 0;
+        padding: 0 20px;
+    }
+}
+.publish-preview {
+    display: flex;
+    flex-direction: column;
+    color: #dc4712;
+    text-align: center;
+    position: relative;
+    margin-top: 102px;
+}
+
+@media (max-width: 991px) {
+    .publish-preview {
+        max-width: 100%;
+        margin-top: 40px;
+        padding: 0 26px 0 20px;
+    }
+}
+
+.publish-text {
+    position: relative;
+    text-align: center;
+    margin: 57px 11px 0 0;
+    font: 400 30px Comfortaa, sans-serif;
+    font-family: Comfortaa, sans-serif;
+    font-weight: 700;
+}
+
+.img-5 {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+
+}
+
+.publish-button {
+    position: relative;
+    color: #fff;
+    text-align: center;
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    background-color: #dc4712;
+    align-self: center;
+    width: 350px;
+    margin: 66px 0 60px;
+    padding: 33px 60px;
+    font: 400 35px Comfortaa, sans-serif;
+}
+.div-14 {
+    position: relative;
+}
