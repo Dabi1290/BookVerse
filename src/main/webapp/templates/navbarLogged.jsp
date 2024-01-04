@@ -29,5 +29,8 @@
         <a href="<%=request.getContextPath()%>/register.jsp"><div class="logout-icon"><img src="<%=request.getContextPath()%>/assets/images/logout.png" alt="Pippo"></div></a>
     </div>
 </div>
+
+
+
 </body>
 </html>
