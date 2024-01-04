@@ -33,8 +33,8 @@
         </div>
     </div>
     <div class="navbar-right">
-        <div class="sign-in">Sign in</div>
-        <div class="sign-up">Sign up</div>
+       <a href="<%=request.getContextPath()%>/login.jsp"> <div class="sign-in">Sign in</div></a>
+        <a href="<%=request.getContextPath()%>/register.jsp"><div class="sign-up">Sign up</div></a>
     </div>
 </div>
 </body>

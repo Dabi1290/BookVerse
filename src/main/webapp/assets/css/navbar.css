@@ -116,6 +116,10 @@ body{
     font: 400 15px Comfortaa, sans-serif;
     height: 15px;
     width: 53px;
+
+}
+.sign-in:hover{
+    cursor: pointer;
 }
 @media (max-width: 991px) {
     .sign-in {
@@ -134,9 +138,19 @@ body{
     font: 400 15px Comfortaa, sans-serif;
     height: 15px;
     width: 53px;
+
+
+
+}
+.sign-up:hover{
+    cursor: pointer;
 }
 @media (max-width: 991px) {
     .sign-up {
         white-space: initial;
     }
+}
+
+a{
+    text-decoration: none;
 }
