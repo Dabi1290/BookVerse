@@ -10,13 +10,14 @@ public class Home extends HttpServlet {
     private String role;
 
     public void init() {
-        role = "Guest";
+        role = "Validator";
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //role= (String) request.getSession().getAttribute("currentRole");
+        String pippo=(String) request.getSession().getAttribute("currentRole");
+        if (pippo!=null)role=pippo;
+        else request.getSession().setAttribute("currentRole",role);
 
-        response.setContentType("text/html");
         if(role.equals("Author")){
             response.sendRedirect(request.getContextPath() + "/homeAuthor.jsp");
             return;

@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="navbar">
-    <a href="<%=request.getContextPath()%>/home.jsp">
+    <a href="<%=request.getContextPath()%>/home">
         <img
                 loading="lazy"
                 src="<%=request.getContextPath()%>/assets/images/logo.png"
