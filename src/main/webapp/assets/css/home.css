@@ -1,4 +1,6 @@
-
+body{
+    font: 400 35px Comfortaa, sans-serif;
+}
 .div {
     background-color: #f1e9e3;
     display: flex;
@@ -123,4 +125,33 @@
 }
 .div-14 {
     position: relative;
+}
+
+.confirm-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+.confirm-body>img{
+    margin-top: 100px;
+    width: 256px;
+    height: auto;
+}
+.confirm-msg{
+    color: #ee712b;
+    font: 400 24px Comfortaa, sans-serif;
+}
+.confirm-button{
+    color: #fff;
+    font: 400 20px Comfortaa, sans-serif;
+    padding: 10px 20px;
+    background-color: #ee712b;
+}
+.confirm-button:hover{
+    cursor: pointer;
+    background-color: #dc4712;
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
 }

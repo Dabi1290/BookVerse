@@ -15,8 +15,8 @@
 <%@include file="templates/navbarLogged.jsp" %>
 <%@include file="templates/underNavbarAuthor.jsp" %>
 <div class="confirm-body">
-    <img src="<%= request.getContextPath()%>/assets/images/bigCheck.png">
-    <div class="confirm-msg">Transaction failed! Something went wrong</div>
+    <img src="<%= request.getContextPath()%>/assets/images/<%=request.getSession().getAttribute("imagePath")%>">
+    <div class="confirm-msg"><%=request.getSession().getAttribute("msg")%></div>
     <div class="confirm-button">Torna alla Home</div>
 </div>
 </body>

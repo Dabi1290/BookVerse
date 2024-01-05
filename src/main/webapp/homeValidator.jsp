@@ -9,9 +9,7 @@
 <html>
 <head>
     <title>Home</title>
-    <link rel="stylesheet" href="assets/css/navbar.css">
-    <link rel="stylesheet" href="assets/css/underNavbar.css">
-    <link rel="stylesheet" href="assets/css/home.css">
+    <link rel="stylesheet" href="<%= request.getContextPath()%>/assets/css/home.css">
 </head>
 <body>
 <%@include file="templates/navbarLogged.jsp" %>
