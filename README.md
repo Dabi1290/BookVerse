@@ -5,7 +5,7 @@
 
 - jdk 19
   - se è 19.0.2 è meglio
-- Tomcat 9.0.73
+- Tomcat 10
 
 ## Come clonare il progetto
 
