@@ -10,6 +10,7 @@
 <head>
     <title>ProposalForm</title>
     <link rel="stylesheet" href="assets/css/proposal.css">
+    <script src="assets/js/fileUpload.js"></script>
 </head>
 <body>
 <%@include file="templates/navbarLogged.jsp" %>
@@ -29,10 +30,10 @@
             <label for="e-book" class="label">
                 E-Book
 
-                <div class="input-container">
-                    <img src="assets/images/upload.png" class="icon">
+                <div class="input-container" >
+                    <img src="assets/images/upload.png" class="icon" id="e-book-icon">
                     <input type="file" id="e-book" class="input-file">
-                    <div class="labeling">Click to upload</div>
+                    <div class="labeling" id="upload-phrase">Click to upload</div>
                     <button class="button">PDF</button>
                 </div>
             </label>
