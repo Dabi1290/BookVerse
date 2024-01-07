@@ -14,12 +14,15 @@
 </head>
 <body>
 <div class="red-line">
-    <div class="page-name">
-        Publications
-    </div>
-    <div class="page-name">
-        My jobs
-    </div>
+    <a href="<%=request.getContextPath()%>/proposalForm.jsp">
+        <div class="page-name">
+            Publications
+        </div>
+    </a>
+        <div class="page-name">
+            My jobs
+        </div>
+
 </div>
 </body>
 </html>

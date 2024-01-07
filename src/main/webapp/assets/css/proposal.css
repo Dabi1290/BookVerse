@@ -99,3 +99,10 @@ body{
     width: 16px;
     height: auto;
 }
+.proposal-send{
+    background-color: #DC4712;
+    color: #fff;
+    padding: 10px 30px;
+    border-radius: 25px;
+    border:none;
+}

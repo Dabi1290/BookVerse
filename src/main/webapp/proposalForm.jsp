@@ -15,7 +15,7 @@
 <body>
 <%@include file="templates/navbarLogged.jsp" %>
 <%@include file="templates/underNavbarAuthor.jsp" %>
-    <div class="proposal-form">
+    <form class="proposal-form" action="" method="post">
         <label for="title" class="label">
             Title
             <input type="text" placeholder="Title" id="title">
@@ -92,6 +92,7 @@
 
             </div>
         </label>
-    </div>
+        <input type="submit" value="Send" class="proposal-send">
+    </form>
 </body>
 </html>
