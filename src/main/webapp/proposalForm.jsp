@@ -35,7 +35,10 @@
                     <input type="file" id="e-book" class="input-file">
                     <div class="labeling" id="upload-phrase-file">Click to upload</div>
                     <button class="button" id="e-book-button">PDF</button>
-                    <span id="upload-check-file"><img src="assets/images/greenCheck.png">Upload complete</span>
+                    <span id="upload-check-file">
+                        <img src="assets/images/greenCheck.png">
+                        <span id="upload-text-file"></span>
+                    </span>
                 </div>
             </label>
             <label for="cover" class="label">
@@ -45,7 +48,10 @@
                     <input type="file" id="cover" class="input-file">
                     <div class="labeling" id="upload-phrase-cover"> Click to upload</div>
                     <button class="button" id="cover-button">PNG</button>
-                    <span id="upload-check-cover"><img src="assets/images/greenCheck.png">Upload complete</span>
+                    <span id="upload-check-cover">
+                        <img src="assets/images/greenCheck.png">
+                        <span id="upload-text-cover"></span>
+                    </span>
                 </div>
             </label>
         </div>
