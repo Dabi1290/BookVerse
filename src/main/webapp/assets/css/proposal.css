@@ -78,3 +78,24 @@ body{
     height: 80px;
     flex-direction: column;
 }
+#upload-check-file{
+    display: none;
+    align-items: center;
+    font-size: 12px;
+    color: #32E886;
+}
+#upload-check-file>img{
+    width: 16px;
+    height: auto;
+}
+
+#upload-check-cover{
+    display: none;
+    align-items: center;
+    font-size: 12px;
+    color: #32E886;
+}
+#upload-check-cover>img{
+    width: 16px;
+    height: auto;
+}
