@@ -1,0 +1,61 @@
+package ProposalManager;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+public class Proposal {
+
+    private String status;
+    private Author proposedBy;
+    private Collection<Author> collaborators;
+    private List<Version> versions;
+    private Validator assignedValidator;
+
+
+    public Proposal() {
+        this.versions = new ArrayList<>();
+        this.collaborators = new ArrayList<>();
+    }
+
+    public static Proposal makeProposal(Author author, Collection<Author> coAuthors, String status){
+        Proposal p = new Proposal();
+        p.proposedBy = author;
+        p.collaborators = coAuthors;
+        p.status = status;
+        return p;
+    }
+
+    public void approve(){
+        this.status="Approved";
+    }
+
+    public void refuse(){
+        this.status="Refuse";
+    }
+
+    public void permanentlyRefuse(){
+        this.status="PermanentlyRefused";
+    }
+
+    public void pay(){
+        this.status = "Completed";
+    }
+
+    public void assignValidator(Validator validator){
+        this.assignedValidator = validator;
+    }
+
+    public boolean isValidParameter(String title, Author author, Collection<String> genres, File ebookFile, Collection<Author> coAuthors, File coverImage, float price, String description){
+
+    }
+
+    public void addVersion(Version version){
+
+    }
+
+
+
+
+}
