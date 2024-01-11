@@ -1,6 +1,8 @@
 package userManager;
 
 import java.util.Collection;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class User {
     private int id;
@@ -11,19 +13,20 @@ public class User {
     private String currentRole;
     private Author roleAuthor;
     private Validator roleValidator;
-    private Collection<String> roles;
+    private Set<String> roles;
 
     public User() {
 
     }
 
-    public static User makeUser(String name, String surname, String email, String password) {
+    public static User makeUser(int id, String name, String surname, String email, String password, Set<String> roles) {
         User user = new User();
-
+        user.id=id;
         user.name = name;
         user.surname = surname;
         user.email = email;
         user.password = password;
+        user.roles=roles;
 
         return user;
     }

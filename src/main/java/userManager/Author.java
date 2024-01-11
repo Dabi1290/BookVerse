@@ -1,13 +1,16 @@
 package userManager;
 
+import proposalManager.Proposal;
+
 import java.util.Collection;
+import java.util.Set;
 import java.util.TreeSet;
 
 public class Author {
 
     private int id;
     private int userId;
-    private Collection<Object> collaboratedTo;
+    private Set<Proposal> collaboratedTo;
     private Collection<Object> proposed;
     private Collection<Object> written;
     private Collection<Object> coWritten;

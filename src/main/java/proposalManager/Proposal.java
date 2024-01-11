@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Proposal {
 
+    private int id;
     private String status;
     private Author proposedBy;
     private Collection<Author> collaborators;
@@ -58,7 +59,27 @@ public class Proposal {
 
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Author getProposedBy() {
+        return proposedBy;
+    }
+
+    public void setProposedBy(Author proposedBy) {
+        this.proposedBy = proposedBy;
+    }
 }

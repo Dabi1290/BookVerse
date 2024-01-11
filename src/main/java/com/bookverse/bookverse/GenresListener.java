@@ -3,6 +3,15 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.nio.file.Files;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,6 +26,25 @@ public class GenresListener implements ServletContextListener {
                                             "Crime","Thriller", "Sci-Fi", "Society",
                                             "History","Archaeology", "Law", "Biography");
         sc.setAttribute("Genres", myList);
+
+        DataSource ds = null;
+        try {
+            Context initCtx = new InitialContext();
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+            ds = (DataSource) envCtx.lookup("jdbc/ecommerce");
+
+            try {
+                Connection con = ds.getConnection();
+
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+
+        } catch (NamingException e) {
+            System.out.println(e);
+        }
+        sc.setAttribute("DataSource", ds);
     }
 
     @Override
