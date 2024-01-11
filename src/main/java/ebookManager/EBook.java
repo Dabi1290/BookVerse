@@ -1,5 +1,8 @@
 package ebookManager;
 
+import proposalManager.Proposal;
+import userManager.Author;
+
 import java.util.Collection;
 import java.io.File;
 

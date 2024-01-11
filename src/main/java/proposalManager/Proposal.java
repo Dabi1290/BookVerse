@@ -1,5 +1,8 @@
 package proposalManager;
 
+import userManager.Author;
+import userManager.Validator;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,7 +51,7 @@ public class Proposal {
     }
 
     public boolean isValidParameter(String title, Author author, Collection<String> genres, File ebookFile, Collection<Author> coAuthors, File coverImage, float price, String description){
-
+        return true;
     }
 
     public void addVersion(Version version){

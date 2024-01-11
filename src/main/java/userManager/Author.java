@@ -12,7 +12,7 @@ public class Author {
     private Collection<Object> written;
     private Collection<Object> coWritten;
 
-    public Validator() {
+    public Author() {
         collaboratedTo = new TreeSet<>();
         proposed = new TreeSet<>();
         written = new TreeSet<>();

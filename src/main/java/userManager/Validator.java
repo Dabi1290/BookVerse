@@ -1,5 +1,7 @@
 package userManager;
 
+import proposalManager.Proposal;
+
 import java.util.Collection;
 
 public class Validator {
