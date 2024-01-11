@@ -1,4 +1,4 @@
-package ProposalManager;
+package proposalManager;
 
 import java.io.File;
 import java.util.Collection;
