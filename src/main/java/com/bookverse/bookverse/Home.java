@@ -10,7 +10,7 @@ public class Home extends HttpServlet {
     private String role;
 
     public void init() {
-        role = "Validator";
+        role = "Guest";
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
