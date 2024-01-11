@@ -1,6 +1,7 @@
 body{
     margin: 0;
     width: 100%;
+    font: 400 15px Comfortaa, sans-serif;
 }
 .navbar {
     justify-content: space-between;
@@ -116,6 +117,10 @@ body{
     font: 400 15px Comfortaa, sans-serif;
     height: 15px;
     width: 53px;
+
+}
+.sign-in:hover{
+    cursor: pointer;
 }
 @media (max-width: 991px) {
     .sign-in {
@@ -134,9 +139,48 @@ body{
     font: 400 15px Comfortaa, sans-serif;
     height: 15px;
     width: 53px;
+
+
+
+}
+.sign-up:hover{
+    cursor: pointer;
 }
 @media (max-width: 991px) {
     .sign-up {
         white-space: initial;
     }
+}
+
+a{
+    text-decoration: none;
+}
+
+.cart-icon{
+    width: 33px;
+    height: 33px;
+}
+.cart-icon>img{
+    width: 100%;
+}
+.logout-icon>img{
+    width: 100%;
+}
+
+.logout-icon{
+    width: 33px;
+    height: 33px;
+}
+.ruolo-cambio{
+    border: 1px solid #ee712b;
+    border-radius: 10px;
+    padding:  7px 17px;
+    margin-right: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.ruolo-cambio>img{
+    width: 16px;
+    height: auto;
 }

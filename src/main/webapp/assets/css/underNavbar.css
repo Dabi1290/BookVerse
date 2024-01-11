@@ -1,0 +1,16 @@
+body{
+    font: 400 15px Comfortaa, sans-serif;
+}
+
+.red-line{
+    height: 28px;
+    display: flex;
+    gap: 25px;
+    background-color: #ee712b;
+    align-items: center;
+    padding-left: 50px;
+}
+.page-name{
+    color: #fff;
+
+}

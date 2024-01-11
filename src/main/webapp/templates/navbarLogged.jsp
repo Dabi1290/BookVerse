@@ -21,21 +21,16 @@
                 class="img"
         />
     </a>
-    <div class="search-bar">
-        <div class="genre">Horror</div>
-        <div class="search">Search in BookVerse</div>
-        <div class="search-img">
-            <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/1425ed4792740a08159922acf78c8e184bb8a0f780ca7cb61106f93d548b4406?"
-                    class="img-2"
-            />
-        </div>
-    </div>
+
+
     <div class="navbar-right">
-       <a href="<%=request.getContextPath()%>/login.jsp"> <div class="sign-in">Sign in</div></a>
-        <a href="<%=request.getContextPath()%>/register.jsp"><div class="sign-up">Sign up</div></a>
+        <div class="ruolo-cambio"><%=request.getSession().getAttribute("currentRole")%> <img src="<%=request.getContextPath()%>/assets/images/downArrow.png"></div>
+       <a href="<%=request.getContextPath()%>/login.jsp"> <div class="cart-icon"><img src="<%=request.getContextPath()%>/assets/images/cart.png" alt="Pippo"></div></a>
+        <a href="<%=request.getContextPath()%>/register.jsp"><div class="logout-icon"><img src="<%=request.getContextPath()%>/assets/images/logout.png" alt="Pippo"></div></a>
     </div>
 </div>
+
+
+
 </body>
 </html>

@@ -5,8 +5,8 @@ import java.io.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-@WebServlet(name = "helloServlet", value = "/hello-servlet")
-public class HelloServlet extends HttpServlet {
+@WebServlet(name = "PagamentoServlet", value = "/Pagamento-servlet")
+public class Pagamento extends HttpServlet {
     private String message;
 
     public void init() {
@@ -14,13 +14,10 @@ public class HelloServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
 
-        // Hello
-        PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>" + message + "</h1>");
-        out.println("</body></html>");
+        request.getSession().setAttribute("imagePath","bigWrong.png");
+        request.getSession().setAttribute("msg","Transaction failed! Something went wrong");
+        response.sendRedirect(request.getContextPath() + "/confirmationPage.jsp");
     }
 
     public void destroy() {
