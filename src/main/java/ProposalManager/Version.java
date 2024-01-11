@@ -1,6 +1,8 @@
 package ProposalManager;
 
+import java.io.File;
 import java.util.Collection;
+import java.util.Date;
 
 public class Version {
 
