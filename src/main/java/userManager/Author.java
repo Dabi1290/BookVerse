@@ -1,5 +1,6 @@
 package userManager;
 
+import ebookManager.EBook;
 import proposalManager.Proposal;
 
 import java.util.Collection;
@@ -11,30 +12,40 @@ public class Author {
     private int id;
     private int userId;
     private Set<Proposal> collaboratedTo;
-    private Collection<Object> proposed;
-    private Collection<Object> written;
-    private Collection<Object> coWritten;
+    private Set<Proposal> proposed;
+    private Set<EBook> written;
+    private Set<EBook> coWritten;
 
-    public Author() {
-        collaboratedTo = new TreeSet<>();
-        proposed = new TreeSet<>();
-        written = new TreeSet<>();
-        coWritten = new TreeSet<>();
+    public Author(int id, int uId) {
+        this.id=id;
+        this.userId=uId;
+        collaboratedTo =null;
+        proposed = null;
+        written = null;
+        coWritten = null;
+    }
+    public Author(int id) {
+        this.id=id;
+        userId=-1;
+        collaboratedTo =null;
+        proposed = null;
+        written = null;
+        coWritten = null;
     }
 
-    public void addProposal(Object proposal) {
+    public void addProposal(Proposal proposal) {
         proposed.add(proposal);
     }
 
-    public void addProposalCollaboration(Object proposal) {
+    public void addProposalCollaboration(Proposal proposal) {
         collaboratedTo.add(proposal);
     }
 
-    public void addEbook(Object ebook) {
+    public void addEbook(EBook ebook) {
         written.add(ebook);
     }
 
-    public void addEbookCollaboration(Object ebook) {
+    public void addEbookCollaboration(EBook ebook) {
         coWritten.add(ebook);
     }
 
@@ -54,35 +65,35 @@ public class Author {
         this.userId = userId;
     }
 
-    public Collection<Object> getCollaboratedTo() {
+    public Set<Proposal> getCollaboratedTo() {
         return collaboratedTo;
     }
 
-    public void setCollaboratedTo(Collection<Object> collaboratedTo) {
+    public void setCollaboratedTo(Set<Proposal> collaboratedTo) {
         this.collaboratedTo = collaboratedTo;
     }
 
-    public Collection<Object> getProposed() {
+    public Set<Proposal> getProposed() {
         return proposed;
     }
 
-    public void setProposed(Collection<Object> proposed) {
+    public void setProposed(Set<Proposal> proposed) {
         this.proposed = proposed;
     }
 
-    public Collection<Object> getWritten() {
+    public Set<EBook> getWritten() {
         return written;
     }
 
-    public void setWritten(Collection<Object> written) {
+    public void setWritten(Set<EBook> written) {
         this.written = written;
     }
 
-    public Collection<Object> getCoWritten() {
+    public Set<EBook> getCoWritten() {
         return coWritten;
     }
 
-    public void setCoWritten(Collection<Object> coWritten) {
+    public void setCoWritten(Set<EBook> coWritten) {
         this.coWritten = coWritten;
     }
 

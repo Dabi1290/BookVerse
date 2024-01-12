@@ -22,6 +22,7 @@ public class UserDAO {
     }
 
     public User login(String email, String password, String role) throws SQLException {
+        //check se esiste user con email e password che ha il ruolo role
         String query="SELECT * FROM User JOIN ? ON UserId_fk=User.Id WHERE email=? and password=?";
         Connection c=ds.getConnection();
         ResultSet rs;
@@ -31,9 +32,11 @@ public class UserDAO {
         ps.setString(3,password);
         rs=ps.executeQuery();
         if(!rs.next()){
+            // se non esiste ritorna null
             return null;
         }
         else{
+            //se esiste popolo User
             int id= rs.getInt("id");
             String name= rs.getString("name");
             String emailu= rs.getString("email");
