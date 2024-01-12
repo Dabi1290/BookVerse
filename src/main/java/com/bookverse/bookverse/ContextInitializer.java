@@ -44,9 +44,6 @@ public class ContextInitializer implements ServletContextListener {
         }
 
         sc.setAttribute("DataSource", ds);
-
-        if(ds == null)
-            System.out.println("ORCODIO");
     }
 
     @Override
