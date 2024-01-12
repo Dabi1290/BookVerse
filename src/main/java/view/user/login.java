@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import storageSubSystem.UserDAO;
 import userManager.User;
 
@@ -44,7 +45,7 @@ public class login extends HttpServlet {
             throw new ServletException("d");
         }
 
-        System.out.println(user.getEmail());
-
+        HttpSession session = (HttpSession) request.getSession();
+        session.setAttribute("user", user);
     }
 }

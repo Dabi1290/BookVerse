@@ -3,6 +3,7 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
+import storageSubSystem.GenreDAO;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -19,11 +20,8 @@ public class ContextInitializer implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext sc = sce.getServletContext();
-        List<String> myList = Arrays.asList("Horror", "Fantasy", "Action","Kids",
-                                            "Cook", "Adventure","Politics", "Languages",
-                                            "Crime","Thriller", "Sci-Fi", "Society",
-                                            "History","Archaeology", "Law", "Biography");
-        sc.setAttribute("Genres", myList);
+
+
 
         DataSource ds = null;
         try {
@@ -44,6 +42,17 @@ public class ContextInitializer implements ServletContextListener {
         }
 
         sc.setAttribute("DataSource", ds);
+
+
+
+        GenreDAO genreDao = new GenreDAO(ds);
+        List<String> genres = null;
+        try {
+            genres = genreDao.findAll();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        sc.setAttribute("Genres", genres);
     }
 
     @Override

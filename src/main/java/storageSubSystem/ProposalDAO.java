@@ -112,4 +112,61 @@ public class ProposalDAO {
 
         return versions;
     }
+
+    public void newProposal(Proposal proposal) throws SQLException {
+
+        Author mainAuthor = proposal.getProposedBy();
+        int mainAuthorId = mainAuthor.getId();
+
+        String query = "INSERT INTO Proposal(status, mainAuthorId_fk) values('pending', ?)";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, mainAuthorId);
+        boolean executed = ps.execute();
+        if(! executed)
+            throw new SQLException("Failed to persist proposal");
+
+        Set<Author> coAuthors = proposal.getCollaborators();
+        for(Author author : coAuthors) {
+            int authorId = author.getId();
+
+            String insertCoAuthors = "INSERT INTO ProposalAuthor(authorId_fk, proposalId_fk) values (?, ?)";
+
+            PreparedStatement psForCoAuthors = c.prepareStatement(insertCoAuthors);
+            psForCoAuthors.setInt(1, authorId);
+            psForCoAuthors.setInt(2, proposal.getId());
+            executed = psForCoAuthors.execute();
+            if(! executed)
+                throw new SQLException("Failed to persist relation beetween proposal and coAuthor");
+        }
+
+        Version version = proposal.lastVersion();
+        persistVersion(proposal, version);
+    }
+
+    private void persistVersion(Proposal proposal, Version version) throws SQLException {
+
+        String insertVersion = "INSERT INTO Version(title, description, price, coverImage, report, ebookFile, data, proposalId_fk) values (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(insertVersion);
+
+        ps.setString(1, version.getTitle());
+        ps.setString(2, version.getDescription());
+        ps.setInt(3, version.getPrice());
+        ps.setString(4, version.getCoverImage().getName()); //CHECK check if we must pass only the name or the fullpath
+        ps.setString(5, version.getReport().getName());
+        ps.setString(6, version.getEbookFile().getName());
+        ps.setString(7, version.getDate().toString()); //CHECK check about problem representation on date
+        ps.setInt(8, proposal.getId());
+
+        boolean executed = ps.execute();
+        if(! executed)
+            throw new SQLException("Failed to persist version");
+
+        //String insertVersionGenres = "INSERT INTO VersiongGenres"
+    }
 }

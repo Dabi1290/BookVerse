@@ -79,28 +79,27 @@ CREATE TABLE EBook (
 );
 
 CREATE TABLE Genre (
-	id int NOT NULL AUTO_INCREMENT,
     name varchar(30) NOT NULL,
 
-    primary key (id)
+    primary key (name)
 );
 
 CREATE TABLE VersionGenre (
 	versionId_fk int NOT NULL,
-    genreId_fk int NOT NULL,
+    genreId_fk varchar(30) NOT NULL,
 
     foreign key (versionId_fk) references Version(id),
-    foreign key (genreId_fk) references Genre(id),
+    foreign key (genreId_fk) references Genre(name),
 
     primary key (versionId_fk, genreId_fk)
 );
 
 CREATE TABLE EBookGenre (
 	ebookId_fk int NOT NULL,
-    genreId_fk int NOT NULL,
+    genreId_fk varchar(30) NOT NULL,
 
     foreign key (ebookId_fk) references EBook(id),
-    foreign key (genreId_fk) references Genre(id),
+    foreign key (genreId_fk) references Genre(name),
 
     primary key (ebookId_fk, genreId_fk)
 );
