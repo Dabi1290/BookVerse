@@ -8,15 +8,13 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.nio.file.Files;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
 @WebListener
-public class GenresListener implements ServletContextListener {
+public class ContextInitializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
@@ -32,7 +30,7 @@ public class GenresListener implements ServletContextListener {
             Context initCtx = new InitialContext();
             Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-            ds = (DataSource) envCtx.lookup("jdbc/ecommerce");
+            ds = (DataSource) envCtx.lookup("jdbc/BookVerse");
 
             try {
                 Connection con = ds.getConnection();
@@ -44,6 +42,7 @@ public class GenresListener implements ServletContextListener {
         } catch (NamingException e) {
             System.out.println(e);
         }
+        
         sc.setAttribute("DataSource", ds);
     }
 

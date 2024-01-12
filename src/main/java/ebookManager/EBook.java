@@ -17,9 +17,7 @@ public class EBook {
     private Set<String> genres;
     private boolean proposalAlreadyLoaded;
     private Proposal proposedThrough;
-
     private int price;
-
     private boolean mainAuthorAlreadyLoaded;
     private Author mainAuthor;
     private Collection<Author> coAuthors;

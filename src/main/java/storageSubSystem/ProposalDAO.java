@@ -19,20 +19,49 @@ public class ProposalDAO {
     }
     public Set<Proposal> findByValidator(int vid) throws SQLException {
         String query="SELECT * FROM Proposal JOIN ProposalValidator as p ON proposalId_fk=id WHERE p.validatorId_fk=?";
+
         Connection c=ds.getConnection();
+
         PreparedStatement ps = c.prepareStatement(query);
         ps.setInt(1,vid);
+
         ResultSet rs = ps.executeQuery();
         TreeSet<Proposal> s=new TreeSet<>();
         while(rs.next()){
             Proposal p = new Proposal();
+
             p.setId(rs.getInt("id"));
             p.setStatus(rs.getString("status"));
-            p.setProposedBy(new AuthorDAO(ds).findByID(rs.getInt("mainAuthorId_fk")));
 
+            //CHECK: probabilmente bisogna aggiungere il recupero delle versioni già qui
+
+            s.add(p);
         }
-    }
-    public Set<Proposal> findByAuthor(Author a){
 
+        return s;
+    }
+    public Set<Proposal> findByAuthor(int authorId) throws SQLException {
+
+        String query = "SELECT * FROM Proposal JOIN ProposalAuthor as p ON proposalId_fk=id WHERE p.authorId_fk=?";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, authorId);
+
+        ResultSet rs = ps.executeQuery();
+        TreeSet<Proposal> s = new TreeSet<>();
+        while(rs.next()) {
+            Proposal p = new Proposal();
+
+            p.setId(rs.getInt("id"));
+            p.setStatus(rs.getString("status"));
+
+            //CHECK: probabilmente bisogna aggiungere il recupero delle versioni già qui
+
+            s.add(p);
+        }
+
+        return s;
     }
 }

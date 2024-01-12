@@ -18,11 +18,13 @@ public class User {
     private Set<String> roles;
 
     public User() {
-
+        this.alreadyLoadedRoleAuthor = false;
+        this.alreadyLoadedRoleValidator = false;
     }
 
     public static User makeUser(int id, String name, String surname, String email, String password, Set<String> roles) {
         User user = new User();
+
         user.id=id;
         user.name = name;
         user.surname = surname;
@@ -79,5 +81,37 @@ public class User {
 
     public void setCurrentRole(String currentRole) {
         this.currentRole = currentRole;
+    }
+
+    public boolean isAlreadyLoadedRoleAuthor() {
+        return alreadyLoadedRoleAuthor;
+    }
+
+    public void setAlreadyLoadedRoleAuthor(boolean alreadyLoadedRoleAuthor) {
+        this.alreadyLoadedRoleAuthor = alreadyLoadedRoleAuthor;
+    }
+
+    public Author getRoleAuthor() {
+        return roleAuthor;
+    }
+
+    public void setRoleAuthor(Author roleAuthor) {
+        this.roleAuthor = roleAuthor;
+    }
+
+    public boolean isAlreadyLoadedRoleValidator() {
+        return alreadyLoadedRoleValidator;
+    }
+
+    public void setAlreadyLoadedRoleValidator(boolean alreadyLoadedRoleValidator) {
+        this.alreadyLoadedRoleValidator = alreadyLoadedRoleValidator;
+    }
+
+    public Validator getRoleValidator() {
+        return roleValidator;
+    }
+
+    public void setRoleValidator(Validator roleValidator) {
+        this.roleValidator = roleValidator;
     }
 }

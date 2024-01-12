@@ -16,6 +16,10 @@ public class Author {
     private Set<EBook> written;
     private Set<EBook> coWritten;
 
+    public Author() {
+
+    }
+
     public Author(int id, int uId) {
         this.id=id;
         this.userId=uId;
@@ -31,6 +35,18 @@ public class Author {
         proposed = null;
         written = null;
         coWritten = null;
+    }
+
+    public static Author makeAuthor(int id, Set<Proposal> collaboratedTo, Set<Proposal> proposed, Set<EBook> written, Set<EBook> coWritten) {
+        Author author = new Author();
+
+        author.id = id;
+        author.collaboratedTo = collaboratedTo;
+        author.proposed = proposed;
+        author.written = written;
+        author.coWritten = coWritten;
+
+        return author;
     }
 
     public void addProposal(Proposal proposal) {

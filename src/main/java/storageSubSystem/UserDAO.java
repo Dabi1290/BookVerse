@@ -1,6 +1,9 @@
 package storageSubSystem;
 
+import proposalManager.Proposal;
+import userManager.Author;
 import userManager.User;
+import userManager.Validator;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -44,13 +47,18 @@ public class UserDAO {
             String passwordu= rs.getString("password");
             Set<String> ruoli= new TreeSet<>();
 
+            int authorId = 0, validatorId = 0;
+
             //check if author
             query="SELECT * FROM User JOIN Author ON Author.UserId_fk=User.Id WHERE email=? and password=?";
             ps = c.prepareStatement(query);
             ps.setString(2,email);
             ps.setString(3,password);
             rs=ps.executeQuery();
-            if(rs.next()) ruoli.add("Author");
+            if(rs.next()) {
+                ruoli.add("Author");
+                authorId = rs.getInt("id");
+            }
 
             // check if validator
             query="SELECT * FROM User JOIN Validator ON Author.UserId_fk=User.Id WHERE email=? and password=?";
@@ -58,12 +66,28 @@ public class UserDAO {
             ps.setString(2,email);
             ps.setString(3,password);
             rs=ps.executeQuery();
-            if(rs.next()) ruoli.add("Validator");
+            if(rs.next()) {
+                ruoli.add("Validator");
+                validatorId = rs.getInt("id");
+            }
 
-            if(role.equals("Validator")){};
-            if(role.equals("Author")){};
             User u = User.makeUser(id,name,surname,emailu,passwordu,ruoli);
+            u.setCurrentRole(role);
 
+            ProposalDAO proposalDAO = new ProposalDAO(ds);
+
+            if(role.equals("Validator")) {
+                //CHEK: aggiungere recupero validator
+                Set<Proposal> proposals = proposalDAO.findByValidator(validatorId);
+                u.setRoleValidator(Validator.makeValidator(validatorId, proposals));
+            };
+            if(role.equals("Author")) {
+                //CHEK: aggiungere recupero author
+                Set<Proposal> proposals = proposalDAO.findByAuthor(authorId);
+                u.setRoleAuthor(Author.makeAuthor(authorId, proposals, null, null, null));
+            };
+
+            return u;
         }
     }
 }
