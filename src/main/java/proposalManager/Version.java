@@ -7,6 +7,7 @@ import java.util.Set;
 
 public class Version {
 
+    private int id;
     private Date date;
     private String title;
     private File coverImage;
@@ -19,9 +20,10 @@ public class Version {
     public Version(){
     }
 
-    public static Version makeVersion(String title, String description, int price, File report, File ebookFile, File coverImage, Date date, Set<String> genres) {
+    public static Version makeVersion(int id, String title, String description, int price, File report, File ebookFile, File coverImage, Date date, Set<String> genres) {
         Version v = new Version();
 
+        v.id = id;
         v.title = title;
         v.description = description;
         v.price = price;
@@ -96,5 +98,13 @@ public class Version {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

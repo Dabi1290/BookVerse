@@ -37,7 +37,7 @@ CREATE TABLE Validator (
 );
 
 CREATE TABLE Proposal (
-	id int NOT NULL,
+	id int NOT NULL AUTO_INCREMENT,
     status varchar(30) NOT NULL,
 
     mainAuthorId_fk int NOT NULL,
@@ -46,9 +46,10 @@ CREATE TABLE Proposal (
 );
 
 CREATE TABLE Version (
-	id int NOT NULL,
+	id int NOT NULL AUTO_INCREMENT,
     title varchar(30) NOT NULL,
     description text NOT NULL,
+    price int NOT NULL,
     coverImage varchar(255) NOT NULL,
     report varchar(255) NOT NULL,
     ebookFile varchar(255) NOT NULL,
@@ -78,7 +79,7 @@ CREATE TABLE EBook (
 );
 
 CREATE TABLE Genre (
-	id int NOT NULL,
+	id int NOT NULL AUTO_INCREMENT,
     name varchar(30) NOT NULL,
 
     primary key (id)

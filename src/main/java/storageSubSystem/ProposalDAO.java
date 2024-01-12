@@ -71,7 +71,7 @@ public class ProposalDAO {
     public List<Version> findProposalVersions(int proposalId) throws SQLException {
         List<Version> versions = new ArrayList<>();
 
-        String query = "SELECT V.id, title, description, price, coverImage, report, ebookFile, data FROM Proposal as P, Version as V WHERE P.id=V.proposalId_fk AND P.id=?";
+        String query = "SELECT V.id, title, description, price, coverImage, report, ebookFile, data FROM Proposal as P, Version as V WHERE P.id=V.proposalId_fk AND P.id=? ORDER BY data ASC";
 
         Connection c = ds.getConnection();
 
@@ -96,7 +96,7 @@ public class ProposalDAO {
             psForGenres.setInt(1, versionId);
             ResultSet resultSetGenres = psForGenres.executeQuery();
             Set<String> genres = new TreeSet<>();
-            while(rs.next()) {
+            while(resultSetGenres.next()) {
                 String genre = resultSetGenres.getString("name");
                 genres.add(genre);
             }
@@ -104,7 +104,7 @@ public class ProposalDAO {
 
             
             //CHECK substitute data
-            Version version = Version.makeVersion(title, description, price, new File(reportPath), new File(ebookFilePath), new File(coverImagePath), new Date(), genres);
+            Version version = Version.makeVersion(versionId, title, description, price, new File(reportPath), new File(ebookFilePath), new File(coverImagePath), new Date(), genres);
             versions.add(version);
         }
 
