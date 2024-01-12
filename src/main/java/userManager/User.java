@@ -11,7 +11,9 @@ public class User {
     private String surname;
     private String name;
     private String currentRole;
+    private boolean alreadyLoadedRoleAuthor;
     private Author roleAuthor;
+    private boolean alreadyLoadedRoleValidator;
     private Validator roleValidator;
     private Set<String> roles;
 

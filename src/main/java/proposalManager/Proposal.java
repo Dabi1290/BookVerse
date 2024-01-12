@@ -4,26 +4,26 @@ import userManager.Author;
 import userManager.Validator;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class Proposal {
 
     private int id;
     private String status;
+    private boolean alreadyLoadedAuthor;
     private Author proposedBy;
-    private Collection<Author> collaborators;
+    private Set<Author> collaborators;
     private List<Version> versions;
+    private boolean alreadyLoadedValidator;
     private Validator assignedValidator;
 
 
     public Proposal() {
         this.versions = new ArrayList<>();
-        this.collaborators = new ArrayList<>();
+        this.collaborators = new TreeSet<>();
     }
 
-    public static Proposal makeProposal(Author author, Collection<Author> coAuthors, String status){
+    public static Proposal makeProposal(Author author, Set<Author> coAuthors, String status){
         Proposal p = new Proposal();
         p.proposedBy = author;
         p.collaborators = coAuthors;
@@ -56,7 +56,7 @@ public class Proposal {
     }
 
     public void addVersion(Version version){
-
+        versions.add(version);
     }
 
     public int getId() {
@@ -81,5 +81,13 @@ public class Proposal {
 
     public void setProposedBy(Author proposedBy) {
         this.proposedBy = proposedBy;
+    }
+
+    public Set<Author> getCollaborators() {
+        return collaborators;
+    }
+
+    public Version lastVersion() {
+        return this.versions.get(versions.size() - 1);
     }
 }

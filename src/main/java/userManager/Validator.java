@@ -3,19 +3,29 @@ package userManager;
 import proposalManager.Proposal;
 
 import java.util.Collection;
+import java.util.Set;
 
 public class Validator {
 
     private int id;
 
-    private Collection<Proposal> assignedProposals;
+    private Set<Proposal> assignedProposals;
 
     public Validator() {
 
     }
 
-    public void assignProposal(Proposal proposal) {
+    public static Validator makeValidator(int id, Set<Proposal> assignedProposals) {
+        Validator validator = new Validator();
 
+        validator.id = id;
+        validator.assignedProposals = assignedProposals;
+
+        return validator;
+    }
+
+    public void assignProposal(Proposal proposal) {
+        assignedProposals.add(proposal);
     }
 
 }
