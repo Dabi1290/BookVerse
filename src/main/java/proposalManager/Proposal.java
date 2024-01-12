@@ -20,7 +20,6 @@ public class Proposal {
 
     public Proposal() {
         this.versions = new ArrayList<>();
-        this.collaborators = new TreeSet<>();
     }
 
     public static Proposal makeProposal(Author author, Set<Author> coAuthors, String status){

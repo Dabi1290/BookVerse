@@ -20,7 +20,7 @@ public class EBook {
     private int price;
     private boolean mainAuthorAlreadyLoaded;
     private Author mainAuthor;
-    private Collection<Author> coAuthors;
+    private Set<Author> coAuthors;
     private boolean inCatalog;
 
     public EBook() {
@@ -133,11 +133,11 @@ public class EBook {
         this.mainAuthor = mainAuthor;
     }
 
-    public Collection<Author> getCoAuthors() {
+    public Set<Author> getCoAuthors() {
         return coAuthors;
     }
 
-    public void setCoAuthors(Collection<Author> coAuthors) {
+    public void setCoAuthors(Set<Author> coAuthors) {
         this.coAuthors = coAuthors;
     }
 

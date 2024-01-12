@@ -50,9 +50,9 @@ CREATE TABLE Version (
     title varchar(30) NOT NULL,
     description text NOT NULL,
     price int NOT NULL,
-    coverImage varchar(255) NOT NULL,
-    report varchar(255) NOT NULL,
-    ebookFile varchar(255) NOT NULL,
+    coverImage varchar(255),
+    report varchar(255),
+    ebookFile varchar(255),
     data Date NOT NULL,
 
     proposalId_fk int NOT NULL,

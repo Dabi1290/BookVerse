@@ -11,6 +11,7 @@ import storageSubSystem.ProposalDAO;
 import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 @WebServlet(name = "testVersionRetrieving", value = "/testVersionRetrieving")
 public class testVersionRetrieving extends HttpServlet {
@@ -19,8 +20,6 @@ public class testVersionRetrieving extends HttpServlet {
 
         String proposalId_ = request.getParameter("proposalId");
         int proposalId = Integer.parseInt(proposalId_);
-
-        System.out.println(proposalId);
 
         DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
 
@@ -35,9 +34,11 @@ public class testVersionRetrieving extends HttpServlet {
 
         if(versions != null) {
             for(Version version : versions) {
-                System.out.println(version.getId());
+                Set<String> genres = version.getGenres();
+                for(String genre : genres) {
+                    System.out.println(genre);
+                }
             }
         }
     }
-
 }

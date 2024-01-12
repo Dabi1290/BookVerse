@@ -5,13 +5,12 @@ import proposalManager.Version;
 import userManager.Author;
 
 import javax.sql.DataSource;
-import javax.xml.transform.Result;
 import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.Date;
 
 public class ProposalDAO {
     private DataSource ds=null;
@@ -91,20 +90,20 @@ public class ProposalDAO {
 
 
 
-            String queryForGenres = "SELECT name FROM Version as V, VersionGenre as VG, Genre as G WHERE VG.versionId_fk = V.id AND VG.genreId_fk = G.id AND V.id=?";
+            String queryForGenres = "SELECT genreId_fk FROM Version as V, VersionGenre as VG WHERE V.id=?";
             PreparedStatement psForGenres = c.prepareStatement(queryForGenres);
             psForGenres.setInt(1, versionId);
             ResultSet resultSetGenres = psForGenres.executeQuery();
             Set<String> genres = new TreeSet<>();
             while(resultSetGenres.next()) {
-                String genre = resultSetGenres.getString("name");
+                String genre = resultSetGenres.getString("genreId_fk");
                 genres.add(genre);
             }
 
 
             
             //CHECK substitute data
-            Version version = Version.makeVersion(versionId, title, description, price, new File(reportPath), new File(ebookFilePath), new File(coverImagePath), new Date(), genres);
+            Version version = Version.makeVersion(versionId, title, description, price, new File(reportPath), new File(ebookFilePath), new File(coverImagePath), LocalDate.now(), genres);
             versions.add(version);
         }
 
@@ -113,20 +112,30 @@ public class ProposalDAO {
         return versions;
     }
 
-    public void newProposal(Proposal proposal) throws SQLException {
+    public int newProposal(Proposal proposal) throws SQLException {
 
         Author mainAuthor = proposal.getProposedBy();
         int mainAuthorId = mainAuthor.getId();
 
-        String query = "INSERT INTO Proposal(status, mainAuthorId_fk) values('pending', ?)";
+        String query = "INSERT INTO Proposal(status, mainAuthorId_fk) VALUES (?, ?)";
 
         Connection c = ds.getConnection();
 
-        PreparedStatement ps = c.prepareStatement(query);
-        ps.setInt(1, mainAuthorId);
-        boolean executed = ps.execute();
-        if(! executed)
-            throw new SQLException("Failed to persist proposal");
+        PreparedStatement ps = c.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        ps.setString(1, "pending");
+        ps.setInt(2, mainAuthorId);
+        ps.execute();
+
+
+        int generatedId = 0;
+        ResultSet rs = ps.getGeneratedKeys();
+        if(rs.next()) {
+            generatedId = rs.getInt(1);
+        }
+        else
+            throw new SQLException("Failed to retrieve generated key");
+
+
 
         Set<Author> coAuthors = proposal.getCollaborators();
         for(Author author : coAuthors) {
@@ -137,36 +146,75 @@ public class ProposalDAO {
             PreparedStatement psForCoAuthors = c.prepareStatement(insertCoAuthors);
             psForCoAuthors.setInt(1, authorId);
             psForCoAuthors.setInt(2, proposal.getId());
-            executed = psForCoAuthors.execute();
-            if(! executed)
-                throw new SQLException("Failed to persist relation beetween proposal and coAuthor");
+            psForCoAuthors.execute();
         }
 
-        Version version = proposal.lastVersion();
-        persistVersion(proposal, version);
+        return generatedId;
     }
 
-    private void persistVersion(Proposal proposal, Version version) throws SQLException {
+    public int persistVersion(Proposal proposal, Version version) throws SQLException {
 
-        String insertVersion = "INSERT INTO Version(title, description, price, coverImage, report, ebookFile, data, proposalId_fk) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertVersion = "INSERT INTO Version(title, description, price, data, proposalId_fk) values (?, ?, ?, ?, ?)";
 
         Connection c = ds.getConnection();
 
-        PreparedStatement ps = c.prepareStatement(insertVersion);
+        PreparedStatement ps = c.prepareStatement(insertVersion, Statement.RETURN_GENERATED_KEYS);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = version.getDate().format(formatter);
 
         ps.setString(1, version.getTitle());
         ps.setString(2, version.getDescription());
         ps.setInt(3, version.getPrice());
-        ps.setString(4, version.getCoverImage().getName()); //CHECK check if we must pass only the name or the fullpath
-        ps.setString(5, version.getReport().getName());
+        ps.setString(4, date); //CHECK check about problem representation on date
+        ps.setInt(5, proposal.getId());
+
+        ps.execute();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        int generatedId = 0;
+        if(rs.next()) {
+            generatedId = rs.getInt(1);
+        }
+
+
+
+        Set<String> genres = version.getGenres();
+        for(String genre : genres) {
+            String insertVersionGenres = "INSERT INTO VersionGenre(versionId_fk, genreId_fk) values (?, ?)";
+
+            PreparedStatement genrePs = c.prepareStatement(insertVersionGenres);
+            genrePs.setInt(1, generatedId);
+            genrePs.setString(2, genre);
+            genrePs.execute();
+        }
+
+        return generatedId;
+    }
+
+    public void updateVersion(Version version) throws SQLException {
+
+        String query = "UPDATE Version SET title = ?, description = ?, price = ?, coverImage = ?, report = ?, ebookFile = ?, data = ? WHERE id = ?";
+
+        Connection c = ds.getConnection();
+
+        String report = null;
+        if(version.getReport() != null)
+            report = version.getReport().getName();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = version.getDate().format(formatter);
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setString(1, version.getTitle());
+        ps.setString(2, version.getDescription());
+        ps.setInt(3, version.getPrice());
+        ps.setString(4, version.getCoverImage().getName());
+        ps.setString(5, report);
         ps.setString(6, version.getEbookFile().getName());
-        ps.setString(7, version.getDate().toString()); //CHECK check about problem representation on date
-        ps.setInt(8, proposal.getId());
+        ps.setString(7, date);
+        ps.setInt(8, version.getId());
 
-        boolean executed = ps.execute();
-        if(! executed)
-            throw new SQLException("Failed to persist version");
-
-        //String insertVersionGenres = "INSERT INTO VersiongGenres"
+        ps.execute();
     }
 }
