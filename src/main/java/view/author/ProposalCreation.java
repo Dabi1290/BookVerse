@@ -1,4 +1,4 @@
-package view.validator;
+package view.author;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
