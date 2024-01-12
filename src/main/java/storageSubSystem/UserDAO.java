@@ -26,16 +26,24 @@ public class UserDAO {
 
     public User login(String email, String password, String role) throws SQLException {
         //check se esiste user con email e password che ha il ruolo role
-        String query="SELECT * FROM User JOIN ? ON UserId_fk=User.Id WHERE email=? and password=?";
+        String query = "SELECT * FROM User, " + role + " WHERE email=? and password=? and userId_fk=User.id";
+
         Connection c=ds.getConnection();
+
         ResultSet rs;
         PreparedStatement ps = c.prepareStatement(query);
-        ps.setString(1,role);
-        ps.setString(2,email);
-        ps.setString(3,password);
+
+//        ps.setString(1,role);
+//        ps.setString(2,email);
+//        ps.setString(3,password);
+
+        ps.setString(1,email);
+        ps.setString(2,password);
+
         rs=ps.executeQuery();
+
         if(!rs.next()){
-            // se non esiste ritorna null
+            // if not exist return null
             return null;
         }
         else{
@@ -52,8 +60,8 @@ public class UserDAO {
             //check if author
             query="SELECT * FROM User JOIN Author ON Author.UserId_fk=User.Id WHERE email=? and password=?";
             ps = c.prepareStatement(query);
-            ps.setString(2,email);
-            ps.setString(3,password);
+            ps.setString(1,email);
+            ps.setString(2,password);
             rs=ps.executeQuery();
             if(rs.next()) {
                 ruoli.add("Author");
@@ -61,10 +69,10 @@ public class UserDAO {
             }
 
             // check if validator
-            query="SELECT * FROM User JOIN Validator ON Author.UserId_fk=User.Id WHERE email=? and password=?";
+            query="SELECT * FROM User JOIN Validator ON Validator.UserId_fk=User.Id WHERE email=? and password=?";
             ps = c.prepareStatement(query);
-            ps.setString(2,email);
-            ps.setString(3,password);
+            ps.setString(1,email);
+            ps.setString(2,password);
             rs=ps.executeQuery();
             if(rs.next()) {
                 ruoli.add("Validator");
@@ -86,6 +94,8 @@ public class UserDAO {
                 Set<Proposal> proposals = proposalDAO.findByAuthor(authorId);
                 u.setRoleAuthor(Author.makeAuthor(authorId, proposals, null, null, null));
             };
+
+            c.close();
 
             return u;
         }

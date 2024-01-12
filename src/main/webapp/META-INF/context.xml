@@ -7,5 +7,5 @@
               type="javax.sql.DataSource"
               username="client"
               password="client"
-              url="jdbc:mysql://localhost:3306/GameShop?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+              url="jdbc:mysql://localhost:3306/BookVerse?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
 </Context>

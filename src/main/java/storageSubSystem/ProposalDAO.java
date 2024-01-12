@@ -62,6 +62,8 @@ public class ProposalDAO {
             s.add(p);
         }
 
+        c.close();
+
         return s;
     }
 }

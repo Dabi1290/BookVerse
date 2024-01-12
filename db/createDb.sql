@@ -9,7 +9,7 @@ USE BookVerse;
 
 
 CREATE TABLE User (
-	id int NOT NULL,
+	id int NOT NULL AUTO_INCREMENT,
     name varchar(30) NOT NULL,
     email varchar(30) NOT NULL,
     surname varchar(30) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Author (
-	id int NOT NULL,
+	id int NOT NULL AUTO_INCREMENT,
     userId_fk int NOT NULL,
 
     foreign key (userId_fk) references User(id),
@@ -28,7 +28,7 @@ CREATE TABLE Author (
 );
 
 CREATE TABLE Validator (
-	id int NOT NULL,
+	id int NOT NULL AUTO_INCREMENT,
     userId_fk int NOT NULL,
 
     foreign key (userId_fk) references User(id),

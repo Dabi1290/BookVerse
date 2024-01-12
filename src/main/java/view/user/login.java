@@ -36,12 +36,15 @@ public class login extends HttpServlet {
         DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
         UserDAO userDAO = new UserDAO(ds);
 
+        User user;
         try {
-            User user = userDAO.login(email, password, role);
+            user = userDAO.login(email, password, role);
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new ServletException("d");
         }
 
+        System.out.println(user.getEmail());
 
     }
 }

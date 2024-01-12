@@ -30,7 +30,7 @@ public class ContextInitializer implements ServletContextListener {
             Context initCtx = new InitialContext();
             Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-            ds = (DataSource) envCtx.lookup("jdbc/BookVerse");
+            ds = (DataSource) envCtx.lookup("jdbc/storage");
 
             try {
                 Connection con = ds.getConnection();
@@ -42,8 +42,11 @@ public class ContextInitializer implements ServletContextListener {
         } catch (NamingException e) {
             System.out.println(e);
         }
-        
+
         sc.setAttribute("DataSource", ds);
+
+        if(ds == null)
+            System.out.println("ORCODIO");
     }
 
     @Override
