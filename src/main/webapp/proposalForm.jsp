@@ -18,13 +18,13 @@
     <form class="proposal-form" action="" method="post">
         <label for="title" class="label">
             Title
-            <input type="text" placeholder="Title" id="title">
+            <input type="text" placeholder="Title" id="title" name="title">
         </label>
 
         <div class="ebook-inf" >
             <label for="price" class="label">
                 Price
-                <input type="text" placeholder="25" id="price">
+                <input type="text" placeholder="25" id="price" name="price">
             </label>
 
             <label for="e-book" class="label">
@@ -32,7 +32,7 @@
 
                 <div class="input-container" >
                     <img src="assets/images/upload.png" class="icon" id="e-book-icon">
-                    <input type="file" id="e-book" class="input-file">
+                    <input type="file" id="e-book" class="input-file" name="ebookFile">
                     <div class="labeling" id="upload-phrase-file">Click to upload</div>
                     <button class="button" id="e-book-button">PDF</button>
                     <span id="upload-check-file">
@@ -45,7 +45,7 @@
                 Cover
                 <div class="input-container">
                     <img src="assets/images/upload.png" class="icon" id="cover-icon">
-                    <input type="file" id="cover" class="input-file">
+                    <input type="file" id="cover" class="input-file" name="coverImage">
                     <div class="labeling" id="upload-phrase-cover"> Click to upload</div>
                     <button class="button" id="cover-button">PNG</button>
                     <span id="upload-check-cover">
@@ -59,7 +59,10 @@
         <label class="label">
             Author
             <div class="author-row">
+                <input type="hidden" id="author-list">
+                <input type="text" id="searchBox" placeholder="Search..." onkeyup="searchProducts()">
                 <input type="text" id="author" placeholder="Find">
+
                 <ul>
                     <li>Pippow</li>
                     <li>Pippow</li>
