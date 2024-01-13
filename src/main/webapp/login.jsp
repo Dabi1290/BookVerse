@@ -10,31 +10,32 @@
 <head>
     <title>Login</title>
     <link rel="stylesheet" href="assets/css/login.css">
+    <script src="assets/js/login.js"></script>
 </head>
 <body>
 <%@include file="templates/navbar.jsp" %>
 <div class="div">
   <div class="div-10">
-    <div class="div-11">
+    <form action="/login" method="POST" class="div-11" id="form">
       <div class="div-12">Sign in to BookVerse</div>
-
       <input type="text" class="input-email" placeholder="Email" name="email">
       <input type="password" class="input-password" placeholder="Password" name="password">
-      <div class="div-15">
+      <input type="hidden" value="" id="role" name="role">
+        <div class="div-15">
 
-          <div class="button">Reader</div>
-          <div class="button">Validator</div>
+          <div class="button" id="r">Reader</div>
+          <div class="button" id="v">Validator</div>
 
 
-          <div class="button">Author</div>
-          <div class="button">Catalogue Manager</div>
+          <div class="button" id="a">Author</div>
+          <div class="button" id="c">Catalogue Manager</div>
 
       </div>
       <div class="div-22">
         No account?
         <a href="register.jsp">Register now!</a>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 
