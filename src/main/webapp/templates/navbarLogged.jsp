@@ -26,7 +26,7 @@
     <div class="navbar-right">
         <div class="ruolo-cambio"><%=((User)request.getSession().getAttribute("user")).getCurrentRole()%> <img src="<%=request.getContextPath()%>/assets/images/downArrow.png"></div>
        <a href="<%=request.getContextPath()%>/login.jsp"> <div class="cart-icon"><img src="<%=request.getContextPath()%>/assets/images/cart.png" alt="Pippo"></div></a>
-        <a href="<%=request.getContextPath()%>/register.jsp"><div class="logout-icon"><img src="<%=request.getContextPath()%>/assets/images/logout.png" alt="Pippo"></div></a>
+        <a href="<%=request.getContextPath()%>/logoutServlet"><div class="logout-icon"><img src="<%=request.getContextPath()%>/assets/images/logout.png" alt="Pippo"></div></a>
     </div>
 </div>
 

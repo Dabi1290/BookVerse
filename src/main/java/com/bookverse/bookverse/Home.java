@@ -9,13 +9,9 @@ import userManager.User;
 
 @WebServlet(name = "HomeServlet", value = "/home")
 public class Home extends HttpServlet {
-    private String role;
-
-    public void init() {
-        role = "Guest";
-    }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String role = "Guest";
         User pippo=(User) request.getSession().getAttribute("user");
         if (pippo!=null && pippo.getCurrentRole() != null)
             role=pippo.getCurrentRole();
