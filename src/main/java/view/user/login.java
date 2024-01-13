@@ -1,5 +1,6 @@
 package view.user;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -58,6 +59,15 @@ public class login extends HttpServlet {
             throw new ServletException(e);
         }
 
+        // credenziali errate
+        if(user == null) {
+            request.setAttribute("error", "Credenziali Errate");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
+            dispatcher.forward(request, response);
+            return ;
+        }
+
+        //credenziali giuste
         HttpSession session = (HttpSession) request.getSession();
         session.setAttribute("user", user);
 

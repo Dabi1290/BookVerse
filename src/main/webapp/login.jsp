@@ -20,6 +20,9 @@
       <div class="div-12">Sign in to BookVerse</div>
       <input type="text" class="input-email" placeholder="Email" name="email">
       <input type="password" class="input-password" placeholder="Password" name="password">
+      <% if(request.getAttribute("error") != null){%>
+          <h2> <%=request.getAttribute("error")%></h2>
+      <%}%>
       <input type="hidden" value="" id="role" name="role">
         <div class="div-15">
 
