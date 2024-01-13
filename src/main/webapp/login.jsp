@@ -18,8 +18,8 @@
     <div class="div-11">
       <div class="div-12">Sign in to BookVerse</div>
 
-      <input type="text" class="input-email" placeholder="Email">
-      <input type="password" class="input-password" placeholder="Password">
+      <input type="text" class="input-email" placeholder="Email" name="email">
+      <input type="password" class="input-password" placeholder="Password" name="password">
       <div class="div-15">
 
           <div class="button">Reader</div>

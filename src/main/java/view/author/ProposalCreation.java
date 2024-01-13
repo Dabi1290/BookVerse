@@ -62,6 +62,7 @@ public class ProposalCreation extends HttpServlet {
 
         Set<String> genres = new TreeSet<>(Arrays.asList(genresParameter));
 
+        //CHECK probably you can pass directly the list of authors
         String[] authors = request.getParameterValues("authors");
         if(authors == null || authors.length == 0)
             throw new ServletException("auhtors not valid");
@@ -77,6 +78,7 @@ public class ProposalCreation extends HttpServlet {
         User user = (User) session.getAttribute("user");
         Author mainAuthor = user.getRoleAuthor();
 
+        //CHECK probably you can pass directly the list of authors
         AuthorDAO authorDao = new AuthorDAO(ds);
         Set<Author> coAuthors = new TreeSet<>();
         for(String authorId_ : authors) {

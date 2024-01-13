@@ -24,18 +24,27 @@ public class UserDAO {
         this.ds=ds;
     }
 
-    public User login(String email, String password, String role) throws SQLException {
-        //check se esiste user con email e password che ha il ruolo role
+    public User login(String email, String password, String role) throws SQLException, Exception {
+
+        //Check for valid parameters
+        if (email == null || email.isEmpty())
+            throw new Exception("Not supported value for email");
+
+        if (password == null || password.isEmpty())
+            throw new Exception("Not supported value for passowrd");
+
+        if( role == null || ! (role.equals("Validator") || role.equals("Author")) )
+            throw new Exception("Not supported value for role");
+        //Check for valid parameters
+
+
+
         String query = "SELECT * FROM User, " + role + " WHERE email=? and password=? and userId_fk=User.id";
 
         Connection c=ds.getConnection();
 
         ResultSet rs;
         PreparedStatement ps = c.prepareStatement(query);
-
-//        ps.setString(1,role);
-//        ps.setString(2,email);
-//        ps.setString(3,password);
 
         ps.setString(1,email);
         ps.setString(2,password);
@@ -85,14 +94,10 @@ public class UserDAO {
             ProposalDAO proposalDAO = new ProposalDAO(ds);
 
             if(role.equals("Validator")) {
-                //CHEK: aggiungere recupero validator
-                Set<Proposal> proposals = proposalDAO.findByValidator(validatorId);
-                u.setRoleValidator(Validator.makeValidator(validatorId, proposals));
+                u.setRoleValidator(Validator.makeValidator(validatorId, null));
             };
             if(role.equals("Author")) {
-                //CHEK: aggiungere recupero author
-                Set<Proposal> proposals = proposalDAO.findByAuthor(authorId);
-                u.setRoleAuthor(Author.makeAuthor(authorId, proposals, null, null, null));
+                u.setRoleAuthor(Author.makeAuthor(authorId, null, null, null, null));
             };
 
             c.close();

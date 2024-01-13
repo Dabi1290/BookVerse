@@ -57,7 +57,6 @@ public class EBookDAO {
                     throw new SQLException("genere non salvato correttamente!");
             }
 
-
         Set<Author> coAuthors = ebook.getCoAuthors();
 
         if(coAuthors != null)

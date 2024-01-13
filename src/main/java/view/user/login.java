@@ -10,18 +10,21 @@ import storageSubSystem.UserDAO;
 import userManager.User;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.sql.SQLException;
 
 @WebServlet(name = "login", value = "/login")
 public class login extends HttpServlet {
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    //TO REMOVE
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
 
     //CHECK add all the message for the exception
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        //Check for valid parameters
         String email = request.getParameter("email");
         if(email == null || email.isEmpty())
             throw new ServletException("a");
@@ -31,11 +34,16 @@ public class login extends HttpServlet {
             throw new ServletException("b");
 
         String role = request.getParameter("role"); //CHECK add a parameter to indicate the role for the login
-        if((role == null || role.isEmpty()) || (role.equals("Author") && role.equals("Validator")))
+        if((role == null || role.isEmpty()) || ! (role.equals("Author") || role.equals("Validator")))
             throw new ServletException("c");
+        //Check for valid parameters
+
+
 
         DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
         UserDAO userDAO = new UserDAO(ds);
+
+
 
         User user;
         try {
@@ -43,9 +51,16 @@ public class login extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("d");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException(e);
         }
 
         HttpSession session = (HttpSession) request.getSession();
         session.setAttribute("user", user);
+
+
+
+        response.sendRedirect(request.getContextPath() + "/home.jsp");
     }
 }
