@@ -19,19 +19,17 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Author (
-	id int NOT NULL AUTO_INCREMENT,
-    userId_fk int NOT NULL,
+	id int NOT NULL,
 
-    foreign key (userId_fk) references User(id),
+    foreign key (id) references User(id),
 
     primary key (id)
 );
 
 CREATE TABLE Validator (
-	id int NOT NULL AUTO_INCREMENT,
-    userId_fk int NOT NULL,
+	id int NOT NULL,
 
-    foreign key (userId_fk) references User(id),
+    foreign key (id) references User(id),
 
     primary key (id)
 );
@@ -41,6 +39,7 @@ CREATE TABLE Proposal (
     status varchar(30) NOT NULL,
 
     mainAuthorId_fk int NOT NULL,
+    foreign key (mainAuthorId_fk) references Author(id),
 
     primary key (id)
 );
