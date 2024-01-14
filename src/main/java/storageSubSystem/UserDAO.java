@@ -39,7 +39,7 @@ public class UserDAO {
 
 
 
-        String query = "SELECT * FROM User, " + role + " WHERE email=? and password=? and userId_fk=User.id";
+        String query = "SELECT * FROM User, " + role + " WHERE email=? and password=? and "+role+".id=User.id";
 
         Connection c=ds.getConnection();
 
@@ -67,7 +67,7 @@ public class UserDAO {
             int authorId = 0, validatorId = 0;
 
             //check if author
-            query="SELECT * FROM User JOIN Author ON Author.UserId_fk=User.Id WHERE email=? and password=?";
+            query="SELECT * FROM User JOIN Author ON Author.id=User.Id WHERE email=? and password=?";
             ps = c.prepareStatement(query);
             ps.setString(1,email);
             ps.setString(2,password);
@@ -78,7 +78,7 @@ public class UserDAO {
             }
 
             // check if validator
-            query="SELECT * FROM User JOIN Validator ON Validator.UserId_fk=User.Id WHERE email=? and password=?";
+            query="SELECT * FROM User JOIN Validator ON Validator.id=User.Id WHERE email=? and password=?";
             ps = c.prepareStatement(query);
             ps.setString(1,email);
             ps.setString(2,password);
