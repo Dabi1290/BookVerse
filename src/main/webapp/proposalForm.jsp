@@ -11,20 +11,23 @@
     <title>ProposalForm</title>
     <link rel="stylesheet" href="assets/css/proposal.css">
     <script src="assets/js/fileUpload.js"></script>
+    <script src="assets/js/searchAuthor.js"></script>
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
+
 </head>
 <body>
 <%@include file="templates/navbarLogged.jsp" %>
 <%@include file="templates/underNavbarAuthor.jsp" %>
-    <form class="proposal-form" action="" method="post">
+    <form class="proposal-form" action="" method="post">    <!-- Start form -->
         <label for="title" class="label">
             Title
-            <input type="text" placeholder="Title" id="title" name="title">
+            <input type="text" placeholder="Title" id="title" name="title">  <!-- input titolo -->
         </label>
 
         <div class="ebook-inf" >
             <label for="price" class="label">
                 Price
-                <input type="text" placeholder="25" id="price" name="price">
+                <input type="text" placeholder="25" id="price" name="price"> <!-- input prezzo -->
             </label>
 
             <label for="e-book" class="label">
@@ -32,7 +35,7 @@
 
                 <div class="input-container" >
                     <img src="assets/images/upload.png" class="icon" id="e-book-icon">
-                    <input type="file" id="e-book" class="input-file" name="ebookFile">
+                    <input type="file" id="e-book" class="input-file" name="ebookFile"> <!-- input pdf -->
                     <div class="labeling" id="upload-phrase-file">Click to upload</div>
                     <button class="button" id="e-book-button">PDF</button>
                     <span id="upload-check-file">
@@ -45,7 +48,7 @@
                 Cover
                 <div class="input-container">
                     <img src="assets/images/upload.png" class="icon" id="cover-icon">
-                    <input type="file" id="cover" class="input-file" name="coverImage">
+                    <input type="file" id="cover" class="input-file" name="coverImage"> <!-- input copertina -->
                     <div class="labeling" id="upload-phrase-cover"> Click to upload</div>
                     <button class="button" id="cover-button">PNG</button>
                     <span id="upload-check-cover">
@@ -59,10 +62,12 @@
         <label class="label">
             Author
             <div class="author-row">
-                <input type="hidden" id="author-list">
-                <input type="text" id="searchBox" placeholder="Search..." onkeyup="searchProducts()">
-                <input type="text" id="author" placeholder="Find">
+                <input type="hidden" id="author-list"> <!-- input per mantenere la lista di auth -->
+                <input type="text" id="searchBox" placeholder="Search..." onkeyup="searchProducts()"> <!-- ricerca per gli auth -->
+                <!--  <input type="text" id="author" placeholder="Find">-->
+                <ul id="suggestions">
 
+                </ul>
                 <ul>
                     <li>Pippow</li>
                     <li>Pippow</li>
