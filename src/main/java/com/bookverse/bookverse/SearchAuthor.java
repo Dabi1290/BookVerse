@@ -1,8 +1,9 @@
-package view.author;
+package com.bookverse.bookverse;
 
 import java.io.*;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
 
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
@@ -24,7 +25,8 @@ public class SearchAuthor extends HttpServlet {
         AuthorDAO dao = new AuthorDAO((DataSource)request.getServletContext().getAttribute("DataSource"));
 
         try {
-            List<User> authors = (List)dao.findAuthorsByEmail(query);
+            Set<User> authors = dao.findAuthorsByEmail(query);
+
             Gson gson = new Gson();
             String json = gson.toJson(authors);
             response.setContentType("application/json");
