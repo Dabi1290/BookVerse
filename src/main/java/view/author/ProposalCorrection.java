@@ -113,6 +113,18 @@ public class ProposalCorrection extends HttpServlet {
 
 
 
+        //Correct proposal and update proposal's state to database
+        proposal.correct();
+        try {
+            proposalDao.updateProposalState(proposal);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ServletException("Failed to update the state of proposal on database");
+        }
+        //Correct proposal and update proposal's state to database
+
+
+
         //Create a new version and persist to database
         Version lastVersion = Version.makeVersion(title, description, price, null, null, null, LocalDate.now(), genres);
         proposal.addVersion(lastVersion);

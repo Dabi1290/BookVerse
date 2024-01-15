@@ -36,7 +36,7 @@ public class Proposal {
     }
 
     public void refuse(){
-        this.status="Refuse";
+        this.status="Refused";
     }
 
     public void permanentlyRefuse(){
@@ -49,6 +49,10 @@ public class Proposal {
 
     public void assignValidator(Validator validator){
         this.assignedValidator = validator;
+    }
+
+    public void correct() {
+        this.status = "Pending";
     }
 
     public boolean isValidParameter(String title, Author author, Collection<String> genres, File ebookFile, Collection<Author> coAuthors, File coverImage, float price, String description){
