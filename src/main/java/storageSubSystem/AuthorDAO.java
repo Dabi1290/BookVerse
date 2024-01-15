@@ -1,5 +1,6 @@
 package storageSubSystem;
 
+import proposalManager.Proposal;
 import userManager.Author;
 import userManager.User;
 
@@ -70,5 +71,57 @@ public class AuthorDAO {
         c.close();
         
         return authors;
+    }
+
+    public Set<Author> findCoAuthorsForProposal(Proposal proposal) throws SQLException {
+
+        String query = "SELECT * FROM Proposal as P, ProposalAuthor as PA, User as U WHERE P.id = PA.proposalId_fk AND U.id = PA.authorId_fk AND P.id = ?";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, proposal.getId());
+        ResultSet rs = ps.executeQuery();
+
+        Set<Author> coAuthors = new HashSet<>();
+
+        while(rs.next()) {
+            User user = User.makeUser(rs.getInt("PA.authorId_fk"), rs.getString("name"), rs.getString("surname"), rs.getString("email"));
+
+            Author author = new Author();
+            author.setId(user.getId());
+            author.setUser(user);
+
+            author.setAlreadyLoadedUser(true);
+            coAuthors.add(author);
+        }
+
+        c.close();
+
+        return coAuthors;
+    }
+
+    public Author findMainAuthorForProposal(Proposal proposal) throws SQLException {
+
+        String query = "SELECT * FROM Proposal as P, User as U WHERE P.mainAuthorId_fk = U.id AND P.id = ?";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+
+        ResultSet rs = ps.executeQuery();
+
+        Author author = null;
+        if(rs.next()) {
+            User user = User.makeUser(rs.getInt("U.id"), rs.getString("name"), rs.getString("surname"), rs.getString("email"));
+
+            author = new Author();
+            author.setId(user.getId());
+            author.setUser(user);
+        }
+
+        c.close();
+
+        return author;
     }
 }

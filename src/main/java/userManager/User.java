@@ -35,6 +35,17 @@ public class User {
         return user;
     }
 
+    public static User makeUser(int id, String name, String surname, String email) {
+        User user = new User();
+
+        user.id = id;
+        user.name = name;
+        user.surname = surname;
+        user.email = email;
+
+        return user;
+    }
+
     public int getId() {
         return id;
     }

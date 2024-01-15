@@ -17,7 +17,7 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        HttpSession session =
+//        HttpSession session =
     }
 
 }
