@@ -43,9 +43,17 @@ public class Publications extends HttpServlet {
 
 
 
+        AuthorDAO authorDao = new AuthorDAO(ds);
+
         //Retrieve proposals where author that makes request is main author
         try {
-            author.setProposed(proposalDAO.findByMainAuthor(author.getId()));
+            Set<Proposal> proposals = proposalDAO.findByMainAuthor(author.getId());
+            author.setProposed(proposals);
+
+            for(Proposal proposal : proposals) {
+                proposal.setProposedBy(author);
+                proposal.setCollaborators(authorDao.findCoAuthorsForProposal(proposal));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to retrieve the proposals associated with this main author");
@@ -55,8 +63,6 @@ public class Publications extends HttpServlet {
 
 
         //Retrieve proposals where author that make request is a collaborator
-        AuthorDAO authorDao = new AuthorDAO(ds);
-
         try {
             Set<Proposal> proposals = proposalDAO.findByCoAuthor(author.getId());
             for(Proposal proposal : proposals) {
