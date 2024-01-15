@@ -25,16 +25,21 @@ import java.sql.SQLException;
         maxRequestSize = 1024 * 1024 * 500)   // 500MB
 public class RefuseProposal extends HttpServlet {
 
+    //Request parameters
+    protected static String REPORT_PAR = "report";
+    protected static String PROPOSALID_PAR = "proposalId";
+    //Request parameters
+
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         //CHECK controlla che l'author che effettua questa operazione è il mainAuthor
 
         //Retrieve parameters from the request
-        Part reportFile = request.getPart("report");
+        Part reportFile = request.getPart(REPORT_PAR);
         if(reportFile == null)
             throw new ServletException("Report is not valid");
 
-        String proposalId_ = request.getParameter("proposalId");
+        String proposalId_ = request.getParameter(PROPOSALID_PAR);
         if(proposalId_ == null || proposalId_.isEmpty())
             throw new ServletException("ProposalId is not valid");
         int proposalId = Integer.parseInt(proposalId_);
