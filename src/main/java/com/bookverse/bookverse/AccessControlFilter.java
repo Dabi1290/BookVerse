@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebFilter(filterName = "/AccessControlFiler", urlPatterns = "/*")
+//@WebFilter(filterName = "/AccessControlFiler", urlPatterns = "/*")
 public class AccessControlFilter extends HttpFilter implements Filter {
 
     @Override
