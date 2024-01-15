@@ -3,6 +3,8 @@ package com.bookverse.bookverse;
 import java.io.*;
 import java.rmi.ServerException;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import userManager.User;
@@ -10,7 +12,7 @@ import userManager.User;
 @WebServlet(name = "HomeServlet", value = "/home")
 public class Home extends HttpServlet {
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String role = "Guest";
         User pippo=(User) request.getSession().getAttribute("user");
         if (pippo!=null && pippo.getCurrentRole() != null)
@@ -18,15 +20,17 @@ public class Home extends HttpServlet {
 
 
 
-        if(role.equals("Author")){
-            response.sendRedirect(request.getContextPath() + "/homeAuthor.jsp");
+        if(role.equals("Author")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/homeAuthor.jsp");
+            dispatcher.forward(request, response);
             return;
         }
 
 
 
         if(role.equals("Validator")){
-            response.sendRedirect(request.getContextPath() + "/homeValidator.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/homeValidator.jsp");
+            dispatcher.forward(request, response);
             return;
         }
 
