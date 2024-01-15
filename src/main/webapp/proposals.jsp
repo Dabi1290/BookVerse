@@ -3,7 +3,8 @@
 <%@ page import="userManager.Author" %>
 <%@ page import="proposalManager.Proposal" %>
 <%@ page import="java.util.Set" %>
-<%@ page import="proposalManager.Version" %><%--
+<%@ page import="proposalManager.Version" %>
+<%@ page import="userManager.Validator" %><%--
   Created by IntelliJ IDEA.
   User: Tonaion
   Date: 15/01/2024
@@ -21,11 +22,11 @@
         String p;
 
         User user = (User) session.getAttribute(SessionCostants.USER);
-        Author author = user.getRoleAuthor();
+        Validator validator = user.getRoleValidator();
 
-        Set<Proposal> proposalWhereIsMainAuthor =  author.getProposed();
+        Set<Proposal> assignedProposals =  validator.getAssignedProposals();
 
-        for(Proposal proposal : proposalWhereIsMainAuthor) {
+        for(Proposal proposal : assignedProposals) {
             p = "id: " + proposal.getId() + " status: " + proposal.getStatus();
     %>
             <p><%= p%></p>
@@ -38,22 +39,6 @@
             %>
     <%
         }
-
-        Set<Proposal> proposalWhereIsCoAuthor = author.getCollaboratedTo();
-        for(Proposal proposal : proposalWhereIsCoAuthor) {
-            p = "id: " + proposal.getId() + " status: " + proposal.getStatus();
     %>
-            <p><%= p%> </p>
-    <%
-        for(Version version : proposal.getVersions()) {
-    %>
-    <p><%=version.getDate()%></p>
-    <%
-        }
-    %>
-    <%
-        }
-    %>
-
 </body>
 </html>

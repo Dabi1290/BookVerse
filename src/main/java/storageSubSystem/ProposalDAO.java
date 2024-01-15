@@ -28,7 +28,7 @@ public class ProposalDAO {
         ps.setInt(1,vid);
 
         ResultSet rs = ps.executeQuery();
-        TreeSet<Proposal> s=new TreeSet<>();
+        Set<Proposal> s=new HashSet<>();
         while(rs.next()){
             Proposal p = new Proposal();
 
