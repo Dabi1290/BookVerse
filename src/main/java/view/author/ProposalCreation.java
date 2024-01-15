@@ -174,7 +174,7 @@ public class ProposalCreation extends HttpServlet {
         //Update version with correct name of the files
 
 
-        
+
         //Create directory for new proposal and create files of the first version
         try {
             BaseFileDAO.createDirectory(Path.of(tomcatRootDirectory + "/../Files/"), Integer.toString(proposalId));
