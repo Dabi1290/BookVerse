@@ -10,6 +10,8 @@ public class Proposal {
 
     private int id;
     private String status;
+
+    private int proposedById;
     private boolean alreadyLoadedAuthor;
     private Author proposedBy;
     private Set<Author> collaborators;
@@ -88,5 +90,17 @@ public class Proposal {
 
     public Version lastVersion() {
         return this.versions.get(versions.size() - 1);
+    }
+
+    public void setVersions(List<Version> versions) { this.versions = versions; }
+
+    public List<Version> getVersions() {return versions;}
+
+    public boolean isAlreadyLoadedAuthor() {
+        return alreadyLoadedAuthor;
+    }
+
+    public void setAlreadyLoadedAuthor(boolean alreadyLoadedAuthor) {
+        this.alreadyLoadedAuthor = alreadyLoadedAuthor;
     }
 }

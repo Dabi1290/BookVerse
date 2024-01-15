@@ -10,7 +10,6 @@ import java.util.TreeSet;
 public class Author {
 
     private int id;
-    private int userId;
     private Set<Proposal> collaboratedTo;
     private Set<Proposal> proposed;
     private Set<EBook> written;
@@ -20,17 +19,8 @@ public class Author {
 
     }
 
-    public Author(int id, int uId) {
-        this.id=id;
-        this.userId=uId;
-        collaboratedTo =null;
-        proposed = null;
-        written = null;
-        coWritten = null;
-    }
     public Author(int id) {
         this.id=id;
-        userId=-1;
         collaboratedTo =null;
         proposed = null;
         written = null;
@@ -71,14 +61,6 @@ public class Author {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public Set<Proposal> getCollaboratedTo() {

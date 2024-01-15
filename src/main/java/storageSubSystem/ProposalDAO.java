@@ -1,5 +1,6 @@
 package storageSubSystem;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import proposalManager.Proposal;
 import proposalManager.Version;
 import userManager.Author;
@@ -85,8 +86,19 @@ public class ProposalDAO {
             String reportPath = rs.getString("report");
             String ebookFilePath = rs.getString("ebookFile");
             int price = rs.getInt("price");
-            //CHECK add data
+            String date = rs.getString("data");
             int versionId = rs.getInt("V.id");
+
+
+            File ebookFile = null;
+            if(ebookFilePath != null)
+                ebookFile = new File(ebookFilePath);
+            File coverImage = null;
+            if(coverImagePath != null)
+                coverImage = new File(coverImagePath);
+            File reportFile = null;
+            if(reportPath != null)
+                reportFile = new File(reportPath);
 
 
 
@@ -101,9 +113,9 @@ public class ProposalDAO {
             }
 
 
-            
-            //CHECK substitute data
-            Version version = Version.makeVersion(versionId, title, description, price, new File(reportPath), new File(ebookFilePath), new File(coverImagePath), LocalDate.now(), genres);
+
+            LocalDate d = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
+            Version version = Version.makeVersion(versionId, title, description, price, reportFile, ebookFile, coverImage, d, genres);
             versions.add(version);
         }
 
@@ -125,6 +137,7 @@ public class ProposalDAO {
         ps.setString(1, "pending");
         ps.setInt(2, mainAuthorId);
         ps.execute();
+
 
 
         int generatedId = 0;
@@ -166,7 +179,7 @@ public class ProposalDAO {
         ps.setString(1, version.getTitle());
         ps.setString(2, version.getDescription());
         ps.setInt(3, version.getPrice());
-        ps.setString(4, date); //CHECK check about problem representation on date
+        ps.setString(4, date);
         ps.setInt(5, proposal.getId());
 
         ps.execute();
@@ -215,6 +228,42 @@ public class ProposalDAO {
         ps.setString(7, date);
         ps.setInt(8, version.getId());
 
+        ps.execute();
+    }
+
+    public Proposal findById(int id) throws SQLException {
+
+        String query = "SELECT * FROM Proposal as P WHERE P.id=?";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+
+        Proposal proposal = new Proposal();
+        if(rs.next()) {
+            proposal.setId(rs.getInt("id"));
+            proposal.setStatus(rs.getString("status"));
+
+            List<Version> versions = this.findProposalVersions(id);
+            proposal.setVersions(versions);
+        }
+        else
+            return null;
+
+        return proposal;
+    }
+
+    public void updateProposalState(Proposal proposal) throws SQLException {
+
+        String query = "UPDATE Proposal SET status = ? WHERE id = ?";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setString(1, proposal.getStatus());
+        ps.setInt(2, proposal.getId());
         ps.execute();
     }
 }

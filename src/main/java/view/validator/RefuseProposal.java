@@ -9,11 +9,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import proposalManager.Proposal;
 import proposalManager.Version;
+import storageSubSystem.AuthorDAO;
+import storageSubSystem.BaseFileDAO;
 import storageSubSystem.ProposalDAO;
 
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.sql.SQLException;
 
 @WebServlet(name = "RefuseProposal", value = "/RefuseProposal")
@@ -24,22 +27,34 @@ public class RefuseProposal extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        //CHECK controlla che l'author che effettua questa operazione è il mainAuthor
+
         //Retrieve parameters from the request
         Part reportFile = request.getPart("report");
         if(reportFile == null)
             throw new ServletException("Report is not valid");
 
-        Proposal proposal = (Proposal)request.getAttribute("proposal"); //CHECK retrieve the proposal from the session
-        if(proposal == null)
-            throw new ServletException("Proposal is not valid");
-        //Retrieve parameters from the request
+        String proposalId_ = request.getParameter("proposalId");
+        if(proposalId_ == null || proposalId_.isEmpty())
+            throw new ServletException("ProposalId is not valid");
+        int proposalId = Integer.parseInt(proposalId_);
 
 
 
-        //Retrieve data source from servlet context and create proposal's dao
-        DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
+        DataSource ds = (DataSource) request.getServletContext().getAttribute("DataSource");
         ProposalDAO proposalDao = new ProposalDAO(ds);
-        //Retrieve data source from servlet context and create proposal's dao
+        Proposal proposal = null;
+        try {
+            proposal = proposalDao.findById(proposalId);
+            if(proposal.isAlreadyLoadedAuthor()) {
+                proposal.setAlreadyLoadedAuthor(true);
+                //CARICO AUTHOR
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        //Retrieve parameters from the request
 
 
 
@@ -48,21 +63,34 @@ public class RefuseProposal extends HttpServlet {
 
         String tomcatRootDirectory = getServletContext().getRealPath("/");
         int versionId = lastVersion.getId();
-        String reportName = "reportFile_" + Integer.toString(versionId) + ".png";
+        String reportName = "reportFile_" + Integer.toString(versionId) + ".pdf";
 
         lastVersion.setReport(new File(tomcatRootDirectory + "/../Files/" + Integer.toString(proposal.getId()) + "/" + reportName));
         proposal.refuse();
+        System.out.println(proposal.getStatus());
         //Add report file to the last version of the proposal and update state of the proposal
 
 
 
         //Persist updates of proposal and lastVersion
         try {
-            proposalDao.persistVersion(proposal, lastVersion); //CHECK persist the update of the state of the proposal
+            proposalDao.updateVersion(lastVersion); //CHECK persist the update of the state of the proposal
+            proposalDao.updateProposalState(proposal);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to add the report file to the last version of the proposal");
         }
         //Persist updates of proposal and lastVersion
+
+
+
+        //Save file of report
+        try {
+            BaseFileDAO.persistFile(Path.of(tomcatRootDirectory + "/../Files/" + Integer.toString(proposalId) + "/"), reportName, reportFile.getInputStream());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        //Save file of report
     }
 }

@@ -2,6 +2,7 @@ package com.bookverse.bookverse;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebListener;
 import storageSubSystem.GenreDAO;
 
@@ -9,6 +10,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -20,6 +22,16 @@ public class ContextInitializer implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext sc = sce.getServletContext();
+
+
+
+        String tomcatRootDirectory = sce.getServletContext().getRealPath("/");
+        File file = new File(tomcatRootDirectory + "/../Files/");
+        if(!file.exists() || !file.isDirectory()) {
+            boolean r = file.mkdir();
+            if(! r)
+                throw new RuntimeException("Directory files not created");
+        }
 
 
 

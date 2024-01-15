@@ -34,6 +34,8 @@ public class testVersionRetrieving extends HttpServlet {
 
         if(versions != null) {
             for(Version version : versions) {
+                System.out.println(version.getDate());
+
                 Set<String> genres = version.getGenres();
                 for(String genre : genres) {
                     System.out.println(genre);

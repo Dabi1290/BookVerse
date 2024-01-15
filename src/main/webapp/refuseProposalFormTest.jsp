@@ -11,8 +11,13 @@
     <title>Title</title>
 </head>
 <body>
-    <%
+    <form action="/RefuseProposal" method="POST" enctype="multipart/form-data">
+        <input type="text" name="proposalId">
+        <br>
+        <input type="file" name="report">
+        <br>
+        <input type="submit">
 
-    %>
+    </form>
 </body>
 </html>
