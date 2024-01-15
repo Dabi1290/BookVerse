@@ -1,5 +1,6 @@
 package view.author;
 
+import com.bookverse.bookverse.sessionConstants.SessionCostants;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -31,39 +32,47 @@ import java.util.TreeSet;
         maxRequestSize = 1024 * 1024 * 500)   // 500MB
 public class ProposalCreation extends HttpServlet {
 
+    protected static String TITLE_PAR = "title";
+    protected static String PRICE_PAR = "price";
+    protected static String DESCRIPTION_PAR = "description";
+    protected static String EBOOKFILE_PAR = "ebookFile";
+    protected static String COVERIMAGE_PAR = "coverImage";
+    protected static String GENRES_PAR = "genres";
+    protected static String AUTHORS_PAR = "authors";
+
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String title = request.getParameter("title");
+        String title = request.getParameter(TITLE_PAR);
         if(title == null || title.isEmpty())
             throw new ServletException("title not valid");
 
-        String price_ = request.getParameter("price");
+        String price_ = request.getParameter(PRICE_PAR);
         if(price_ == null || price_.isEmpty())
             throw new ServletException("price not valid");
         int price = Integer.parseInt(price_);
         if(price < 0)
             throw new ServletException("price not valid value");
 
-        String description = request.getParameter("description");
+        String description = request.getParameter(DESCRIPTION_PAR);
         if(description == null || description.isEmpty())
             throw new ServletException("description not valid");
 
-        Part fileEbookPart = request.getPart("ebookFile");
+        Part fileEbookPart = request.getPart(EBOOKFILE_PAR);
         if(fileEbookPart == null)
             throw new ServletException("ebookFile not valid");
 
-        Part fileCoverImage = request.getPart("coverImage");
+        Part fileCoverImage = request.getPart(COVERIMAGE_PAR);
         if(fileCoverImage == null)
             throw new ServletException("coverImage not valid");
 
-        String[] genresParameter = request.getParameterValues("genres");
+        String[] genresParameter = request.getParameterValues(GENRES_PAR);
         if(genresParameter == null || genresParameter.length == 0)
             throw new ServletException("genres not valid");
 
         Set<String> genres = new TreeSet<>(Arrays.asList(genresParameter));
 
         //CHECK probably you can pass directly the list of authors
-        String[] authors = request.getParameterValues("authors");
+        String[] authors = request.getParameterValues(AUTHORS_PAR);
         if(authors == null || authors.length == 0)
             throw new ServletException("auhtors not valid");
 
@@ -75,7 +84,7 @@ public class ProposalCreation extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute(SessionCostants.USER);
         Author mainAuthor = user.getRoleAuthor();
 
         //CHECK probably you can pass directly the list of authors
@@ -103,6 +112,8 @@ public class ProposalCreation extends HttpServlet {
         }
         proposal.setId(proposalId);
 
+
+        //CHECK add assigning validator to this proposal......
 
 
         Version version = Version.makeVersion(title, description, price, null, null, null, LocalDate.now(),  genres);

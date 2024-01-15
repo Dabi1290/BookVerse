@@ -2,7 +2,8 @@
 <%@ page import="userManager.User" %>
 <%@ page import="userManager.Author" %>
 <%@ page import="proposalManager.Proposal" %>
-<%@ page import="java.util.Set" %><%--
+<%@ page import="java.util.Set" %>
+<%@ page import="proposalManager.Version" %><%--
   Created by IntelliJ IDEA.
   User: Tonaion
   Date: 15/01/2024
@@ -28,6 +29,13 @@
             p = "id: " + proposal.getId() + " status: " + proposal.getStatus();
     %>
             <p><%= p%></p>
+            <%
+            for(Version version : proposal.getVersions()) {
+            %>
+                <p><%=version.getDate()%></p>
+            <%
+            }
+            %>
     <%
         }
 
@@ -36,6 +44,13 @@
             p = "id: " + proposal.getId() + " status: " + proposal.getStatus();
     %>
             <p><%= p%> </p>
+    <%
+        for(Version version : proposal.getVersions()) {
+    %>
+    <p><%=version.getDate()%></p>
+    <%
+        }
+    %>
     <%
         }
     %>

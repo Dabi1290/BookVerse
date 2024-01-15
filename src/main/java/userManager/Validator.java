@@ -28,4 +28,19 @@ public class Validator {
         assignedProposals.add(proposal);
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Set<Proposal> getAssignedProposals() {
+        return assignedProposals;
+    }
+
+    public void setAssignedProposals(Set<Proposal> assignedProposals) {
+        this.assignedProposals = assignedProposals;
+    }
 }

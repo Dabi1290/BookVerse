@@ -19,6 +19,7 @@ public class ProposalDAO {
         this.ds=ds;
     }
     public Set<Proposal> findByValidator(int vid) throws SQLException {
+
         String query="SELECT * FROM Proposal JOIN ProposalValidator as p ON proposalId_fk=id WHERE p.validatorId_fk=?";
 
         Connection c = ds.getConnection();
@@ -34,7 +35,7 @@ public class ProposalDAO {
             p.setId(rs.getInt("id"));
             p.setStatus(rs.getString("status"));
 
-            //CHECK: probabilmente bisogna aggiungere il recupero delle versioni già qui
+            p.setVersions(this.findProposalVersions(p.getId()));
 
             s.add(p);
         }

@@ -19,7 +19,7 @@ import java.sql.SQLException;
 @WebServlet(name = "Pubblications", value = "/Publications")
 public class Publications extends HttpServlet {
 
-    protected static String NEXT_PAGE = "/proposals.jsp";
+    protected static String NEXT_PAGE = "/publications.jsp";
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
