@@ -19,26 +19,26 @@ import java.sql.SQLException;
 @WebServlet(name = "login", value = "/login")
 public class login extends HttpServlet {
 
-    //TO REMOVE
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request, response);
-    }
+    //Request parameters
+    protected static String EMAIL_PAR = "email";
+    protected static String PASSWORD_PAR = "password";
+    protected static String ROLE_PAR = "role";
+    //Request parameters
 
-    //CHECK add all the message for the exception
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         //Check for valid parameters
-        String email = request.getParameter("email");
+        String email = request.getParameter(EMAIL_PAR);
         if(email == null || email.isEmpty())
-            throw new ServletException("a");
+            throw new ServletException("email not valid value");
 
-        String password = request.getParameter("password");
+        String password = request.getParameter(PASSWORD_PAR);
         if(password == null || password.isEmpty())
-            throw new ServletException("b");
+            throw new ServletException("password not valid value");
 
-        String role = request.getParameter("role"); //CHECK add a parameter to indicate the role for the login
+        String role = request.getParameter(ROLE_PAR);
         if((role == null || role.isEmpty()) || ! (role.equals("Author") || role.equals("Validator")))
-            throw new ServletException("c");
+            throw new ServletException("role not valid value");
         //Check for valid parameters
 
 
@@ -50,16 +50,17 @@ public class login extends HttpServlet {
 
         User user;
         try {
-            user = userDAO.login(email, login.toHash(password), role);
+            String hashedPassword = login.toHash(password);
+            user = userDAO.login(email, hashedPassword, role);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new ServletException("d");
+            throw new ServletException("SQL error");
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServletException(e);
         }
 
-        // credenziali errate
+        //wrong credentials
         if(user == null) {
             request.setAttribute("error", "Credenziali Errate");
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
@@ -67,7 +68,7 @@ public class login extends HttpServlet {
             return ;
         }
 
-        //credenziali giuste
+        //right credentials
         HttpSession session = (HttpSession) request.getSession();
         session.setAttribute("user", user);
 
