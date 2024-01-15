@@ -1,23 +1,24 @@
 package view.validator;
 
+import com.bookverse.bookverse.sessionConstants.SessionCostants;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.http.*;
 import proposalManager.Proposal;
 import proposalManager.Version;
 import storageSubSystem.AuthorDAO;
 import storageSubSystem.BaseFileDAO;
 import storageSubSystem.ProposalDAO;
+import userManager.User;
+import userManager.Validator;
 
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.SQLException;
+import java.util.Set;
 
 @WebServlet(name = "RefuseProposal", value = "/RefuseProposal")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 20, // 20MB
@@ -32,8 +33,6 @@ public class RefuseProposal extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //CHECK controlla che l'author che effettua questa operazione è il mainAuthor
-
         //Retrieve parameters from the request
         Part reportFile = request.getPart(REPORT_PAR);
         if(reportFile == null)
@@ -43,23 +42,38 @@ public class RefuseProposal extends HttpServlet {
         if(proposalId_ == null || proposalId_.isEmpty())
             throw new ServletException("ProposalId is not valid");
         int proposalId = Integer.parseInt(proposalId_);
+        //Retrieve parameters from the request
 
 
 
+        //Retrieve user from the session
+        HttpSession session = (HttpSession) request.getSession();
+
+        User user = (User) session.getAttribute(SessionCostants.USER);
+        Validator validator = user.getRoleValidator();
+        //Retrieve user from the session
+
+
+        //Retrieve proposal with id from the session
+        Set<Proposal> assignedProposals = validator.getAssignedProposals();
+
+        Proposal proposal = null;
+        for(Proposal assignedProposal : assignedProposals) {
+            if(assignedProposal.getId() == proposalId)
+                proposal = assignedProposal;
+        }
+
+        if(proposal == null)
+            throw new ServletException("This proposal is not assigned to this validator");
+        //Retrieve proposal with id from the session
+
+
+
+        //Retrieve data source and ProposalDAO
         DataSource ds = (DataSource) request.getServletContext().getAttribute("DataSource");
         ProposalDAO proposalDao = new ProposalDAO(ds);
-        Proposal proposal = null;
-        try {
-            proposal = proposalDao.findById(proposalId);
-            if(proposal.isAlreadyLoadedAuthor()) {
-                proposal.setAlreadyLoadedAuthor(true);
-                //CARICO AUTHOR
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        //Retrieve parameters from the request
+        //Retrieve data source and ProposalDAO
+
 
 
 

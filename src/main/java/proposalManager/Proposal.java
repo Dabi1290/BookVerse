@@ -11,7 +11,6 @@ public class Proposal {
     private int id;
     private String status;
 
-    private int proposedById;
     private boolean alreadyLoadedAuthor;
     private Author proposedBy;
     private Set<Author> collaborators;
@@ -102,5 +101,21 @@ public class Proposal {
 
     public void setAlreadyLoadedAuthor(boolean alreadyLoadedAuthor) {
         this.alreadyLoadedAuthor = alreadyLoadedAuthor;
+    }
+
+    public boolean isAlreadyLoadedValidator() {
+        return alreadyLoadedValidator;
+    }
+
+    public void setAlreadyLoadedValidator(boolean alreadyLoadedValidator) {
+        this.alreadyLoadedValidator = alreadyLoadedValidator;
+    }
+
+    public Validator getAssignedValidator() {
+        return assignedValidator;
+    }
+
+    public void setAssignedValidator(Validator assignedValidator) {
+        this.assignedValidator = assignedValidator;
     }
 }

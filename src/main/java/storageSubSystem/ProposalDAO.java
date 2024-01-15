@@ -4,6 +4,7 @@ import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import proposalManager.Proposal;
 import proposalManager.Version;
 import userManager.Author;
+import userManager.Validator;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -302,6 +303,20 @@ public class ProposalDAO {
 
         PreparedStatement ps = c.prepareStatement(query);
         ps.setString(1, proposal.getStatus());
+        ps.setInt(2, proposal.getId());
+        ps.execute();
+
+        c.close();
+    }
+
+    public void assignValidator(Proposal proposal, Validator validator) throws  SQLException {
+
+        String query = "INSERT INTO ProposalValidator(validatorId_fk, proposalId_fk) values(?, ?)";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, validator.getId());
         ps.setInt(2, proposal.getId());
         ps.execute();
 

@@ -13,6 +13,7 @@ import storageSubSystem.ProposalDAO;
 import storageSubSystem.ValidatorDAO;
 import userManager.Author;
 import userManager.User;
+import userManager.Validator;
 
 import javax.sql.DataSource;
 import java.io.File;
@@ -20,10 +21,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 
 @WebServlet(name = "ProposalCreation", value="/ProposalCreation")
@@ -42,6 +40,7 @@ public class ProposalCreation extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        //Retrieve parameters from request
         String title = request.getParameter(TITLE_PAR);
         if(title == null || title.isEmpty())
             throw new ServletException("title not valid");
@@ -73,26 +72,34 @@ public class ProposalCreation extends HttpServlet {
 
         //CHECK probably you can pass directly the list of authors
         String[] authors = request.getParameterValues(AUTHORS_PAR);
-        if(authors == null || authors.length == 0)
-            throw new ServletException("auhtors not valid");
+        //Retrieve parameters from request
 
 
 
-        DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
-
-
-
+        //Retrieve session and user from it
         HttpSession session = request.getSession();
 
         User user = (User) session.getAttribute(SessionCostants.USER);
         Author mainAuthor = user.getRoleAuthor();
+        //Retrieve session and user from it
+
+
+
+        //Retrieve data source and build author dao
+        DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
+        AuthorDAO authorDao = new AuthorDAO(ds);
+        //Retrieve data source and build author dao
+
+
 
         //CHECK probably you can pass directly the list of authors
-        AuthorDAO authorDao = new AuthorDAO(ds);
-        Set<Author> coAuthors = new TreeSet<>();
+        Set<Author> coAuthors = new HashSet<>();
+
+        if(authors != null)
         for(String authorId_ : authors) {
             try {
                 Author coAuthor = authorDao.findByID(Integer.parseInt(authorId_));
+                coAuthors.add(coAuthor);
             } catch (SQLException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -101,6 +108,7 @@ public class ProposalCreation extends HttpServlet {
 
 
 
+        //Create new proposal and persist to database
         ProposalDAO proposalDao = new ProposalDAO(ds);
         Proposal proposal = Proposal.makeProposal(mainAuthor, coAuthors,"pending");
         int proposalId = -1;
@@ -111,11 +119,25 @@ public class ProposalCreation extends HttpServlet {
             throw new RuntimeException(e);
         }
         proposal.setId(proposalId);
+        //Create new proposal and persist to database
 
 
-        //CHECK add assigning validator to this proposal......
+
+        //Find a validator and assign to proposal
+        try {
+            //CHECK add finding a free validator
+            Validator validator = Validator.makeValidator(2, null);
+            proposal.assignValidator(validator);
+            proposalDao.assignValidator(proposal, validator);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ServletException("Failed to assign a validator to this proposal");
+        }
+        //Find a validator and assign to proposal
 
 
+
+        //Create first version of the proposal and persist to database
         Version version = Version.makeVersion(title, description, price, null, null, null, LocalDate.now(),  genres);
         proposal.addVersion(version);
 
@@ -127,24 +149,33 @@ public class ProposalCreation extends HttpServlet {
             throw new RuntimeException(e);
         }
         version.setId(versionId);
+        //Create first version of the proposal and persist to database
 
 
 
+        //Create the name of files
         String tomcatRootDirectory = getServletContext().getRealPath("/");
 
         String ebookFileName = "ebookFile_" + Integer.toString(versionId) + ".pdf";
         String coverImageName = "coverImage_" + Integer.toString(versionId) + ".png";
         version.setEbookFile(new File(tomcatRootDirectory + "/../Files/" + Integer.toString(proposalId) + "/" + ebookFileName));
         version.setCoverImage(new File(tomcatRootDirectory + "/../Files/" + Integer.toString(proposalId) + "/" + coverImageName));
+        //Create the name of files
 
+
+
+        //Update version with correct name of the files
         try {
             proposalDao.updateVersion(version);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+        //Update version with correct name of the files
 
 
+        
+        //Create directory for new proposal and create files of the first version
         try {
             BaseFileDAO.createDirectory(Path.of(tomcatRootDirectory + "/../Files/"), Integer.toString(proposalId));
 
@@ -154,7 +185,12 @@ public class ProposalCreation extends HttpServlet {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+        //Create directory for new proposal and create files of the first version
 
+
+
+        //Redirect to confirmation page
         response.sendRedirect("/confirmationPage.jsp?imagePath=bigCheck.png&msg=Your%20publication%20proposal%20has%20been%20successfully%20submitted%2C%20you%20will%20receive%20acknowledgement%20within%2010%20business%20days");
+        //Redirect to confirmation page
     }
 }
