@@ -21,7 +21,7 @@ public class ProposalDAO {
     public Set<Proposal> findByValidator(int vid) throws SQLException {
         String query="SELECT * FROM Proposal JOIN ProposalValidator as p ON proposalId_fk=id WHERE p.validatorId_fk=?";
 
-        Connection c=ds.getConnection();
+        Connection c = ds.getConnection();
 
         PreparedStatement ps = c.prepareStatement(query);
         ps.setInt(1,vid);
@@ -38,6 +38,8 @@ public class ProposalDAO {
 
             s.add(p);
         }
+
+        c.close();
 
         return s;
     }
@@ -162,6 +164,8 @@ public class ProposalDAO {
             psForCoAuthors.execute();
         }
 
+        c.close();
+
         return generatedId;
     }
 
@@ -202,6 +206,8 @@ public class ProposalDAO {
             genrePs.execute();
         }
 
+        c.close();
+
         return generatedId;
     }
 
@@ -229,6 +235,8 @@ public class ProposalDAO {
         ps.setInt(8, version.getId());
 
         ps.execute();
+
+        c.close();
     }
 
     public Proposal findById(int id) throws SQLException {
@@ -252,6 +260,8 @@ public class ProposalDAO {
         else
             return null;
 
+        c.close();
+
         return proposal;
     }
 
@@ -265,5 +275,7 @@ public class ProposalDAO {
         ps.setString(1, proposal.getStatus());
         ps.setInt(2, proposal.getId());
         ps.execute();
+
+        c.close();
     }
 }

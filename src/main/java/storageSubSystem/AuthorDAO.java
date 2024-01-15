@@ -34,6 +34,8 @@ public class AuthorDAO {
             a = new Author(id);
         }
 
+        c.close();
+
         return a;
     }
 
@@ -64,6 +66,9 @@ public class AuthorDAO {
 
             authors.add(user);
         }
+
+        c.close();
+        
         return authors;
     }
 }

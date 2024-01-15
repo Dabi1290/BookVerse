@@ -32,6 +32,8 @@ public class GenreDAO {
             genres.add(genreName);
         }
 
+        c.close();
+
         return genres;
     }
 }

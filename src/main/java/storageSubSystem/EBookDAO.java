@@ -68,6 +68,8 @@ public class EBookDAO {
                 if(!result)
                     throw new SQLException("coAutore non salvato correttamente!");
             }
+
+        c.close();
     }
 
 }
