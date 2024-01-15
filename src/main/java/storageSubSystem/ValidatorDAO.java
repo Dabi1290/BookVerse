@@ -5,8 +5,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
+import userManager.Author;
 import userManager.Validator;
 
 public class ValidatorDAO {
@@ -17,7 +21,13 @@ public class ValidatorDAO {
         this.ds = ds;
     }
 
-    public Validator findFreeValidator() throws SQLException {
+    public Validator findFreeValidator(Author mainAuthor, Set<Author> coAuthors) throws SQLException {
+
+        Set<Integer> idAuthors = new TreeSet<>();
+        idAuthors.add(mainAuthor.getId());
+        for(Author coAuthor : coAuthors) {
+            idAuthors.add(coAuthor.getId());
+        }
 
         Connection c = ds.getConnection();
 
@@ -33,13 +43,15 @@ public class ValidatorDAO {
             numeroRighe = rs.getInt(1);
 
         Random rand = new Random();
-        int idValidator = rand.nextInt((numeroRighe - 1) + 1) + 1;
+
+        int idValidator = mainAuthor.getId();
+        while(idAuthors.contains(idValidator)) {
+            idValidator = rand.nextInt((numeroRighe - 1) + 1) + 1;
+        }
 
         Validator validator = Validator.makeValidator(idValidator, null);
 
         return validator;
 
     }
-
-
 }

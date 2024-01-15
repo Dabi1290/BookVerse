@@ -1,7 +1,6 @@
 package view.author;
 
 import com.bookverse.bookverse.sessionConstants.SessionCostants;
-import com.sun.net.httpserver.Request;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
