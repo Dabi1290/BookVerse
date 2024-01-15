@@ -52,7 +52,11 @@ public class Publications extends HttpServlet {
 
             for(Proposal proposal : proposals) {
                 proposal.setProposedBy(author);
-                proposal.setCollaborators(authorDao.findCoAuthorsForProposal(proposal));
+                Set<Author> as = authorDao.findCoAuthorsForProposal(proposal);
+                for(Author a : as) {
+                    System.out.println(a.getId());
+                }
+                proposal.setCollaborators(as);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,6 +69,7 @@ public class Publications extends HttpServlet {
         //Retrieve proposals where author that make request is a collaborator
         try {
             Set<Proposal> proposals = proposalDAO.findByCoAuthor(author.getId());
+            author.setCollaboratedTo(proposals);
             for(Proposal proposal : proposals) {
                 proposal.setCollaborators(authorDao.findCoAuthorsForProposal(proposal));
                 proposal.setProposedBy(authorDao.findMainAuthorForProposal(proposal));
