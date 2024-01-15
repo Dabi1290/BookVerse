@@ -43,7 +43,7 @@ public class ProposalDAO {
 
         return s;
     }
-    public Set<Proposal> findByAuthor(int authorId) throws SQLException {
+    public Set<Proposal> findByCoAuthor(int authorId) throws SQLException {
 
         String query = "SELECT * FROM Proposal JOIN ProposalAuthor as p ON proposalId_fk=id WHERE p.authorId_fk=?";
 
@@ -53,14 +53,14 @@ public class ProposalDAO {
         ps.setInt(1, authorId);
 
         ResultSet rs = ps.executeQuery();
-        TreeSet<Proposal> s = new TreeSet<>();
+        Set<Proposal> s = new HashSet<>();
         while(rs.next()) {
             Proposal p = new Proposal();
 
             p.setId(rs.getInt("id"));
             p.setStatus(rs.getString("status"));
 
-            //CHECK: probabilmente bisogna aggiungere il recupero delle versioni già qui
+            p.setVersions(this.findProposalVersions(p.getId()));
 
             s.add(p);
         }
@@ -68,6 +68,34 @@ public class ProposalDAO {
         c.close();
 
         return s;
+    }
+
+    public Set<Proposal> findByMainAuthor(int mainAuthorId) throws SQLException {
+
+        String query = "SELECT * FROM Proposal WHERE mainAuthorId_fk=?";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, mainAuthorId);
+        ResultSet rs = ps.executeQuery();
+
+        Set<Proposal> proposals = new HashSet<>();
+
+        while(rs.next()) {
+            Proposal p = new Proposal();
+
+            p.setId(rs.getInt("id"));
+            p.setStatus(rs.getString("status"));
+
+            p.setVersions(this.findProposalVersions(p.getId()));
+
+            proposals.add(p);
+        }
+
+        c.close();
+
+        return proposals;
     }
 
     public List<Version> findProposalVersions(int proposalId) throws SQLException {

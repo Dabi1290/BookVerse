@@ -25,6 +25,10 @@ public class ContextInitializer implements ServletContextListener {
 
 
 
+
+
+
+
         String tomcatRootDirectory = sce.getServletContext().getRealPath("/");
         File file = new File(tomcatRootDirectory + "/../Files/");
         if(!file.exists() || !file.isDirectory()) {
