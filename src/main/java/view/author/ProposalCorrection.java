@@ -38,7 +38,6 @@ public class ProposalCorrection extends HttpServlet {
     protected static String COVERIMAGE_PAR = "coverImage";
     protected static String GENRES_PAR = "genres";
     protected static String PROPOSALID_PAR = "proposalId";
-
     protected static String NEXT_PAGE = "/publications.jsp";
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -95,7 +94,7 @@ public class ProposalCorrection extends HttpServlet {
         Set<Proposal> proposals = author.getProposed();
         Proposal proposal = null;
         for(Proposal p : proposals) {
-            if(proposal.getId() == p.getId())
+            if(proposalId == p.getId())
                 proposal = p;
         }
 
@@ -147,6 +146,16 @@ public class ProposalCorrection extends HttpServlet {
         lastVersion.setEbookFile(new File(tomcatRootDirectory + "/../Files/" + Integer.toString(proposalId) + "/" + ebookFileName));
         lastVersion.setCoverImage(new File(tomcatRootDirectory + "/../Files/" + Integer.toString(proposalId) + "/" + coverImageName));
         //Generate file path and add to the version created before
+
+
+
+        //Update version to add ebookFileName and coverImageName in database
+        try {
+            proposalDao.updateVersion(lastVersion);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        //Update version to add ebookFileName and coverImageName in database
 
 
 

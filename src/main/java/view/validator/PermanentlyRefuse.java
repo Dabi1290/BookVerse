@@ -16,7 +16,7 @@ import userManager.Validator;
 
 import javax.sql.DataSource;
 
-@WebServlet(name = "PermanentlyRefuseServlet", value = "/PermanentlyRefuseServlet")
+@WebServlet(name = "PermanentlyRefuse", value = "/PermanentlyRefuse")
 public class PermanentlyRefuse extends HttpServlet {
 
     protected static String PROPOSALID_PAR = "proposalId";
@@ -33,22 +33,6 @@ public class PermanentlyRefuse extends HttpServlet {
 
         int id = Integer.parseInt(id_);
 
-        /*
-        //carico la proposta con quell'ID
-        DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
-        ProposalDAO proposalDao = new ProposalDAO(ds);
-
-        Proposal proposal = null;
-
-        try {
-            if(id != 0) // difatti id non può essere 0, gli id del DB partono da 1 !!
-                proposal = proposalDao.findById(id);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-         */
-
         //Retrieve User from the Session
         User user = (User)request.getSession().getAttribute(SessionCostants.USER);
         Validator validator = user.getRoleValidator();
@@ -60,7 +44,7 @@ public class PermanentlyRefuse extends HttpServlet {
         Set<Proposal> proposals =validator.getAssignedProposals();
         Proposal proposal = null;
         for(Proposal p : proposals) {
-            if(proposal.getId() == p.getId())
+            if(id == p.getId())
                 proposal = p;
         }
         if(proposal == null)
