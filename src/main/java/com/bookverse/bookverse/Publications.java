@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import proposalManager.Proposal;
+import storageSubSystem.AuthorDAO;
 import storageSubSystem.ProposalDAO;
 import userManager.Author;
 import userManager.User;
@@ -15,6 +17,7 @@ import userManager.User;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Set;
 
 @WebServlet(name = "Pubblications", value = "/Publications")
 public class Publications extends HttpServlet {
@@ -52,8 +55,14 @@ public class Publications extends HttpServlet {
 
 
         //Retrieve proposals where author that make request is a collaborator
+        AuthorDAO authorDao = new AuthorDAO(ds);
+
         try {
-            author.setCollaboratedTo(proposalDAO.findByCoAuthor(author.getId()));
+            Set<Proposal> proposals = proposalDAO.findByCoAuthor(author.getId());
+            for(Proposal proposal : proposals) {
+                proposal.setCollaborators(authorDao.findCoAuthorsForProposal(proposal));
+                proposal.setProposedBy(authorDao.findMainAuthorForProposal(proposal));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to retrieve the proposals associated with this coAuthor");

@@ -87,6 +87,8 @@ public class Proposal {
         this.proposedBy = proposedBy;
     }
 
+    public void setCollaborators(Set<Author> collaborators) {this.collaborators = collaborators;}
+
     public Set<Author> getCollaborators() {
         return collaborators;
     }

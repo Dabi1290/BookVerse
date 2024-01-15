@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
+import proposalManager.Proposal;
 import userManager.Author;
 import userManager.Validator;
 
