@@ -19,10 +19,11 @@
             Publications
         </div>
     </a>
+    <a href="<%=request.getContextPath()%>/Publications">
         <div class="page-name">
             My jobs
         </div>
-
+    </a>
 </div>
 </body>
 </html>

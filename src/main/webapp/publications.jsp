@@ -13,10 +13,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Publications</title>
+    <link rel="stylesheet" href="assets/css/proposal.css">
 </head>
 <body>
-
+<%@include file="templates/navbarLogged.jsp" %>
+<%@include file="templates/underNavbarAuthor.jsp" %>
 <%
     String p;
 
@@ -26,16 +28,62 @@
     Set<Proposal> proposalWhereIsMainAuthor =  author.getProposed();
 
     for(Proposal proposal : proposalWhereIsMainAuthor) {
-        p = "id: " + proposal.getId() + " status: " + proposal.getStatus();
+        Version lv= proposal.lastVersion();
 %>
-<p><%= p%></p>
-<%
-    for(Version version : proposal.getVersions()) {
-%>
-<p><%=version.getDate()%></p>
-<%
-    }
-%>
+<div class="proposals">
+<div class="proposal-author">
+    <div class="title-status">
+        <p><%=lv.getTitle() %></p>
+        <div class="status"><span class="dot"></span><p class="<%=proposal.getStatus()%>"><%=proposal.getStatus()%></p></div>
+    </div>
+    <div class="genre-authors">
+        <div class="raggruppa">
+            <p>Genres</p>
+        <div class="proposal-genres">
+            <%
+                for(String g:lv.getGenres()){
+            %>
+            <p><%=g%></p>
+            <%
+                }%>
+        </div>
+        </div>
+        <div class="raggruppa">
+            <p>Authors</p>
+        <div class="proposal-authors">
+            <%
+                //for(Author a:proposal.getCollaborators()){
+            %>
+            <p>pippo</p>
+            <%
+                //}%>
+        </div>
+        </div>
+    </div>
+    <div class="proposal-buttons">
+        <%
+            String stato= proposal.getStatus();
+            if(!stato.equals("PermanentlyRefused")){
+                if(stato.equals("Approved")){
+                    %>
+        <div>Pay now</div>
+        <%
+                }
+                if(stato.equals("Pending")||stato.equals("Refuse")){
+                %>
+        <div class="orange-button">History</div>
+        <%
+                    if(stato.equals("Pending")){
+                    %>
+        <div class="orange-button">Try now</div>
+        <%
+                    }
+                }
+            }
+        %>
+    </div>
+</div>
+
 <%
     }
 
@@ -54,6 +102,6 @@
 <%
     }
 %>
-
+</div>
 </body>
 </html>
