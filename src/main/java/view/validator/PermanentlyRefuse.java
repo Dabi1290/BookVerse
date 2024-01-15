@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Set;
 
 import com.bookverse.bookverse.sessionConstants.SessionCostants;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import proposalManager.Proposal;
@@ -18,17 +19,19 @@ import javax.sql.DataSource;
 @WebServlet(name = "PermanentlyRefuseServlet", value = "/PermanentlyRefuseServlet")
 public class PermanentlyRefuse extends HttpServlet {
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected static String PROPOSALID_PAR = "proposalId";
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         doPost(request, response);
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response){
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 
-        //suppongo che davide mi passerà l'id, dato che il tasto di rifiuto permanente è uno per ogni proposta...
+        String id_ = request.getParameter(PROPOSALID_PAR);
+        if(id_ == null || id_.isEmpty())
+            throw new ServletException("proposal id is not valid");
 
-        int id = 0;
-
-        id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(id_);
 
         /*
         //carico la proposta con quell'ID
@@ -49,31 +52,33 @@ public class PermanentlyRefuse extends HttpServlet {
         //Retrieve User from the Session
         User user = (User)request.getSession().getAttribute(SessionCostants.USER);
         Validator validator = user.getRoleValidator();
+        //Retrieve User from the Session
 
 
-        //Retrieve proposal from the cache
+
+        //Retrieve proposal from the session
         Set<Proposal> proposals =validator.getAssignedProposals();
         Proposal proposal = null;
         for(Proposal p : proposals) {
             if(proposal.getId() == p.getId())
                 proposal = p;
         }
+        if(proposal == null)
+            throw new ServletException("Failed to retrieve proposal from the session");
+        //Retrieve proposal from the session
 
-        //rifiuto permanentemente la proposta (se l'ho recuperata)
-        if(proposal != null)
-            proposal.permanentlyRefuse();
 
-        //aggiorno lo stato sul DB
+
+        //Update state of proposal on database
+        proposal.permanentlyRefuse();
         DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
         ProposalDAO proposalDao = new ProposalDAO(ds);
         try {
-            if(proposal != null)
-                proposalDao.updateProposalState(proposal);
+            proposalDao.updateProposalState(proposal);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new ServletException("Failed to update state of proposal on database");
         }
-
-
+        //Update state of proposal on database
     }
 
 }
