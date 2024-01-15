@@ -15,9 +15,9 @@
 <%@include file="templates/navbarLogged.jsp" %>
 <%@include file="templates/underNavbarAuthor.jsp" %>
 <div class="confirm-body">
-    <img src="<%= request.getContextPath()%>/assets/images/<%=request.getSession().getAttribute("imagePath")%>">
-    <div class="confirm-msg"><%=request.getSession().getAttribute("msg")%></div>
-    <div class="confirm-button">Torna alla Home</div>
+    <img src="<%= request.getContextPath()%>/assets/images/<%=request.getParameter("imagePath")%>">
+    <div class="confirm-msg"><%=request.getParameter("msg")%></div>
+    <a href="/home"><div class="confirm-button">Torna alla Home</div></a>
 </div>
 </body>
 </html>

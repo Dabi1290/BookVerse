@@ -143,5 +143,7 @@ public class ProposalCreation extends HttpServlet {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+
+        response.sendRedirect("/confirmationPage.jsp?imagePath=bigCheck.png&msg=Your%20publication%20proposal%20has%20been%20successfully%20submitted%2C%20you%20will%20receive%20acknowledgement%20within%2010%20business%20days");
     }
 }

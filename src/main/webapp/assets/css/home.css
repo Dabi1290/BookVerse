@@ -141,6 +141,8 @@ body{
 .confirm-msg{
     color: #ee712b;
     font: 400 24px Comfortaa, sans-serif;
+    max-width: 700px;
+    text-align: center;
 }
 .confirm-button{
     color: #fff;
