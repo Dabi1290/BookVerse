@@ -8,8 +8,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class Author {
-
     private int id;
+    private User user;
+    private boolean alreadyLoadedUser;
     private Set<Proposal> collaboratedTo;
     private Set<Proposal> proposed;
     private Set<EBook> written;
@@ -95,4 +96,19 @@ public class Author {
         this.coWritten = coWritten;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public boolean isAlreadyLoadedUser() {
+        return alreadyLoadedUser;
+    }
+
+    public void setAlreadyLoadedUser(boolean alreadyLoadedUser) {
+        this.alreadyLoadedUser = alreadyLoadedUser;
+    }
 }
