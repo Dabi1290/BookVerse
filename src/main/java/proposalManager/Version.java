@@ -9,7 +9,7 @@ import java.util.Set;
 public class Version {
 
     private int id;
-    private LocalDate date;
+    public LocalDate date;
     private String title;
     private File coverImage;
     private String description;

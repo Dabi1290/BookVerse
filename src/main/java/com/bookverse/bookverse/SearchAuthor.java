@@ -1,5 +1,5 @@
 package com.bookverse.bookverse;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.List;
@@ -26,16 +26,15 @@ public class SearchAuthor extends HttpServlet {
 
         try {
             Set<User> authors = dao.findAuthorsByEmail(query);
-
-            Gson gson = new Gson();
-            String json = gson.toJson(authors);
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(authors);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             PrintWriter out = response.getWriter();
             out.print(json);
             out.flush();
         } catch (SQLException var9) {
-            response.setStatus(500);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
     }

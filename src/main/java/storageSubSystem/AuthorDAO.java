@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -37,8 +38,8 @@ public class AuthorDAO {
     }
 
     public Set<User> findAuthorsByEmail(String email) throws SQLException {
-
-        String query = "SELECT * FROM Author, User WHERE userId_fk=User.id AND email LIKE ?";
+        email=email+"%";
+        String query = "SELECT * FROM Author, User WHERE Author.id=User.id AND User.email LIKE ?";
 
         Connection c = ds.getConnection();
 
@@ -46,15 +47,14 @@ public class AuthorDAO {
         ps.setString(1, email);
         ResultSet rs = ps.executeQuery();
 
-        Set<User> authors = new TreeSet<>();
+        Set<User> authors = new HashSet<>();
 
         while(rs.next()) {
             String name = rs.getString("name");
             String surname = rs.getString("surname");
             String email_ = rs.getString("email");
             String password = rs.getString("password");
-            int id = rs.getInt("User.id");
-
+            int id = rs.getInt("id");
             User user = new User();
             user.setId(id);
             user.setName(name);
@@ -64,7 +64,6 @@ public class AuthorDAO {
 
             authors.add(user);
         }
-
         return authors;
     }
 }

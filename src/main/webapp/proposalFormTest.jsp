@@ -11,7 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-<form action="/BookVerse_war_exploded/ProposalCreation" method="post" enctype="multipart/form-data">
+<form action="/ProposalCreation" method="post" enctype="multipart/form-data">
     <input type="text" name="title">
     <br>
     <input type="number" name="price">

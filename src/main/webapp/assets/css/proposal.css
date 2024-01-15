@@ -106,3 +106,27 @@ body{
     border-radius: 25px;
     border:none;
 }
+#suggestions{
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+
+    max-height: 100px;
+    overflow: scroll;
+
+    padding: 0;
+    align-items: center;
+    list-style-type: none;
+
+}
+.riga-tabella{
+    border-bottom: solid;
+    width: 100%;
+    padding: 5px 10px;
+}
+.riga-tabella:hover{
+    cursor: pointer;
+}
+#authors{
+    visibility: hidden;
+}
