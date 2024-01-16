@@ -136,6 +136,7 @@ body{
     flex-direction: column;
     background-color: #fff;
     padding: 30px;
+    width: 500px;
 }
 
 .title-status{

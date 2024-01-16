@@ -13,9 +13,9 @@ public class ServletUtils {
                 sb.append("<div class=\"green-button\">Pay now</div>");
             }
             if(stato.equals("Pending")||stato.equals("Refused")){
-                sb.append("<div class=\"orange-button\" id=\"history\"><input type=\"hidden\" value=\""+idProp+"\" name=\"id\">History</div>");
+                sb.append("<a href=\"/history.jsp?idProp="+idProp+"\" ><div class=\"orange-button\">History</div></a>");
                 if(stato.equals("Refused")){
-                    sb.append("<div class=\"orange-button\">Try now</div>");
+                    sb.append("<a href=\"/correctProposalForm.jsp?idProp="+idProp+"\"><div class=\"orange-button\">Try now</div></a>");
                 }
             }
         }
@@ -25,7 +25,7 @@ public class ServletUtils {
         StringBuilder sb = new StringBuilder();
 
             if(stato.equals("Pending")||stato.equals("Refused")){
-                sb.append("<div class=\"orange-button\" id=\"history\"><input type=\"hidden\" value=\""+idProp+"\"  name=\"id\">History</div>");
+                sb.append("<a href=\"/history.jsp?idProp="+idProp+"\" ><div class=\"orange-button\">History</div></a>");
             }
 
         return sb.toString();

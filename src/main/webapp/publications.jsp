@@ -16,7 +16,7 @@
 <head>
     <title>Publications</title>
     <link rel="stylesheet" href="assets/css/proposal.css">
-    <script src="assets/js/publications.js"></script>
+
 </head>
 <body>
 <%@include file="templates/navbarLogged.jsp" %>

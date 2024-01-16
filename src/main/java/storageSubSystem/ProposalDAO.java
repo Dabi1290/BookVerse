@@ -134,7 +134,7 @@ public class ProposalDAO {
 
 
 
-            String queryForGenres = "SELECT genreId_fk FROM Version as V, VersionGenre as VG WHERE V.id=?";
+            String queryForGenres = "SELECT genreId_fk FROM Version as V, VersionGenre as VG WHERE V.id=? AND V.id = VG.versionId_fk";
             PreparedStatement psForGenres = c.prepareStatement(queryForGenres);
             psForGenres.setInt(1, versionId);
             ResultSet resultSetGenres = psForGenres.executeQuery();
