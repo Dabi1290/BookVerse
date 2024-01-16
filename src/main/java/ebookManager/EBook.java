@@ -29,7 +29,7 @@ public class EBook {
         this.mainAuthorAlreadyLoaded = false;
     }
 
-    public EBook makeEbook(Proposal proposal) {
+    public static EBook makeEbook(Proposal proposal) {
         EBook book = new EBook();
 
         book.mainAuthorAlreadyLoaded = true;
@@ -41,7 +41,6 @@ public class EBook {
 
         //Retrieve last version info and add to ebook
         Version lastVersion = proposal.lastVersion();
-        book.id = id;
         book.description = lastVersion.getDescription();
         book.genres = lastVersion.getGenres();
         book.ebookFile = lastVersion.getEbookFile();
