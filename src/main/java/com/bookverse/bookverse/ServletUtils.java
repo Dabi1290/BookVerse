@@ -11,7 +11,7 @@ public class ServletUtils {
         StringBuilder sb = new StringBuilder();
         if(!stato.equals("PermanentlyRefused")){
             if(stato.equals("Approved")){
-                sb.append("<div class=\"green-button\">Pay now</div>");
+                sb.append("<a href=\"/payment.jsp?proposalId="+idProp+"\"><div class=\"green-button\">Pay now</div></a>");
             }
             if(stato.equals("Pending")||stato.equals("Refused")){
                 sb.append("<a href=\"/history.jsp?idProp="+idProp+"\" ><div class=\"orange-button\">History</div></a>");
@@ -53,4 +53,13 @@ public class ServletUtils {
         if(v.getReport()!=null) sb.append("<a href=\"/FileDownload?fileName="+idProp+"/reportFile_"+v.getId()+".pdf\"><div class=\"orange-button\">Report</div></a>");
         return sb.toString();
     }
+    public static String validatorButton(String stato, int idProp, Version v) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<a href=\"/ApproveProposal?proposalId="+idProp+"\"><div class=\"green-button\">Approve</div></a>");
+        sb.append("<div class=\"orange-button\" onclick=\"showReport("+idProp+")\">Refuse</div>");
+        sb.append("<a href=\"/PermanentlyRefuse?proposalId="+idProp+"\"><div class=\"red-button\">PermanentlyRefuse</div></a>");
+        return sb.toString();
+    }
+
+
 }

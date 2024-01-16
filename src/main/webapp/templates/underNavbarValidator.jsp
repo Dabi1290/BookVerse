@@ -13,10 +13,12 @@
 </head>
 <body>
 <div class="red-line">
+
+    <a href="/Proposals">
     <div class="page-name">
         Proposals
     </div>
-
+    </a>
 </div>
 </body>
 </html>

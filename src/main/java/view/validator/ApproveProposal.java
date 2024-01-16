@@ -23,6 +23,9 @@ public class ApproveProposal extends HttpServlet {
 
     protected static String PROPOSALID_PAR = "proposalId";
     protected static String NEXT_PAGE = "/proposals.jsp";
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request,response);
+    }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

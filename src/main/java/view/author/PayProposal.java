@@ -66,7 +66,7 @@ public class PayProposal extends HttpServlet {
         if(intestatario == null || intestatario.equals(""))
             throw new ServletException("intestatario is not valid");
 
-        String price_ = request.getParameter(PRICE);
+        String price_ = "50";//request.getParameter(PRICE);
         if(price_ == null || price_.isEmpty())
             throw new ServletException("price is not valid");
         int price = Integer.parseInt(price_);

@@ -29,6 +29,7 @@ public class RefuseProposal extends HttpServlet {
     //Request parameters
     protected static String REPORT_PAR = "report";
     protected static String PROPOSALID_PAR = "proposalId";
+    protected static String NEXT_PAGE = "/proposals.jsp";
     //Request parameters
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -111,5 +112,6 @@ public class RefuseProposal extends HttpServlet {
             throw new RuntimeException(e);
         }
         //Save file of report
+        response.sendRedirect(NEXT_PAGE);
     }
 }

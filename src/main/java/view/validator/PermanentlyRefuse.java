@@ -20,12 +20,13 @@ import javax.sql.DataSource;
 public class PermanentlyRefuse extends HttpServlet {
 
     protected static String PROPOSALID_PAR = "proposalId";
+    protected static String NEXT_PAGE = "/proposals.jsp";
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         doPost(request, response);
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String id_ = request.getParameter(PROPOSALID_PAR);
         if(id_ == null || id_.isEmpty())
@@ -63,6 +64,9 @@ public class PermanentlyRefuse extends HttpServlet {
             throw new ServletException("Failed to update state of proposal on database");
         }
         //Update state of proposal on database
+
+        response.sendRedirect(NEXT_PAGE);
+
     }
 
 }

@@ -17,4 +17,9 @@ a.addEventListener("click", function() {
         role.value="Author";
         form.submit();
     });
+v.addEventListener("click", function() {
+        role.value="Validator";
+        form.submit();
+    });
 }
+

@@ -13,7 +13,7 @@
 </head>
 <body>
 <%@include file="templates/navbarLogged.jsp" %>
-<%@include file="templates/underNavbarAuthor.jsp" %>
+<%@include file="templates/underNavbarValidator.jsp" %>
 
 <div class="publish-preview">
     <img
