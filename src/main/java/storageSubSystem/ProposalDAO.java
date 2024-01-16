@@ -122,15 +122,16 @@ public class ProposalDAO {
             int versionId = rs.getInt("V.id");
 
 
+            
             File ebookFile = null;
             if(ebookFilePath != null)
-                ebookFile = new File(ebookFilePath);
+                ebookFile = new File(BaseFileDAO.getFilesDirectory() + "/" + Integer.toString(proposalId) + "/" + ebookFilePath);
             File coverImage = null;
             if(coverImagePath != null)
-                coverImage = new File(coverImagePath);
+                coverImage = new File(BaseFileDAO.getFilesDirectory() + "/" + Integer.toString(proposalId) + "/" + coverImagePath);
             File reportFile = null;
             if(reportPath != null)
-                reportFile = new File(reportPath);
+                reportFile = new File(BaseFileDAO.getFilesDirectory() + "/" + Integer.toString(proposalId) + "/" +reportPath);
 
 
 

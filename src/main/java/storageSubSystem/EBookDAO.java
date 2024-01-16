@@ -40,21 +40,22 @@ public class EBookDAO {
         ps.setInt(6, p_id_fk);
         ps.setInt(7, mA_id);
 
+        //CHECK attention, i rember that this give errors where there isn't
         boolean result = ps.execute();
 
         if(!result)
             throw new SQLException("Ebook non salvato correttamente!");
 
-        Set<String> generi= ebook.getGenres();
-        if(generi != null)
-            for(String s : generi) {
+        Set<String> genres= ebook.getGenres();
+        if(genres != null)
+            for(String s : genres) {
                 query = "INSERT INTO EBookGenre (ebookId_fk, genreId_fk) VALUES(?, ?)";
                 ps = c.prepareStatement(query);
                 ps.setInt(1, ebook.getId());
                 ps.setString(2, s);
                 result = ps.execute();
-                if(!result)
-                    throw new SQLException("genere non salvato correttamente!");
+                if(!result) //CHECK quello di sopra
+                    throw new SQLException("");
             }
 
         Set<Author> coAuthors = ebook.getCoAuthors();
@@ -65,11 +66,10 @@ public class EBookDAO {
                 ps = c.prepareStatement(query);
                 ps.setInt(a.getId(), ebook.getId());
                 result = ps.execute();
-                if(!result)
+                if(!result) //CHECK quello di sopra
                     throw new SQLException("coAutore non salvato correttamente!");
             }
 
         c.close();
     }
-
 }

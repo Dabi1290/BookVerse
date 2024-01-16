@@ -4,6 +4,7 @@ import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebListener;
+import storageSubSystem.BaseFileDAO;
 import storageSubSystem.GenreDAO;
 
 import javax.naming.Context;
@@ -24,13 +25,19 @@ public class ContextInitializer implements ServletContextListener {
         ServletContext sc = sce.getServletContext();
 
 
-
-
-
-
-
         String tomcatRootDirectory = sce.getServletContext().getRealPath("/");
-        File file = new File(tomcatRootDirectory + "/../Files/");
+
+
+        try {
+            BaseFileDAO.setFilesDirectory(tomcatRootDirectory + "/../Files/");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+
+        File file = new File(BaseFileDAO.getFilesDirectory());
+        System.out.println(BaseFileDAO.getFilesDirectory());
         if(!file.exists() || !file.isDirectory()) {
             boolean r = file.mkdir();
             if(! r)
