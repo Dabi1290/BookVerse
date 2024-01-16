@@ -166,7 +166,7 @@ public class ProposalDAO {
         Connection c = ds.getConnection();
 
         PreparedStatement ps = c.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-        ps.setString(1, "pending");
+        ps.setString(1, "Pending");
         ps.setInt(2, mainAuthorId);
         ps.execute();
 
@@ -190,7 +190,7 @@ public class ProposalDAO {
 
             PreparedStatement psForCoAuthors = c.prepareStatement(insertCoAuthors);
             psForCoAuthors.setInt(1, authorId);
-            psForCoAuthors.setInt(2, proposal.getId());
+            psForCoAuthors.setInt(2, generatedId);
             psForCoAuthors.execute();
         }
 

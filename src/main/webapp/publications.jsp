@@ -3,7 +3,8 @@
 <%@ page import="userManager.Author" %>
 <%@ page import="proposalManager.Proposal" %>
 <%@ page import="java.util.Set" %>
-<%@ page import="proposalManager.Version" %><%--
+<%@ page import="proposalManager.Version" %>
+<%@ page import="com.bookverse.bookverse.ServletUtils" %><%--
   Created by IntelliJ IDEA.
   User: Tonaion
   Date: 15/01/2024
@@ -15,10 +16,12 @@
 <head>
     <title>Publications</title>
     <link rel="stylesheet" href="assets/css/proposal.css">
+    <script src="assets/js/publications.js"></script>
 </head>
 <body>
 <%@include file="templates/navbarLogged.jsp" %>
 <%@include file="templates/underNavbarAuthor.jsp" %>
+<div class="proposals">
 <%
     String p;
 
@@ -30,75 +33,61 @@
     for(Proposal proposal : proposalWhereIsMainAuthor) {
         Version lv= proposal.lastVersion();
 %>
-<div class="proposals">
+
 <div class="proposal-author">
     <div class="title-status">
         <p><%=lv.getTitle() %></p>
-        <div class="status"><span class="dot"></span><p class="<%=proposal.getStatus()%>"><%=proposal.getStatus()%></p></div>
+        <div class="status"><span class="<%=proposal.getStatus()%>dot"></span><p class="<%=proposal.getStatus()%>"><%=proposal.getStatus()%></p></div>
     </div>
     <div class="genre-authors">
         <div class="raggruppa">
             <p>Genres</p>
         <div class="proposal-genres">
-            <%
-                for(String g:lv.getGenres()){
-            %>
-            <p><%=g%></p>
-            <%
-                }%>
+            <%=ServletUtils.generateGeneri(lv.getGenres())%>
         </div>
         </div>
         <div class="raggruppa">
             <p>Authors</p>
         <div class="proposal-authors">
-            <%
-                //for(Author a:proposal.getCollaborators()){
-            %>
-            <p>pippo</p>
-            <%
-               // }%>
+            <%=ServletUtils.generateAuthorNames(proposal.getCollaborators())%>
         </div>
         </div>
     </div>
     <div class="proposal-buttons">
-        <%
-            String stato= proposal.getStatus();
-            if(!stato.equals("PermanentlyRefused")){
-                if(stato.equals("Approved")){
-                    %>
-        <div>Pay now</div>
-        <%
-                }
-                if(stato.equals("Pending")||stato.equals("Refuse")){
-                %>
-        <div class="orange-button">History</div>
-        <%
-                    if(stato.equals("Pending")){
-                    %>
-        <div class="orange-button">Try now</div>
-        <%
-                    }
-                }
-            }
-        %>
+        <%=ServletUtils.generateButton(proposal.getStatus(),proposal.getId())%>
     </div>
 </div>
 
 <%
-    }
+    } // fine mainAuthor
 
     Set<Proposal> proposalWhereIsCoAuthor = author.getCollaboratedTo();
     for(Proposal proposal : proposalWhereIsCoAuthor) {
-        p = "id: " + proposal.getId() + " status: " + proposal.getStatus();
+        Version lv= proposal.lastVersion();
 %>
-<p><%= p%> </p>
-<%
-    for(Version version : proposal.getVersions()) {
-%>
-<p><%=version.getDate()%></p>
-<%
-    }
-%>
+    <div class="proposal-author">
+        <div class="title-status">
+            <p><%=lv.getTitle() %></p>
+            <div class="status"><span class="<%=proposal.getStatus()%>dot"></span><p class="<%=proposal.getStatus()%>"><%=proposal.getStatus()%></p></div>
+        </div>
+        <div class="genre-authors">
+            <div class="raggruppa">
+                <p>Genres</p>
+                <div class="proposal-genres">
+                    <%=ServletUtils.generateGeneri(lv.getGenres())%>
+                </div>
+            </div>
+            <div class="raggruppa">
+                <p>Authors</p>
+                <div class="proposal-authors">
+                    <%=ServletUtils.generateAuthorNames(proposal.getCollaborators())%>
+                </div>
+            </div>
+        </div>
+        <div class="proposal-buttons">
+            <%=ServletUtils.generateCoAuthorsButton(proposal.getStatus(),proposal.getId())%>
+        </div>
+    </div>
 <%
     }
 %>

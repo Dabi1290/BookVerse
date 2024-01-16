@@ -108,7 +108,7 @@ public class AuthorDAO {
         Connection c = ds.getConnection();
 
         PreparedStatement ps = c.prepareStatement(query);
-
+        ps.setInt(1,proposal.getId());
         ResultSet rs = ps.executeQuery();
 
         Author author = null;
