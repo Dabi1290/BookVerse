@@ -46,4 +46,19 @@ public class BaseFileDAO {
 
         Files.copy(content, Path.of(filePath));
     }
+
+    private static String filesDirectory;
+    private static boolean alreadySetted = false;
+
+    public static void setFilesDirectory(String rootDirectory) throws Exception {
+        if(alreadySetted == true)
+            throw new Exception("Root directory of tomcat already setted");
+
+        alreadySetted = true;
+        filesDirectory = rootDirectory;
+    }
+
+    public static String getFilesDirectory() {
+        return filesDirectory;
+    }
 }

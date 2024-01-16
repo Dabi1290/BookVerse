@@ -122,19 +122,20 @@ public class ProposalDAO {
             int versionId = rs.getInt("V.id");
 
 
+            
             File ebookFile = null;
             if(ebookFilePath != null)
-                ebookFile = new File(ebookFilePath);
+                ebookFile = new File(BaseFileDAO.getFilesDirectory() + "/" + Integer.toString(proposalId) + "/" + ebookFilePath);
             File coverImage = null;
             if(coverImagePath != null)
-                coverImage = new File(coverImagePath);
+                coverImage = new File(BaseFileDAO.getFilesDirectory() + "/" + Integer.toString(proposalId) + "/" + coverImagePath);
             File reportFile = null;
             if(reportPath != null)
-                reportFile = new File(reportPath);
+                reportFile = new File(BaseFileDAO.getFilesDirectory() + "/" + Integer.toString(proposalId) + "/" +reportPath);
 
 
 
-            String queryForGenres = "SELECT genreId_fk FROM Version as V, VersionGenre as VG WHERE V.id=?";
+            String queryForGenres = "SELECT genreId_fk FROM Version as V, VersionGenre as VG WHERE V.id=? AND V.id = VG.versionId_fk";
             PreparedStatement psForGenres = c.prepareStatement(queryForGenres);
             psForGenres.setInt(1, versionId);
             ResultSet resultSetGenres = psForGenres.executeQuery();
