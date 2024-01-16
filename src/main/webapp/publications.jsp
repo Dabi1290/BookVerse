@@ -32,6 +32,7 @@
 
     for(Proposal proposal : proposalWhereIsMainAuthor) {
         Version lv= proposal.lastVersion();
+        if(proposal.getStatus().equals("Pending") || proposal.getStatus().equals("Refused") || proposal.getStatus().equals("PermanentlyRefused") || proposal.getStatus().equals("Approved")){
 %>
 
 <div class="proposal-author">
@@ -59,10 +60,11 @@
 </div>
 
 <%
-    } // fine mainAuthor
+    }} // fine mainAuthor
 
     Set<Proposal> proposalWhereIsCoAuthor = author.getCollaboratedTo();
     for(Proposal proposal : proposalWhereIsCoAuthor) {
+        if(proposal.getStatus().equals("Pending") || proposal.getStatus().equals("Refused") || proposal.getStatus().equals("PermanentlyRefused") || proposal.getStatus().equals("Approved")){
         Version lv= proposal.lastVersion();
 %>
     <div class="proposal-author">
@@ -89,7 +91,8 @@
         </div>
     </div>
 <%
-    }
+    }}
+
 %>
 </div>
 </body>

@@ -1,11 +1,13 @@
 package storageSubSystem;
 
 import ebookManager.EBook;
+import proposalManager.Proposal;
 import userManager.Author;
 
 import javax.sql.DataSource;
 import java.io.File;
 import java.sql.*;
+import java.util.HashSet;
 import java.util.Set;
 
 public class EBookDAO {
@@ -77,4 +79,59 @@ public class EBookDAO {
 
         return ebookId;
     }
+    public Set<EBook> findByCoWritten(int authorId) throws SQLException {
+
+        String query = "SELECT * FROM EBook JOIN EBookAuthor as p ON ebookId_fk=id WHERE p.authorId_fk=?";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, authorId);
+
+        ResultSet rs = ps.executeQuery();
+        Set<EBook> s = new HashSet<>();
+        while(rs.next()) {
+            EBook p = new EBook();
+
+            p.setId(rs.getInt("id"));
+            p.setTitle(rs.getString("title"));
+            p.setDescription(rs.getString("description"));
+            p.setInCatalog(rs.getBoolean("inCatalog"));
+
+            s.add(p);
+        }
+
+        c.close();
+
+        return s;
+    }
+
+    public Set<EBook> findByMainWritten(int mainAuthorId) throws SQLException {
+
+        String query = "SELECT * FROM EBook WHERE mainAuthorId_fk=?";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, mainAuthorId);
+        ResultSet rs = ps.executeQuery();
+
+        Set<EBook> proposals = new HashSet<>();
+
+        while(rs.next()) {
+            EBook p = new EBook();
+
+            p.setId(rs.getInt("id"));
+            p.setTitle(rs.getString("title"));
+            p.setDescription(rs.getString("description"));
+            p.setInCatalog(rs.getBoolean("inCatalog"));
+
+            proposals.add(p);
+        }
+
+        c.close();
+
+        return proposals;
+    }
+
 }

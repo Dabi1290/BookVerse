@@ -61,7 +61,7 @@ CREATE TABLE Version (
 );
 
 CREATE TABLE EBook (
-	id int NOT NULL,
+	id int NOT NULL auto_increment,
     title varchar(30) NOT NULL,
     price int NOT NULL,
     description text NOT NULL,

@@ -206,6 +206,13 @@ body{
     border-radius: 50%;
     display: inline-block;
 }
+.Completeddot {
+    height: 20px;
+    width: 20px;
+    background-color: #287FE6;
+    border-radius: 50%;
+    display: inline-block;
+}
 
 .PermanentlyRefuseddot {
     height: 20px;
@@ -257,6 +264,9 @@ body{
 
 .Refused{
     color: #EF732F;
+}
+.Completed{
+    color: #287FE6;
 }
 
 .Refuseddot {

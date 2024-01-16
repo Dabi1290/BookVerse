@@ -19,7 +19,7 @@
             Publications
         </div>
     </a>
-    <a href="<%=request.getContextPath()%>/pippo.jsp">
+    <a href="<%=request.getContextPath()%>/MyJobs">
         <div class="page-name">
             My jobs
         </div>

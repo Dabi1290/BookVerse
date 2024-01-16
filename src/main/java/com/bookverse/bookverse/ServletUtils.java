@@ -61,5 +61,11 @@ public class ServletUtils {
         return sb.toString();
     }
 
+    public static String ebookButton(String stato,int idProp) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<a href=\"/pippo.jsp?proposalId="+idProp+"\"><div class=\"orange-button\">Proposal</div></a>");
+        return sb.toString();
+    }
+
 
 }
