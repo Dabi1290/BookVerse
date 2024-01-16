@@ -55,9 +55,9 @@ public class EBookDAO {
                 ps = c.prepareStatement(query);
                 ps.setInt(1, ebookId);
                 ps.setString(2, s);
-                ps.execute();
-//                if(!result) //CHECK quello di sopra
-//                    throw new SQLException("");
+                int result = ps.executeUpdate();
+                if(result == 0) //CHECK quello di sopra
+                    throw new SQLException("Genere ebook non settato");
             }
 
         Set<Author> coAuthors = ebook.getCoAuthors();
@@ -66,10 +66,11 @@ public class EBookDAO {
             for(Author a : coAuthors) {
                 query = "INSERT INTO EBookAuthor (authorId_fk, ebookId_fk) VALUES(?, ?)";
                 ps = c.prepareStatement(query);
-                ps.setInt(a.getId(), ebookId);
-                ps.execute();
-//                if(!result) //CHECK quello di sopra
-//                    throw new SQLException("coAutore non salvato correttamente!");
+                ps.setInt(1, a.getId());
+                ps.setInt(2, ebookId);
+                int result = ps.executeUpdate();
+                if(result == 0) //CHECK quello di sopra
+                    throw new SQLException("coAutore non salvato correttamente!");
             }
 
         c.close();
