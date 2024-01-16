@@ -63,7 +63,7 @@
             </div>
         </div>
         <div class="proposal-buttons">
-            <%=ServletUtils.versionButton(proposal.getStatus(),proposal.getId())%>
+            <%=ServletUtils.versionButton(proposal.getStatus(),proposal.getId(),v)%>
         </div>
     </div>
 

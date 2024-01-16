@@ -1,6 +1,7 @@
 package com.bookverse.bookverse;
 
 
+import proposalManager.Version;
 import userManager.Author;
 
 import java.util.Set;
@@ -46,10 +47,10 @@ public class ServletUtils {
         return sb.toString();
     }
 
-    public static String versionButton(String stato,int idProp) {
+    public static String versionButton(String stato, int idProp, Version v) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<div class=\"orange-button\">Ebook</div>");
-        sb.append("<div class=\"orange-button\">Report</div>");
+        sb.append("<a href=\"/FileDownload?fileName="+idProp+"/ebookFile_"+v.getId()+".pdf\"><div class=\"orange-button\">Ebook</div></a>");
+        if(v.getReport()!=null) sb.append("<a href=\"/FileDownload?fileName="+idProp+"/reportFile_"+v.getId()+".pdf\"><div class=\"orange-button\">Report</div></a>");
         return sb.toString();
     }
 }

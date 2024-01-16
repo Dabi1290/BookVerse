@@ -12,7 +12,7 @@ import java.io.*;
 @WebServlet(name = "FileDownload", value = "/FileDownload")
 public class FileDownload extends HttpServlet {
 
-    protected static String FILENAME_PAR = "fileName"; //intended like proposalId/version.getEbookFile()
+    protected static String FILENAME_PAR = "fileName"; //intended like  <p.id>/ebookfile_<v.id>
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
