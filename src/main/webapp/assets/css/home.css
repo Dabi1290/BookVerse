@@ -122,6 +122,11 @@ body{
     margin: 66px 0 60px;
     padding: 33px 60px;
     font: 400 35px Comfortaa, sans-serif;
+
+}
+.publish-button a {
+    text-decoration: none;
+    color: #fff;
 }
 .div-14 {
     position: relative;

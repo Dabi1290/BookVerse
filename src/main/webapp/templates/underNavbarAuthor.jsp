@@ -14,12 +14,12 @@
 </head>
 <body>
 <div class="red-line">
-    <a href="<%=request.getContextPath()%>/proposalForm.jsp">
+    <a href="<%=request.getContextPath()%>/Publications">
         <div class="page-name">
             Publications
         </div>
     </a>
-    <a href="<%=request.getContextPath()%>/Publications">
+    <a href="<%=request.getContextPath()%>/pippo.jsp">
         <div class="page-name">
             My jobs
         </div>

@@ -42,7 +42,7 @@
       of the way, from writing to publishing.
     </span>
     </div>
-    <div class="publish-button">Start Publishing</div>
+    <div class="publish-button"><a href="proposalForm.jsp">Start Publishing</a></div>
 </div>
 </body>
 </html>
