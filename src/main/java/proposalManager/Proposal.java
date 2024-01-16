@@ -60,7 +60,7 @@ public class Proposal {
     }
 
     public void addVersion(Version version){
-        versions.add(version);
+        versions.add(0, version);
     }
 
     public int getId() {
@@ -94,7 +94,7 @@ public class Proposal {
     }
 
     public Version lastVersion() {
-        return this.versions.get(versions.size() - 1);
+        return versions.get(0);
     }
 
     public void setVersions(List<Version> versions) { this.versions = versions; }

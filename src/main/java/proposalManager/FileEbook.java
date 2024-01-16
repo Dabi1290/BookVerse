@@ -8,6 +8,10 @@ public class FileEbook {
     }
 
     public static boolean checkExtension(File fileEbook){
-        return true;
+
+        if(fileEbook.getAbsolutePath().endsWith(".pdf"))
+            return true;
+        else
+            return false;
     }
 }

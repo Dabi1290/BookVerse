@@ -7,6 +7,10 @@ public class Report {
     }
 
     public static boolean checkReport(File fileReport){
-        return true;
+
+        if(fileReport.getAbsolutePath().endsWith(".pdf"))
+            return true;
+        else
+            return false;
     }
 }

@@ -103,7 +103,7 @@ public class ProposalDAO {
     public List<Version> findProposalVersions(int proposalId) throws SQLException {
         List<Version> versions = new ArrayList<>();
 
-        String query = "SELECT V.id, title, description, price, coverImage, report, ebookFile, data FROM Proposal as P, Version as V WHERE P.id=V.proposalId_fk AND P.id=? ORDER BY data ASC";
+        String query = "SELECT V.id, title, description, price, coverImage, report, ebookFile, data FROM Proposal as P, Version as V WHERE P.id=V.proposalId_fk AND P.id=? ORDER BY data DESC";
 
         Connection c = ds.getConnection();
 
@@ -122,7 +122,7 @@ public class ProposalDAO {
             int versionId = rs.getInt("V.id");
 
 
-            
+
             File ebookFile = null;
             if(ebookFilePath != null)
                 ebookFile = new File(BaseFileDAO.getFilesDirectory() + "/" + Integer.toString(proposalId) + "/" + ebookFilePath);

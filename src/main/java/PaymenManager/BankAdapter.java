@@ -6,8 +6,8 @@ public class BankAdapter implements PaymentService{
 
     private final Bank bank;
 
-    public BankAdapter(Bank bank){
-        this.bank = bank;
+    public BankAdapter() {
+        this.bank = new Bank();
     }
 
     @Override
