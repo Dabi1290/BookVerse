@@ -19,6 +19,7 @@
 <body>
 <%@include file="templates/navbarLogged.jsp" %>
 <%@include file="templates/underNavbarAuthor.jsp" %>
+<% User user = (User) request.getSession().getAttribute("user");%>
     <form class="proposal-form" action="/ProposalCreation" method="post" enctype="multipart/form-data">    <!-- Start form -->
         <label for="title" class="label">
             Title
@@ -67,7 +68,7 @@
 
                 </select><!-- input per mantenere la lista di auth -->
                 <div class="author-insert">
-                <input type="text" id="searchBox" placeholder="Search..." onkeyup="searchProducts()"> <!-- ricerca per gli auth -->
+                <input type="text" id="searchBox" placeholder="Search..." onkeyup="searchProducts('<%=user.getEmail()%>')"> <!-- ricerca per gli auth -->
                 <!--  <input type="text" id="author" placeholder="Find">-->
                 <ul id="suggestions">
 

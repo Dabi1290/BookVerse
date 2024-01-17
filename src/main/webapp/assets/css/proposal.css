@@ -213,7 +213,10 @@ body{
     border-radius: 50%;
     display: inline-block;
 }
-
+.icona{
+    width: 16px;
+    height: 16px;
+}
 .PermanentlyRefuseddot {
     height: 20px;
     width: 20px;

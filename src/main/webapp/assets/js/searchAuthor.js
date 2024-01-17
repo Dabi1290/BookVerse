@@ -1,11 +1,11 @@
 let clickedValues = new Set();
-function searchProducts() {
+function searchProducts(pippo) {
     let searchValue = document.getElementById("searchBox").value;
 
     if (searchValue.length >= 2) {
         $.get('SearchAuthor', {"query": searchValue},
             function(resp) { // on sucess
-                displayResults(resp);
+                displayResults(resp,pippo);
             })
             .fail(function() { // on failure
                 alert("Request failed.");
@@ -15,14 +15,14 @@ function searchProducts() {
     }
 }
 
-function displayResults(authors) {
+function displayResults(authors,pippo) {
 
     $("#suggestions").empty();
 
     if (authors.length > 0) {
 
         $.each(authors, function(id,author) {
-            if(!pairExists(clickedValues,author.id,author.email)) {
+            if(!pairExists(clickedValues,author.id,author.email) && author.email!==pippo) {
 
 
                 $("#suggestions").append($('<li/>', {
@@ -56,7 +56,7 @@ function checkAdded(clickedValues){
 
         // Create a new <li> element for each pair
         let newLi = $('<li/>', {
-            text: email
+            html: '<div>'+email+' <img src="assets/images/x-mark.png" onclick="deleteAuthor(\''+id+'\',\''+email+'\')" class="icona"></div>'
         });
         let newop=$('<option/>',
         {
@@ -81,4 +81,27 @@ function pairExists(set, id, email) {
     }
     return false;
 }
+
+function deleteAuthor(id, email) {
+    let resultList = $("#effective-authors");
+    resultList.find('li').each(function() {
+        if ($(this).text().trim() === email) {
+            $(this).remove();
+        }
+    });
+    deletePair(clickedValues,id,email);
+    checkAdded(clickedValues);
+    console.log(clickedValues);
+}
+
+function deletePair(set, id, email) {
+    for (let existingPair of set) {
+        if (existingPair[0] === id && existingPair[1] === email) {
+            set.delete(existingPair);
+            break;
+        }
+    }
+}
+
+
 
