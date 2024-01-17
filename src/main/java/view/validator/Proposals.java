@@ -1,4 +1,4 @@
-package com.bookverse.bookverse;
+package view.validator;
 
 import com.bookverse.bookverse.sessionConstants.SessionCostants;
 import jakarta.servlet.RequestDispatcher;
@@ -19,7 +19,6 @@ import java.sql.SQLException;
 
 @WebServlet(name = "Proposals", value="/Proposals")
 public class Proposals extends HttpServlet {
-
     protected static String NEXT_PAGE = "/proposals.jsp";
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

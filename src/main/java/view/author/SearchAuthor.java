@@ -1,4 +1,4 @@
-package com.bookverse.bookverse;
+package view.author;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.*;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package com.bookverse.bookverse;
+package view.author;
 
 import com.bookverse.bookverse.sessionConstants.SessionCostants;
 import jakarta.servlet.RequestDispatcher;
@@ -21,7 +21,6 @@ import java.util.Set;
 
 @WebServlet(name = "Pubblications", value = "/Publications")
 public class Publications extends HttpServlet {
-
     protected static String NEXT_PAGE = "/publications.jsp";
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

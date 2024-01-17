@@ -1,4 +1,4 @@
-package com.bookverse.bookverse;
+package view;
 
 import java.io.*;
 import java.rmi.ServerException;

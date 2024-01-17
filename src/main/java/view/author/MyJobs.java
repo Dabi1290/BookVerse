@@ -1,4 +1,4 @@
-package com.bookverse.bookverse;
+package view.author;
 
 import java.io.*;
 import java.sql.SQLException;

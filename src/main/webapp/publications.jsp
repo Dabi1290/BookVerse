@@ -4,7 +4,7 @@
 <%@ page import="proposalManager.Proposal" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="proposalManager.Version" %>
-<%@ page import="com.bookverse.bookverse.ServletUtils" %><%--
+<%@ page import="view.ServletUtils" %><%--
   Created by IntelliJ IDEA.
   User: Tonaion
   Date: 15/01/2024
