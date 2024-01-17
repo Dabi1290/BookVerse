@@ -11,12 +11,16 @@ body{
     gap: 20px;
     padding: 20px;
 }
-@media (max-width: 991px) {
-    .navbar {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
+
+.navbar2 {
+    justify-content: space-between;
+    background-color: #fff;
+    z-index: 1;
+    display: flex;
+    gap: 20px;
+    padding: 20px;
 }
+
 .img {
     aspect-ratio: 5.05;
     object-fit: cover;
@@ -34,14 +38,6 @@ body{
     height: 50px;
     padding-right: 27px;
     gap: 0px;
-}
-@media (max-width: 991px) {
-    .search-bar {
-        max-width: 100%;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding-right: 20px;
-    }
 }
 .genre {
     color: #fff;
@@ -62,11 +58,6 @@ body{
     padding: 19px 60px 19px 10px;
     font: 400 15px Comfortaa, sans-serif;
 }
-@media (max-width: 991px) {
-    .search {
-        padding-right: 20px;
-    }
-}
 .search-img {
     justify-content: center;
     align-items: center;
@@ -77,11 +68,6 @@ body{
     aspect-ratio: 1.32;
     flex-direction: column;
     padding: 13px 21px;
-}
-@media (max-width: 991px) {
-    .search-img {
-        padding: 0 20px;
-    }
 }
 .img-2 {
     aspect-ratio: 1;
@@ -99,12 +85,6 @@ body{
     margin: auto 0;
 
 }
-@media (max-width: 991px) {
-    .navbar-right {
-        justify-content: center;
-        padding-right: 20px;
-    }
-}
 .sign-in {
     color: #dc4712;
     white-space: nowrap;
@@ -121,11 +101,6 @@ body{
 }
 .sign-in:hover{
     cursor: pointer;
-}
-@media (max-width: 991px) {
-    .sign-in {
-        white-space: initial;
-    }
 }
 .sign-up {
     color: #dc4712;
@@ -146,11 +121,7 @@ body{
 .sign-up:hover{
     cursor: pointer;
 }
-@media (max-width: 991px) {
-    .sign-up {
-        white-space: initial;
-    }
-}
+
 
 a{
     text-decoration: none;
@@ -183,4 +154,26 @@ a{
 .ruolo-cambio>img{
     width: 16px;
     height: auto;
+}
+
+@media (max-width: 991px) {
+
+
+
+   .navbar{
+       flex-direction: column;
+       align-items: center;
+   }
+    .search-bar{
+        padding: 0;
+    }
+    .navbar-right{
+        padding: 0;
+    }
+
+
+
+
+
+
 }

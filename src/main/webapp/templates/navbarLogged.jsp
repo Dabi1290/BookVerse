@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="<%= request.getContextPath()%>/assets/css/navbar.css">
 </head>
 <body>
-<div class="navbar">
+<div class="navbar2">
     <a href="<%=request.getContextPath()%>/home">
         <img
                 loading="lazy"

@@ -68,3 +68,26 @@ body{
     justify-content: center;
     cursor: pointer;
 }
+
+@media (max-width: 1300px) {
+    .payment-container{
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+    .riepilogo{
+        margin: 0;
+    }
+    .card-informations{
+        margin-left: 0;
+    }
+}
+@media (max-width: 750px) {
+    .first-line{
+        flex-direction: column;
+    }
+    .card-informations{
+        width: 300px;
+    }
+
+}

@@ -48,7 +48,7 @@
             </div>
         </div>
     </div>
-    <div class="versions-buttons">
+    <div >
         <%=ServletUtils.validatorButton(proposal.getStatus(),proposal.getId(),lv)%>
     </div>
 </div>

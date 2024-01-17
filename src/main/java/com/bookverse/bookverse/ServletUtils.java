@@ -55,15 +55,20 @@ public class ServletUtils {
     }
     public static String validatorButton(String stato, int idProp, Version v) {
         StringBuilder sb = new StringBuilder();
+        sb.append("<div class=\"buttons-separator\">");
+        sb.append("<a href=\"/historyv.jsp?idProp="+idProp+"\" ><div class=\"orange-button\">History</div></a>");
+        sb.append("<div class=\"versions-buttons\">");
         sb.append("<a href=\"/ApproveProposal?proposalId="+idProp+"\"><div class=\"green-button\">Approve</div></a>");
         sb.append("<div class=\"orange-button\" onclick=\"showReport("+idProp+")\">Refuse</div>");
         sb.append("<a href=\"/PermanentlyRefuse?proposalId="+idProp+"\"><div class=\"red-button\">PermanentlyRefuse</div></a>");
+        sb.append("</div>");
+        sb.append("</div>");
         return sb.toString();
     }
 
     public static String ebookButton(String stato,int idProp) {
         StringBuilder sb = new StringBuilder();
-        sb.append("<a href=\"/pippo.jsp?proposalId="+idProp+"\"><div class=\"orange-button\">Proposal</div></a>");
+       // sb.append("<a href=\"/pippo.jsp?proposalId="+idProp+"\"><div class=\"orange-button\">Proposal</div></a>");
         return sb.toString();
     }
 

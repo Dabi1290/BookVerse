@@ -19,12 +19,7 @@ body{
 
     /*padding: 50px 80px 50px 64px;*/
 }
-@media (max-width: 991px) {
-    .buy-preview {
-        max-width: 100%;
-        padding: 0 20px;
-    }
-}
+
 .img-4 {
     position: absolute;
     inset: 0;
@@ -46,12 +41,7 @@ body{
     font-weight: 400;
     z-index: 1;
 }
-@media (max-width: 991px) {
-    .description-text {
-        max-width: 100%;
-        margin: 40px 10px 0 0;
-    }
-}
+
 .buy-button {
     position: relative;
     color: #dc4712;
@@ -67,12 +57,7 @@ body{
     padding: 33px 60px;
     font: 400 35px Comfortaa, sans-serif;
 }
-@media (max-width: 991px) {
-    .buy-button {
-        margin: 40px 0;
-        padding: 0 20px;
-    }
-}
+
 .publish-preview {
     display: flex;
     flex-direction: column;
@@ -82,13 +67,7 @@ body{
     margin-top: 102px;
 }
 
-@media (max-width: 991px) {
-    .publish-preview {
-        max-width: 100%;
-        margin-top: 40px;
-        padding: 0 26px 0 20px;
-    }
-}
+
 
 .publish-text {
     position: relative;
@@ -105,6 +84,7 @@ body{
     width: 100%;
     object-fit: cover;
     object-position: center;
+    height: 100%;
 
 }
 
@@ -161,4 +141,34 @@ body{
     -webkit-transition: background-color 200ms linear;
     -ms-transition: background-color 200ms linear;
     transition: background-color 200ms linear;
+}
+
+@media (max-width: 991px) {
+
+    .buy-preview {
+        max-width: 100%;
+    }
+    .description-text {
+            font: 400 20px Comfortaa, sans-serif;
+            max-width: 100%;
+            margin: 40px;
+        }
+    .publish-preview {
+            max-width: 100%;
+            margin-top: 40px;
+        }
+
+
+}
+@media (max-width: 542px) {
+    .buy-button {
+
+        width:200px;
+        font: 400 20px Comfortaa, sans-serif;
+    }
+    .publish-button{
+        width:200px;
+        font: 400 20px Comfortaa, sans-serif;
+    }
+
 }
