@@ -10,14 +10,12 @@ public class Proposal {
 
     private int id;
     private String status;
-
     private boolean alreadyLoadedAuthor;
     private Author proposedBy;
     private Set<Author> collaborators;
     private List<Version> versions;
     private boolean alreadyLoadedValidator;
     private Validator assignedValidator;
-
 
     public Proposal() {
         this.versions = new ArrayList<>();
