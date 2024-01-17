@@ -25,7 +25,7 @@ public class User {
     public static User makeUser(int id, String name, String surname, String email, String password, Set<String> roles) {
         User user = new User();
 
-        user.id=id;
+        user.id = id;
         user.name = name;
         user.surname = surname;
         user.email = email;

@@ -100,7 +100,7 @@ public class ProposalDAO {
         return proposals;
     }
 
-    public List<Version> findProposalVersions(int proposalId) throws SQLException {
+    private List<Version> findProposalVersions(int proposalId) throws SQLException {
         List<Version> versions = new ArrayList<>();
 
         String query = "SELECT V.id, title, description, price, coverImage, report, ebookFile, data FROM Proposal as P, Version as V WHERE P.id=V.proposalId_fk AND P.id=? ORDER BY data DESC";
@@ -200,7 +200,7 @@ public class ProposalDAO {
         return generatedId;
     }
 
-    public int persistVersion(Proposal proposal, Version version) throws SQLException {
+    public int newVersion(Proposal proposal, Version version) throws SQLException {
 
         String insertVersion = "INSERT INTO Version(title, description, price, data, proposalId_fk) values (?, ?, ?, ?, ?)";
 

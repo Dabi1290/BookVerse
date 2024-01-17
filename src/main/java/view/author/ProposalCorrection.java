@@ -128,7 +128,7 @@ public class ProposalCorrection extends HttpServlet {
         proposal.addVersion(lastVersion);
         int versionId = -1;
         try {
-            versionId = proposalDao.persistVersion(proposal, lastVersion);
+            versionId = proposalDao.newVersion(proposal, lastVersion);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to persist new version on database");
