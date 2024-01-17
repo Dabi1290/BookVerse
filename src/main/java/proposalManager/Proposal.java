@@ -3,6 +3,8 @@ package proposalManager;
 import userManager.Author;
 import userManager.Validator;
 
+import java.util.regex.Pattern;
+
 import java.io.File;
 import java.util.*;
 
@@ -29,6 +31,29 @@ public class Proposal {
         return p;
     }
 
+    public static boolean isValidParameter(String title, Collection<String> genres, float price, String description){
+
+        if(title == null || title.isEmpty())
+            return false;
+
+        if(! Pattern.matches("^[a-zA-Z0-9]+$", title))
+            return false;
+
+        if(price < 0)
+            return false;
+
+        if(description == null || description.isEmpty())
+            return false;
+
+        if(! Pattern.matches("^[a-zA-Z0-9\\s]+$", description))
+            return false;
+
+        if(genres == null || genres.isEmpty())
+            return false;
+
+        return true;
+    }
+
     public void approve(){
         this.status="Approved";
     }
@@ -51,10 +76,6 @@ public class Proposal {
 
     public void correct() {
         this.status = "Pending";
-    }
-
-    public boolean isValidParameter(String title, Author author, Collection<String> genres, File ebookFile, Collection<Author> coAuthors, File coverImage, float price, String description){
-        return true;
     }
 
     public void addVersion(Version version){
