@@ -200,7 +200,7 @@ public class ProposalDAO {
         return generatedId;
     }
 
-    public int persistVersion(Proposal proposal, Version version) throws SQLException {
+    public int newVersion(Proposal proposal, Version version) throws SQLException {
 
         String insertVersion = "INSERT INTO Version(title, description, price, data, proposalId_fk) values (?, ?, ?, ?, ?)";
 

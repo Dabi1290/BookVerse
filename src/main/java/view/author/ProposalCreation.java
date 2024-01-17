@@ -145,7 +145,7 @@ public class ProposalCreation extends HttpServlet {
 
         int versionId = -1;
         try {
-            versionId = proposalDao.persistVersion(proposal, version);
+            versionId = proposalDao.newVersion(proposal, version);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
