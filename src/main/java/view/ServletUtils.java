@@ -1,4 +1,4 @@
-package com.bookverse.bookverse;
+package view;
 
 
 import proposalManager.Version;
