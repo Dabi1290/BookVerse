@@ -54,34 +54,46 @@ public class Proposal {
         return true;
     }
 
-    public void approve(){
+    public void approve() throws WrongStatusException {
+        if(! status.equals("Pending"))
+            throw new WrongStatusException(status, "Approved");
+
         this.status="Approved";
     }
 
-    public void refuse(){
+    public void refuse() throws WrongStatusException {
+        if(! status.equals("Pending"))
+            throw new WrongStatusException(status, "Refused");
+
         this.status="Refused";
     }
 
-    public void permanentlyRefuse(){
+    public void permanentlyRefuse() throws WrongStatusException {
+        if(! status.equals("Pending"))
+            throw new WrongStatusException(status, "PermanentlyRefused");
+
         this.status="PermanentlyRefused";
     }
 
-    public void pay(){
+    public void pay() throws WrongStatusException {
+        if(! status.equals("Approved"))
+            throw new WrongStatusException(status, "Completed");
+
         this.status = "Completed";
     }
 
+    public void correct() throws WrongStatusException {
+        if(! status.equals("Refused"))
+            throw new WrongStatusException(status, "Pending");
+
+        this.status = "Pending";
+    }
     public void assignValidator(Validator validator){
         this.assignedValidator = validator;
     }
-
-    public void correct() {
-        this.status = "Pending";
-    }
-
     public void addVersion(Version version){
         versions.add(0, version);
     }
-
     public int getId() {
         return id;
     }
