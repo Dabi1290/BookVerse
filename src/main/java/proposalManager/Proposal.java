@@ -36,10 +36,10 @@ public class Proposal {
         if(title == null || title.isEmpty())
             return false;
 
-        if(! Pattern.matches("^[a-zA-Z0-9]+$", title))
+        if(title.length() > 30)
             return false;
 
-        if(price < 0)
+        if(price < 0.0f || price > 500.0f)
             return false;
 
         if(description == null || description.isEmpty())
