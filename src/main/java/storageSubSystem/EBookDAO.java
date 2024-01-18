@@ -79,7 +79,7 @@ public class EBookDAO {
 
         return ebookId;
     }
-    public Set<EBook> findByCoWritten(int authorId) throws SQLException {
+    public Set<EBook> findByCoWriter(int authorId) throws SQLException {
 
         String query = "SELECT * FROM EBook JOIN EBookAuthor as p ON ebookId_fk=id WHERE p.authorId_fk=?";
 
@@ -106,7 +106,7 @@ public class EBookDAO {
         return s;
     }
 
-    public Set<EBook> findByMainWritten(int mainAuthorId) throws SQLException {
+    public Set<EBook> findByMainWriter(int mainAuthorId) throws SQLException {
 
         String query = "SELECT * FROM EBook WHERE mainAuthorId_fk=?";
 

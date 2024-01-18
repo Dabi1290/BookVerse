@@ -13,8 +13,9 @@ import java.util.TreeSet;
 import proposalManager.Proposal;
 import userManager.Author;
 import userManager.Validator;
+import userManager.ValidatorDispatcher;
 
-public class ValidatorDAO {
+public class ValidatorDAO implements ValidatorDispatcher {
 
     private DataSource ds=null;
 
@@ -22,7 +23,7 @@ public class ValidatorDAO {
         this.ds = ds;
     }
 
-    public Validator findFreeValidator(Author mainAuthor, Set<Author> coAuthors) throws SQLException {
+    public Validator findFreeValidator(Author mainAuthor, Set<Author> coAuthors) throws Exception {
 
         Set<Integer> idAuthors = new TreeSet<>();
         idAuthors.add(mainAuthor.getId());

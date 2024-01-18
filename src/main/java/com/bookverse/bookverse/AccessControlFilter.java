@@ -9,24 +9,58 @@ import jakarta.servlet.http.HttpSession;
 import userManager.User;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 //@WebFilter(filterName = "/AccessControlFiler", urlPatterns = "/*")
 public class AccessControlFilter extends HttpFilter implements Filter {
 
     //Map servlet/page -> role
-    private Map<String, List<String>> pageToRoles;
+    private Map<String, List<String>> servletToRoles;
+
+    private static String ROLE_AUTHOR = "Author";
+    private static String ROLE_VALIDATOR = "Validator";
+    private static String ROLE_GUEST = "Guest";
 
     @Override
     public void init(FilterConfig filterConfig) {
-        pageToRoles = new HashMap<>();
+        servletToRoles = new HashMap<>();
 
         //Load association servlet/page -> role
-        pageToRoles.put("/homeAuthor.jsp", Arrays.asList("Author"));
-        pageToRoles.put("/homeValidator.jsp", Arrays.asList("Validator"));
+        servletToRoles.put("/home", Arrays.asList(ROLE_AUTHOR, ROLE_VALIDATOR, ROLE_GUEST));
+
+
+        servletToRoles.put("/login", Arrays.asList(ROLE_AUTHOR, ROLE_VALIDATOR));
+        servletToRoles.put("/logout", Arrays.asList(ROLE_VALIDATOR, ROLE_AUTHOR));
+
+
+        servletToRoles.put("/MyJobs", Arrays.asList(ROLE_AUTHOR));
+        servletToRoles.put("/ProposalCorrection", Arrays.asList(ROLE_AUTHOR));
+        servletToRoles.put("/ProposalCreation", Arrays.asList(ROLE_AUTHOR));
+        servletToRoles.put("/Publications", Arrays.asList(ROLE_AUTHOR));
+        servletToRoles.put("/SearchAuthor", Arrays.asList(ROLE_AUTHOR));
+        servletToRoles.put("/PayProposal", Arrays.asList(ROLE_AUTHOR));
+
+        servletToRoles.put("/ApproveProposal", Arrays.asList(ROLE_VALIDATOR));
+        servletToRoles.put("/Proposals", Arrays.asList(ROLE_VALIDATOR));
+        servletToRoles.put("/PermanentlyRefuse", Arrays.asList(ROLE_VALIDATOR));
+        servletToRoles.put("/RefuseProposal", Arrays.asList(ROLE_VALIDATOR));
+
+        servletToRoles.put("/FileDownload", Arrays.asList(ROLE_VALIDATOR, ROLE_AUTHOR));
+
+        servletToRoles.put("/confirmationPage.jsp", Arrays.asList(ROLE_VALIDATOR, ROLE_AUTHOR, ROLE_GUEST));
+        servletToRoles.put("/correctProposalForm.jsp", Arrays.asList(ROLE_AUTHOR));
+        servletToRoles.put("/history", Arrays.asList(ROLE_AUTHOR));
+        servletToRoles.put("/historyv", Arrays.asList(ROLE_VALIDATOR));
+        servletToRoles.put("/home.jsp", Arrays.asList());
+        servletToRoles.put("/homeAuthor.jsp", Arrays.asList(ROLE_AUTHOR));
+        servletToRoles.put("/homeValidator.jsp", Arrays.asList(ROLE_VALIDATOR));
+        servletToRoles.put("/login.jsp", Arrays.asList(ROLE_GUEST));
+        servletToRoles.put("/myJobs.jsp", Arrays.asList(ROLE_AUTHOR));
+        servletToRoles.put("/payment.jsp", Arrays.asList(ROLE_AUTHOR));
+        servletToRoles.put("/proposalForm.jsp", Arrays.asList(ROLE_AUTHOR));
+        servletToRoles.put("/register.jsp", Arrays.asList(ROLE_GUEST));
+        servletToRoles.put("/proposals.jsp", Arrays.asList(ROLE_VALIDATOR));
+        servletToRoles.put("/publications.jsp", Arrays.asList(ROLE_AUTHOR));
         //Load association servlet/page -> role
     }
 
@@ -56,7 +90,7 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 
 
             //Retrieve path to the servlet
-            List<String> roles = pageToRoles.get(path);
+            List<String> roles = servletToRoles.get(path);
             //Retrieve path to the servlet
 
 

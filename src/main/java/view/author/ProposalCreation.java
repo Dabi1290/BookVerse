@@ -25,9 +25,9 @@ import java.util.*;
 
 
 @WebServlet(name = "ProposalCreation", value="/ProposalCreation")
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 20, // 20MB
-        maxFileSize = 1024 * 1024 * 100,      // 100MB
-        maxRequestSize = 1024 * 1024 * 500)   // 500MB
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 200, // 20MB
+        maxFileSize = 1024 * 1024 * 500,      // 500MB
+        maxRequestSize = 1024 * 1024 * 1500)   // 1500MB
 public class ProposalCreation extends HttpServlet {
 
     protected static String TITLE_PAR = "title";
@@ -128,10 +128,9 @@ public class ProposalCreation extends HttpServlet {
 
         try {
             Validator validator = validatorDao.findFreeValidator(proposal.getProposedBy(), proposal.getCollaborators());
-            //Validator validator = Validator.makeValidator(2, null);
             proposal.assignValidator(validator);
             proposalDao.assignValidator(proposal, validator);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new ServletException("Failed to assign a validator to this proposal");
         }

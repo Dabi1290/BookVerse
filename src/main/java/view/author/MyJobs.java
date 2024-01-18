@@ -41,9 +41,9 @@ public class MyJobs extends HttpServlet {
         //Retrieve data source and build ProposalDAO
 
         try {
-            Set<EBook> proposals = eBookDAO.findByMainWritten(author.getId());
+            Set<EBook> proposals = eBookDAO.findByMainWriter(author.getId());
             author.setWritten(proposals);
-            proposals = eBookDAO.findByCoWritten(author.getId());
+            proposals = eBookDAO.findByCoWriter(author.getId());
             author.setCoWritten(proposals);
         } catch (SQLException e) {
             e.printStackTrace();
