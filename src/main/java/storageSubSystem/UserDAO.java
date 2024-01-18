@@ -88,7 +88,7 @@ public class UserDAO {
                 validatorId = rs.getInt("id");
             }
 
-            User u = User.makeUser(id,name,surname,emailu,passwordu,ruoli);
+            User u = User.makeUser(id,name,surname,emailu,passwordu);
             u.setCurrentRole(role);
 
             ProposalDAO proposalDAO = new ProposalDAO(ds);

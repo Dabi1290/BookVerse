@@ -1,6 +1,5 @@
 package storageSubSystem;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import proposalManager.Proposal;
 import proposalManager.Version;
 import userManager.Author;
@@ -12,7 +11,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.Date;
 
 public class ProposalDAO {
     private DataSource ds=null;
@@ -125,13 +123,13 @@ public class ProposalDAO {
 
             File ebookFile = null;
             if(ebookFilePath != null)
-                ebookFile = new File(BaseFileDAO.getFilesDirectory() + "/" + Integer.toString(proposalId) + "/" + ebookFilePath);
+                ebookFile = new File(FileDAO.getFilesDirectory() + "/" + Integer.toString(proposalId) + "/" + ebookFilePath);
             File coverImage = null;
             if(coverImagePath != null)
-                coverImage = new File(BaseFileDAO.getFilesDirectory() + "/" + Integer.toString(proposalId) + "/" + coverImagePath);
+                coverImage = new File(FileDAO.getFilesDirectory() + "/" + Integer.toString(proposalId) + "/" + coverImagePath);
             File reportFile = null;
             if(reportPath != null)
-                reportFile = new File(BaseFileDAO.getFilesDirectory() + "/" + Integer.toString(proposalId) + "/" +reportPath);
+                reportFile = new File(FileDAO.getFilesDirectory() + "/" + Integer.toString(proposalId) + "/" +reportPath);
 
 
 

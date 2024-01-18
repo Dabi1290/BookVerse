@@ -15,14 +15,13 @@ public class User {
     private Author roleAuthor;
     private boolean alreadyLoadedRoleValidator;
     private Validator roleValidator;
-    private Set<String> roles;
 
     public User() {
         this.alreadyLoadedRoleAuthor = false;
         this.alreadyLoadedRoleValidator = false;
     }
 
-    public static User makeUser(int id, String name, String surname, String email, String password, Set<String> roles) {
+    public static User makeUser(int id, String name, String surname, String email, String password) {
         User user = new User();
 
         user.id = id;
@@ -30,7 +29,6 @@ public class User {
         user.surname = surname;
         user.email = email;
         user.password = password;
-        user.roles=roles;
 
         return user;
     }

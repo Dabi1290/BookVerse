@@ -1,14 +1,13 @@
 package view.author;
 
 import com.bookverse.bookverse.sessionConstants.SessionCostants;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import proposalManager.Proposal;
 import proposalManager.Version;
-import storageSubSystem.BaseFileDAO;
+import storageSubSystem.FileDAO;
 import storageSubSystem.ProposalDAO;
 import userManager.Author;
 import userManager.User;
@@ -143,8 +142,8 @@ public class ProposalCorrection extends HttpServlet {
 
         String ebookFileName = "ebookFile_" + Integer.toString(versionId) + ".pdf";
         String coverImageName = "coverImage_" + Integer.toString(versionId) + ".png";
-        lastVersion.setEbookFile(new File(BaseFileDAO.getFilesDirectory() + Integer.toString(proposalId) + "/" + ebookFileName));
-        lastVersion.setCoverImage(new File(BaseFileDAO.getFilesDirectory() + Integer.toString(proposalId) + "/" + coverImageName));
+        lastVersion.setEbookFile(new File(FileDAO.getFilesDirectory() + Integer.toString(proposalId) + "/" + ebookFileName));
+        lastVersion.setCoverImage(new File(FileDAO.getFilesDirectory() + Integer.toString(proposalId) + "/" + coverImageName));
         //Generate file path and add to the version created before
 
 
@@ -161,8 +160,8 @@ public class ProposalCorrection extends HttpServlet {
 
         //Persist on filesystem files
         try {
-            BaseFileDAO.persistFile(Path.of(BaseFileDAO.getFilesDirectory() + Integer.toString(proposalId)), ebookFileName, fileEbookPart.getInputStream());
-            BaseFileDAO.persistFile(Path.of(BaseFileDAO.getFilesDirectory() + Integer.toString(proposalId)), coverImageName, fileCoverImage.getInputStream());
+            FileDAO.persistFile(Path.of(FileDAO.getFilesDirectory() + Integer.toString(proposalId)), ebookFileName, fileEbookPart.getInputStream());
+            FileDAO.persistFile(Path.of(FileDAO.getFilesDirectory() + Integer.toString(proposalId)), coverImageName, fileCoverImage.getInputStream());
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServletException("Failed to persist ebookFile or coverImage of the new version");

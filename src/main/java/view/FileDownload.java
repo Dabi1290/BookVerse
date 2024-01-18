@@ -5,7 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import storageSubSystem.BaseFileDAO;
+import storageSubSystem.FileDAO;
 
 import java.io.*;
 
@@ -23,7 +23,7 @@ public class FileDownload extends HttpServlet {
             throw new ServletException("filename value not valid");
         }
 
-        fileToDownload = BaseFileDAO.getFilesDirectory() + fileToDownload;
+        fileToDownload = FileDAO.getFilesDirectory() + fileToDownload;
         File file = new File(fileToDownload);
 
         if(! file.exists()) {

@@ -9,7 +9,6 @@ import java.io.File;
 import java.util.Set;
 
 public class EBook {
-
     private int id;
     private String title;
     private String description;
@@ -44,7 +43,7 @@ public class EBook {
         book.description = lastVersion.getDescription();
         book.genres = lastVersion.getGenres();
         book.ebookFile = lastVersion.getEbookFile();
-        book.inCatalog = true; //CHECK
+        book.inCatalog = true;
         book.title = lastVersion.getTitle();
         book.price = lastVersion.getPrice();
         //Retrieve last version info and add to ebook

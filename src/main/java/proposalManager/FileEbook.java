@@ -3,11 +3,16 @@ package proposalManager;
 import java.io.File;
 
 public class FileEbook {
-    public static boolean checkExtension(File fileEbook){
+    public static boolean checkFile(File fileEbook, long fileDim){
 
-        if(fileEbook.getAbsolutePath().endsWith(".pdf"))
-            return true;
-        else
+        if(! fileEbook.getAbsolutePath().endsWith(".pdf"))
             return false;
+
+        if(fileDim > MAX_FILE_DIM)
+            return false;
+
+        return true;
     }
+
+    private static long MAX_FILE_DIM = 500000000;
 }

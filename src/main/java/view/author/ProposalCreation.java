@@ -8,7 +8,7 @@ import jakarta.servlet.http.*;
 import proposalManager.Proposal;
 import proposalManager.Version;
 import storageSubSystem.AuthorDAO;
-import storageSubSystem.BaseFileDAO;
+import storageSubSystem.FileDAO;
 import storageSubSystem.ProposalDAO;
 import storageSubSystem.ValidatorDAO;
 import userManager.Author;
@@ -179,10 +179,10 @@ public class ProposalCreation extends HttpServlet {
 
         //Create directory for new proposal and create files of the first version
         try {
-            BaseFileDAO.createDirectory(Path.of(tomcatRootDirectory + "/../Files/"), Integer.toString(proposalId));
+            FileDAO.createDirectory(Path.of(tomcatRootDirectory + "/../Files/"), Integer.toString(proposalId));
 
-            BaseFileDAO.persistFile(Path.of(tomcatRootDirectory + "/../Files/" + Integer.toString(proposalId) + "/"), ebookFileName, fileEbookPart.getInputStream());
-            BaseFileDAO.persistFile(Path.of(tomcatRootDirectory + "/../Files/" + Integer.toString(proposalId) + "/"), coverImageName, fileEbookPart.getInputStream());
+            FileDAO.persistFile(Path.of(tomcatRootDirectory + "/../Files/" + Integer.toString(proposalId) + "/"), ebookFileName, fileEbookPart.getInputStream());
+            FileDAO.persistFile(Path.of(tomcatRootDirectory + "/../Files/" + Integer.toString(proposalId) + "/"), coverImageName, fileEbookPart.getInputStream());
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);

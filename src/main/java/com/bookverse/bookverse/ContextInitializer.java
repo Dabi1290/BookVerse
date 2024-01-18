@@ -2,9 +2,8 @@ package com.bookverse.bookverse;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebListener;
-import storageSubSystem.BaseFileDAO;
+import storageSubSystem.FileDAO;
 import storageSubSystem.GenreDAO;
 
 import javax.naming.Context;
@@ -14,7 +13,6 @@ import javax.sql.DataSource;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 @WebListener
@@ -29,15 +27,15 @@ public class ContextInitializer implements ServletContextListener {
 
 
         try {
-            BaseFileDAO.setFilesDirectory(tomcatRootDirectory + "/../Files/");
+            FileDAO.setFilesDirectory(tomcatRootDirectory + "/../Files/");
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
 
 
-        File file = new File(BaseFileDAO.getFilesDirectory());
-        System.out.println(BaseFileDAO.getFilesDirectory());
+        File file = new File(FileDAO.getFilesDirectory());
+        System.out.println(FileDAO.getFilesDirectory());
         if(!file.exists() || !file.isDirectory()) {
             boolean r = file.mkdir();
             if(! r)

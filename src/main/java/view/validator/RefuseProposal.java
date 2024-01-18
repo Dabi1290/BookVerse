@@ -7,8 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import proposalManager.Proposal;
 import proposalManager.Version;
-import storageSubSystem.AuthorDAO;
-import storageSubSystem.BaseFileDAO;
+import storageSubSystem.FileDAO;
 import storageSubSystem.ProposalDAO;
 import userManager.User;
 import userManager.Validator;
@@ -106,7 +105,7 @@ public class RefuseProposal extends HttpServlet {
 
         //Save file of report
         try {
-            BaseFileDAO.persistFile(Path.of(tomcatRootDirectory + "/../Files/" + Integer.toString(proposalId) + "/"), reportName, reportFile.getInputStream());
+            FileDAO.persistFile(Path.of(tomcatRootDirectory + "/../Files/" + Integer.toString(proposalId) + "/"), reportName, reportFile.getInputStream());
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);

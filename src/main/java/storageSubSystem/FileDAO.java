@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class BaseFileDAO {
+public class FileDAO {
 
     /**
      *
