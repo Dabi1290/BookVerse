@@ -64,8 +64,9 @@ public class ValidatorDAO implements ValidatorDispatcher {
 
         int numeroRighe = 0;
 
-        if (rs.next())
+        if (rs.next()) {
             numeroRighe = rs.getInt(1);
+        }
 
         Random rand = new Random();
 
@@ -76,8 +77,9 @@ public class ValidatorDAO implements ValidatorDispatcher {
 
         Validator validator = Validator.makeValidator(idValidator, null);
 
-        return validator;
+        c.close();
 
+        return validator;
     }
 
     public Validator findValidatorById(int validatorId) throws InvalidParameterException, SQLException {
@@ -97,11 +99,14 @@ public class ValidatorDAO implements ValidatorDispatcher {
         ResultSet rs = ps.executeQuery();
 
         if(! rs.next()) {
+            c.close();
             return null;
         }
 
         Validator validator = new Validator();
         validator.setId(rs.getInt("id"));
+
+        c.close();
 
         return validator;
     }

@@ -373,7 +373,7 @@ public class ProposalDAO {
         PreparedStatement ps = c.prepareStatement(query);
         ps.setInt(1, validator.getId());
         ps.setInt(2, proposal.getId());
-        ps.execute();
+        ps.executeUpdate();
 
         c.close();
     }
