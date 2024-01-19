@@ -9,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import proposalManager.Proposal;
+import proposalManager.WrongStatusException;
 import storageSubSystem.ProposalDAO;
 import userManager.Author;
 import userManager.User;
@@ -55,7 +56,12 @@ public class PermanentlyRefuse extends HttpServlet {
 
 
         //Update state of proposal on database
-        proposal.permanentlyRefuse();
+        try {
+            proposal.permanentlyRefuse();
+        } catch (WrongStatusException e) {
+            e.printStackTrace();
+            throw new ServletException("Failed to update status of proposal");
+        }
         DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
         ProposalDAO proposalDao = new ProposalDAO(ds);
         try {

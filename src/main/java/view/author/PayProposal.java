@@ -13,6 +13,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import proposalManager.Proposal;
+import proposalManager.WrongStatusException;
 import storageSubSystem.EBookDAO;
 import storageSubSystem.ProposalDAO;
 import userManager.Author;
@@ -117,7 +118,13 @@ public class PayProposal extends HttpServlet {
 
 
         //Update status of proposal
-        proposal.pay();
+        try {
+            proposal.pay();
+        } catch (WrongStatusException e) {
+            e.printStackTrace();
+            throw new ServletException("Failed to update status of proposal");
+        }
+
         try {
             proposalDao.updateProposalState(proposal);
         } catch (SQLException e) {

@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import proposalManager.Proposal;
 import proposalManager.Version;
+import proposalManager.WrongStatusException;
 import storageSubSystem.FileDAO;
 import storageSubSystem.ProposalDAO;
 import userManager.Author;
@@ -111,7 +112,12 @@ public class ProposalCorrection extends HttpServlet {
 
 
         //Correct proposal and update proposal's state to database
-        proposal.correct();
+        try {
+            proposal.correct();
+        } catch (WrongStatusException e) {
+            throw new ServletException("Failed to update state of proposal");
+        }
+
         try {
             proposalDao.updateProposalState(proposal);
         } catch (SQLException e) {

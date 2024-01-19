@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import proposalManager.Proposal;
 import proposalManager.Version;
+import proposalManager.WrongStatusException;
 import storageSubSystem.FileDAO;
 import storageSubSystem.ProposalDAO;
 import userManager.User;
@@ -85,8 +86,12 @@ public class RefuseProposal extends HttpServlet {
         String reportName = "reportFile_" + Integer.toString(versionId) + ".pdf";
 
         lastVersion.setReport(new File(tomcatRootDirectory + "/../Files/" + Integer.toString(proposal.getId()) + "/" + reportName));
-        proposal.refuse();
-        System.out.println(proposal.getStatus());
+        try {
+            proposal.refuse();
+        } catch (WrongStatusException e) {
+            e.printStackTrace();
+            throw new ServletException("Wrong status");
+        }
         //Add report file to the last version of the proposal and update state of the proposal
 
 

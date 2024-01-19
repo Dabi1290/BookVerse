@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import proposalManager.Proposal;
+import proposalManager.WrongStatusException;
 import storageSubSystem.ProposalDAO;
 import userManager.User;
 import userManager.Validator;
@@ -69,6 +70,11 @@ public class ApproveProposal extends HttpServlet {
         //Approve proposal and update the state of proposal to database
         try {
             proposal.approve();
+        } catch (WrongStatusException e) {
+            throw new ServletException("Failed to update status of proposal");
+        }
+
+        try {
             proposalDao.updateProposalState(proposal);
         } catch (SQLException e) {
             throw new ServletException("Failed to update the state of proposal in the database");
