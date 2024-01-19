@@ -29,20 +29,17 @@
         z-index: 1;
       "
         >
-      Bring Your Story to Life!
+      Empowering Knowledge: One Page at a Time
       <br />
       <br />
 
 
     </span>
         <span class="description-text">
-      Have you always dreamt of writing a book? Now you can do it easily. With
-      our e-book publishing service, turn your words into a professional e-book.
-      Share your creativity with the world. We are here to guide you every step
-      of the way, from writing to publishing.
+      “Every page you validate today, brings the world one book closer to universal access to knowledge. Keep going!” 📚💪
     </span>
     </div>
-    <div class="publish-button">Start Publishing</div>
+    <div class="publish-button"><a href="/Proposals">Work now</a></div>
 </div>
 </body>
 </html>

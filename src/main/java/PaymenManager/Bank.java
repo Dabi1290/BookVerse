@@ -10,7 +10,7 @@ public class Bank {
 
         Random rand = new Random();
         int n = 1;
-        int numeroGenerato = rand.nextInt((40 - 1) + 1) + 1;
+        int numeroGenerato = rand.nextInt((10 - 1) + 1) + 1;
 
         if(numeroGenerato == n)
             return false;

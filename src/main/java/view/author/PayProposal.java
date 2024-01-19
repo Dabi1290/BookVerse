@@ -160,6 +160,6 @@ public class PayProposal extends HttpServlet {
 
 
         //se tutto è andato bene mostro la confirmation page
-        response.sendRedirect("/confirmationPage.jsp?imagePath=bigCheck.png&msg=Your%20publication%20proposal%20has%20been%20successfully%20submitted%2C%20you%20will%20receive%20acknowledgement%20within%2010%20business%20days");
+        response.sendRedirect("/confirmationPage.jsp?imagePath=bigCheck.png&msg=Successful%20payment,%20your%20work%20is%20now%20in%20the%20catalog");
     }
 }

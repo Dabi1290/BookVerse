@@ -13,6 +13,7 @@ function checkData(){
     let year = document.getElementById("y");
     let month = document.getElementById("m");
     let currentDate = new Date();
+    if(month.value<=12 && month.value>=0){
     let inputDate = new Date(year.value, month.value - 1);
     if (inputDate < currentDate) {
         year.style.borderColor = "red";
@@ -24,6 +25,12 @@ function checkData(){
         year.style.borderColor = "green";
         month.style.borderColor = "green";
         return true;
+    }
+    }
+    else{
+        year.style.borderColor = "red";
+        month.style.borderColor = "red";
+        return false;
     }
 }
 function checkCvv(){

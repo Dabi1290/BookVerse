@@ -166,7 +166,12 @@ body{
 .div-22>a:hover{
     color: #dc4712;
 }
-
+.error{
+    color: #EE1515;
+}
+.error h2{
+    color: #EE1515;
+}
 
 @media (max-width: 650px) {
         .input-email {
