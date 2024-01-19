@@ -46,7 +46,7 @@ public class Proposal {
         if(description == null || description.isEmpty())
             return false;
 
-        if(! Pattern.matches("^[a-zA-Z0-9\\s]+$", description))
+        if(description.length() > 500)
             return false;
 
         if(genres == null || genres.isEmpty())
