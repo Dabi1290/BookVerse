@@ -34,7 +34,7 @@ public class ValidatorDAO implements ValidatorDispatcher {
 
         if( coAuthors.stream().anyMatch(a -> a.getId() <= 0))
             throw new InvalidParameterException("not a valid value for id");
-        
+
         AuthorDAO authorDAO = new AuthorDAO(ds);
 
         if(authorDAO.findByID(mainAuthor.getId()) == null)
@@ -78,5 +78,31 @@ public class ValidatorDAO implements ValidatorDispatcher {
 
         return validator;
 
+    }
+
+    public Validator findValidatorById(int validatorId) throws InvalidParameterException, SQLException {
+
+        //Check parameters
+        if(validatorId <= 0)
+            throw new InvalidParameterException("Value not valid for id");
+        //Check parameters
+
+
+        String query = "SELECT * FROM Validator WHERE id = ?";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, validatorId);
+        ResultSet rs = ps.executeQuery();
+
+        if(! rs.next()) {
+            return null;
+        }
+
+        Validator validator = new Validator();
+        validator.setId(rs.getInt("id"));
+
+        return validator;
     }
 }
