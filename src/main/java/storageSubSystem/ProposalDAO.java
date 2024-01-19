@@ -1,5 +1,6 @@
 package storageSubSystem;
 
+import jakarta.servlet.ServletException;
 import proposalManager.Proposal;
 import proposalManager.Version;
 import userManager.Author;
@@ -365,7 +366,7 @@ public class ProposalDAO {
         c.close();
     }
 
-    private List<Version> findProposalVersions(int proposalId) throws SQLException {
+    private List<Version> findProposalVersions(int proposalId) throws SQLException, InvalidParameterException {
         List<Version> versions = new ArrayList<>();
 
         String query = "SELECT V.id, title, description, price, coverImage, report, ebookFile, data FROM Proposal as P, Version as V WHERE P.id=V.proposalId_fk AND P.id=? ORDER BY V.id DESC";
@@ -413,7 +414,12 @@ public class ProposalDAO {
 
 
             LocalDate d = LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE);
-            Version version = Version.makeVersion(versionId, title, description, price, reportFile, ebookFile, coverImage, d, genres);
+            Version version = null;
+            try {
+                version = Version.makeVersion(versionId, title, description, price, reportFile, ebookFile, coverImage, d, genres);
+            } catch (Exception e) {
+                throw new InvalidParameterException("Parameters of version is not valid");
+            }
             versions.add(version);
         }
 

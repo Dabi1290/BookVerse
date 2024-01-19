@@ -21,7 +21,30 @@ public class Version {
     public Version(){
     }
 
-    public static Version makeVersion(int id, String title, String description, int price, File report, File ebookFile, File coverImage, LocalDate date, Set<String> genres) {
+    public static Version makeVersion(int id, String title, String description, int price, File report, File ebookFile, File coverImage, LocalDate date, Set<String> genres) throws Exception {
+
+        //Check parameters
+        if(title == null || title.isEmpty())
+            throw new Exception("Title value is not valid");
+
+        if(id <= 0)
+            throw new Exception("id value is not valid");
+
+        if(description == null || description.isEmpty())
+            throw new Exception("description value is not valid");
+
+        if(price < 0 || price > 500)
+            throw new Exception("price value is not valid");
+
+        if(date == null)
+            throw new Exception("date value is not valid");
+
+        if(genres.isEmpty())
+            throw new Exception("the number of genres is not valid");
+        //Check parameters
+
+
+
         Version v = new Version();
 
         v.id = id;
@@ -37,7 +60,26 @@ public class Version {
         return v;
     }
 
-    public static Version makeVersion(String title, String description, int price, File report, File ebookFile, File coverImage, LocalDate date, Set<String> genres) {
+    public static Version makeVersion(String title, String description, int price, File report, File ebookFile, File coverImage, LocalDate date, Set<String> genres) throws Exception {
+
+        //Check parameters
+        if(title == null || title.isEmpty())
+            throw new Exception("Title value is not valid");
+
+        if(description == null || description.isEmpty())
+            throw new Exception("description value is not valid");
+
+        if(price < 0 || price > 500)
+            throw new Exception("price value is not valid");
+
+        if(date == null)
+            throw new Exception("date value is not valid");
+
+        if(genres.isEmpty())
+            throw new Exception("the number of genres is not valid");
+        //Check parameters
+
+
         Version v = new Version();
 
         v.title = title;
