@@ -67,6 +67,8 @@ public class User {
             throw new Exception("value not valid for email");
         //Check parameters
 
+
+
         User user = new User();
 
         user.id = id;

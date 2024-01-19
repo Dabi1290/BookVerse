@@ -106,7 +106,12 @@ public class AuthorDAO {
         Set<Author> coAuthors = new HashSet<>();
 
         while(rs.next()) {
-            User user = User.makeUser(rs.getInt("PA.authorId_fk"), rs.getString("name"), rs.getString("surname"), rs.getString("email"));
+            User user = null;
+            try {
+                user = User.makeUser(rs.getInt("PA.authorId_fk"), rs.getString("name"), rs.getString("surname"), rs.getString("email"));
+            } catch (Exception e) {
+                throw new InvalidParameterException("Invalid parameters for create user");
+            }
 
             Author author = new Author();
             author.setId(user.getId());
@@ -143,7 +148,12 @@ public class AuthorDAO {
 
         Author author = null;
         if(rs.next()) {
-            User user = User.makeUser(rs.getInt("U.id"), rs.getString("name"), rs.getString("surname"), rs.getString("email"));
+            User user = null;
+            try {
+                user = User.makeUser(rs.getInt("U.id"), rs.getString("name"), rs.getString("surname"), rs.getString("email"));
+            } catch (Exception e) {
+                throw new InvalidParameterException("Invalid parameters for create user");
+            }
 
             author = new Author();
             author.setId(user.getId());
