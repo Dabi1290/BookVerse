@@ -107,7 +107,7 @@ public class ProposalCreation extends HttpServlet {
                 coAuthors.add(coAuthor);
             } catch (SQLException e) {
                 e.printStackTrace();
-                throw new RuntimeException(e);
+                throw new ServletException(e);
             } catch (Exception e) {
                 e.printStackTrace();
                 throw new ServletException("The parameter passed is not valid");
@@ -124,7 +124,7 @@ public class ProposalCreation extends HttpServlet {
             proposalId = proposalDao.newProposal(proposal);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new ServletException(e);
         } catch (InvalidParameterException e) {
             e.printStackTrace();
             throw new ServletException(e.getMessage());
@@ -171,9 +171,10 @@ public class ProposalCreation extends HttpServlet {
             versionId = proposalDao.newVersion(proposal, version);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new ServletException(e);
         } catch (InvalidParameterException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new ServletException(e);
         }
         version.setId(versionId);
         //Create first version of the proposal and persist to database
@@ -196,9 +197,10 @@ public class ProposalCreation extends HttpServlet {
             proposalDao.updateVersion(version);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new ServletException(e);
         } catch (InvalidParameterException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new ServletException(e);
         }
         //Update version with correct name of the files
 

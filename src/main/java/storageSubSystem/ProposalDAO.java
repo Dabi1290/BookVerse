@@ -45,13 +45,14 @@ public class ProposalDAO {
 
             p.setId(rs.getInt("id"));
             p.setStatus(rs.getString("status"));
-
-            p.setVersions(this.findProposalVersions(p.getId()));
-
             s.add(p);
+
+        }
+        c.close();
+        for(Proposal p : s) {
+            p.setVersions(this.findProposalVersions(p.getId()));
         }
 
-        c.close();
 
         return s;
     }
@@ -83,12 +84,16 @@ public class ProposalDAO {
             p.setId(rs.getInt("id"));
             p.setStatus(rs.getString("status"));
 
-            p.setVersions(this.findProposalVersions(p.getId()));
+
 
             s.add(p);
         }
-
         c.close();
+        for(Proposal p:s){
+            p.setVersions(this.findProposalVersions(p.getId()));
+        }
+
+
 
         return s;
     }
@@ -122,12 +127,15 @@ public class ProposalDAO {
             p.setId(rs.getInt("id"));
             p.setStatus(rs.getString("status"));
 
-            p.setVersions(this.findProposalVersions(p.getId()));
+
 
             proposals.add(p);
         }
 
         c.close();
+        for(Proposal p: proposals){
+            p.setVersions(this.findProposalVersions(p.getId()));
+        }
 
         return proposals;
     }
@@ -302,14 +310,15 @@ public class ProposalDAO {
         if(rs.next()) {
             proposal.setId(rs.getInt("id"));
             proposal.setStatus(rs.getString("status"));
-
+            c.close();
             List<Version> versions = this.findProposalVersions(id);
             proposal.setVersions(versions);
         }
-        else
+        else {
+            c.close();
             return null;
+        }
 
-        c.close();
 
         return proposal;
     }

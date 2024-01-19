@@ -91,7 +91,6 @@ public class UserDAO {
             User u = User.makeUser(id,name,surname,emailu,passwordu);
             u.setCurrentRole(role);
 
-            ProposalDAO proposalDAO = new ProposalDAO(ds);
 
             if(role.equals("Validator")) {
                 u.setRoleValidator(Validator.makeValidator(validatorId, null));
