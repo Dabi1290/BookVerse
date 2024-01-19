@@ -27,8 +27,8 @@ import java.util.TreeSet;
 
 @WebServlet(name = "ProposalCorrection", value="/ProposalCorrection")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 20, // 20MB
-        maxFileSize = 1024 * 1024 * 100,      // 100MB
-        maxRequestSize = 1024 * 1024 * 500)   // 500MB
+        maxFileSize = 1024 * 1024 * 500,      // 500MB
+        maxRequestSize = 1024 * 1024 * 1500)   // 1500MB
 public class ProposalCorrection extends HttpServlet {
 
     protected static String TITLE_PAR = "title";

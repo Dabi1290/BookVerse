@@ -24,7 +24,11 @@ public class Validator {
         return validator;
     }
 
-    public void assignProposal(Proposal proposal) {
+    public void assignProposal(Proposal proposal) throws Exception {
+
+        if(proposal == null)
+            throw new Exception("Proposal is not valid");
+
         assignedProposals.add(proposal);
     }
 

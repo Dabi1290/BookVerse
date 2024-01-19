@@ -128,6 +128,7 @@ public class PayProposal extends HttpServlet {
         try {
             proposalDao.updateProposalState(proposal);
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new ServletException("Failed to update status of proposal in DB");
         }
         //Update status of proposal
@@ -152,8 +153,6 @@ public class PayProposal extends HttpServlet {
             throw new ServletException("Failed to add ebook in DB");
         }
         //create ebook
-
-        //CHECK: set ebookId........
 
 
 
