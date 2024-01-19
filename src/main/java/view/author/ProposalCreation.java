@@ -7,10 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import proposalManager.Proposal;
 import proposalManager.Version;
-import storageSubSystem.AuthorDAO;
-import storageSubSystem.FileDAO;
-import storageSubSystem.ProposalDAO;
-import storageSubSystem.ValidatorDAO;
+import storageSubSystem.*;
 import userManager.Author;
 import userManager.User;
 import userManager.Validator;
@@ -128,6 +125,9 @@ public class ProposalCreation extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+            throw new ServletException(e.getMessage());
         }
         proposal.setId(proposalId);
         //Create new proposal and persist to database

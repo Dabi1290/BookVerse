@@ -17,7 +17,18 @@ public class ProposalDAO {
     public ProposalDAO(DataSource ds) {
         this.ds=ds;
     }
-    public Set<Proposal> findByValidator(int vid) throws SQLException {
+    public Set<Proposal> findByValidator(int vid) throws SQLException, InvalidParameterException {
+
+        //Check if parameters are valid
+        if(vid <= 0)
+            throw new InvalidParameterException("Value not valid for validator");
+
+        ValidatorDAO validatorDAO = new ValidatorDAO(ds);
+        if(validatorDAO.findValidatorById(vid) == null)
+            throw new InvalidParameterException("This validator doesn't exist on database");
+        //Check if parameters are valid
+
+
 
         String query="SELECT * FROM Proposal JOIN ProposalValidator as p ON proposalId_fk=id WHERE p.validatorId_fk=?";
 
@@ -43,7 +54,18 @@ public class ProposalDAO {
 
         return s;
     }
-    public Set<Proposal> findByCoAuthor(int authorId) throws SQLException {
+    public Set<Proposal> findByCoAuthor(int authorId) throws SQLException, InvalidParameterException {
+
+        //Check parameters
+        if(authorId <= 0)
+            throw new InvalidParameterException("not a valid value for id");
+
+        AuthorDAO authorDAO = new AuthorDAO(ds);
+        if(authorDAO.findByID(authorId) == null)
+            throw new InvalidParameterException("Doesn't exist an author with this id");
+        //Check parameters
+
+
 
         String query = "SELECT * FROM Proposal JOIN ProposalAuthor as p ON proposalId_fk=id WHERE p.authorId_fk=?";
 
@@ -70,7 +92,18 @@ public class ProposalDAO {
         return s;
     }
 
-    public Set<Proposal> findByMainAuthor(int mainAuthorId) throws SQLException {
+    public Set<Proposal> findByMainAuthor(int mainAuthorId) throws SQLException, InvalidParameterException {
+
+        //Check parameters
+        if(mainAuthorId <= 0)
+            throw new InvalidParameterException("not a valid value for id");
+
+        AuthorDAO authorDAO = new AuthorDAO(ds);
+        if(authorDAO.findByID(mainAuthorId) == null)
+            throw new InvalidParameterException("Doesn't exist an author with this id");
+        //Check parameters
+
+
 
         String query = "SELECT * FROM Proposal WHERE mainAuthorId_fk=?";
 
@@ -96,6 +129,215 @@ public class ProposalDAO {
         c.close();
 
         return proposals;
+    }
+
+    public int newProposal(Proposal proposal) throws SQLException, InvalidParameterException {
+
+        //Check parameters
+        if(proposal == null)
+            throw new InvalidParameterException("Can't create a null proposal in the database");
+        //Check parameters
+
+
+
+        Author mainAuthor = proposal.getProposedBy();
+        int mainAuthorId = mainAuthor.getId();
+
+        String query = "INSERT INTO Proposal(status, mainAuthorId_fk) VALUES (?, ?)";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        ps.setString(1, "Pending");
+        ps.setInt(2, mainAuthorId);
+        ps.execute();
+
+
+
+        int generatedId = 0;
+        ResultSet rs = ps.getGeneratedKeys();
+        if(rs.next()) {
+            generatedId = rs.getInt(1);
+        }
+        else
+            throw new SQLException("Failed to retrieve generated key");
+
+
+
+        Set<Author> coAuthors = proposal.getCollaborators();
+        for(Author author : coAuthors) {
+            int authorId = author.getId();
+
+            String insertCoAuthors = "INSERT INTO ProposalAuthor(authorId_fk, proposalId_fk) values (?, ?)";
+
+            PreparedStatement psForCoAuthors = c.prepareStatement(insertCoAuthors);
+            psForCoAuthors.setInt(1, authorId);
+            psForCoAuthors.setInt(2, generatedId);
+            psForCoAuthors.execute();
+        }
+
+        c.close();
+
+        return generatedId;
+    }
+
+    public int newVersion(Proposal proposal, Version version) throws SQLException, InvalidParameterException {
+
+        //Check parameters
+        if(proposal == null)
+            throw new InvalidParameterException("null is not a valid value for proposal");
+
+        if(version == null)
+            throw new InvalidParameterException("null is not a valid value for version");
+
+        if(proposal.getId() <= 0)
+            throw new InvalidParameterException("Value of id is not valid");
+
+        if(findById(proposal.getId()) == null)
+            throw new InvalidParameterException("This proposal doesn't exist on database");
+        //Check parameters
+
+
+
+        String insertVersion = "INSERT INTO Version(title, description, price, data, proposalId_fk) values (?, ?, ?, ?, ?)";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(insertVersion, Statement.RETURN_GENERATED_KEYS);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = version.getDate().format(formatter);
+
+        ps.setString(1, version.getTitle());
+        ps.setString(2, version.getDescription());
+        ps.setInt(3, version.getPrice());
+        ps.setString(4, date);
+        ps.setInt(5, proposal.getId());
+
+        ps.execute();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        int generatedId = 0;
+        if(rs.next()) {
+            generatedId = rs.getInt(1);
+        }
+
+
+
+        Set<String> genres = version.getGenres();
+        for(String genre : genres) {
+            String insertVersionGenres = "INSERT INTO VersionGenre(versionId_fk, genreId_fk) values (?, ?)";
+
+            PreparedStatement genrePs = c.prepareStatement(insertVersionGenres);
+            genrePs.setInt(1, generatedId);
+            genrePs.setString(2, genre);
+            genrePs.execute();
+        }
+
+        c.close();
+
+        return generatedId;
+    }
+
+    public void updateVersion(Version version) throws SQLException, InvalidParameterException {
+
+        //Check parameters
+        if(version == null)
+            throw new InvalidParameterException("version can't be null");
+
+        if(version.getId() <= 0)
+            throw new InvalidParameterException("not a valid value for id");
+
+
+        //Check parameters
+
+
+
+        String query = "UPDATE Version SET title = ?, description = ?, price = ?, coverImage = ?, report = ?, ebookFile = ?, data = ? WHERE id = ?";
+
+        Connection c = ds.getConnection();
+
+        String report = null;
+        if(version.getReport() != null)
+            report = version.getReport().getName();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = version.getDate().format(formatter);
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setString(1, version.getTitle());
+        ps.setString(2, version.getDescription());
+        ps.setInt(3, version.getPrice());
+        ps.setString(4, version.getCoverImage().getName());
+        ps.setString(5, report);
+        ps.setString(6, version.getEbookFile().getName());
+        ps.setString(7, date);
+        ps.setInt(8, version.getId());
+
+        ps.execute();
+
+        c.close();
+    }
+
+    public Proposal findById(int id) throws SQLException, InvalidParameterException {
+
+        //Check parameters
+        if(id <= 0)
+            throw new InvalidParameterException("id value is not valid");
+        //Check parameters
+
+
+
+        String query = "SELECT * FROM Proposal as P WHERE P.id=?";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+
+        Proposal proposal = new Proposal();
+        if(rs.next()) {
+            proposal.setId(rs.getInt("id"));
+            proposal.setStatus(rs.getString("status"));
+
+            List<Version> versions = this.findProposalVersions(id);
+            proposal.setVersions(versions);
+        }
+        else
+            return null;
+
+        c.close();
+
+        return proposal;
+    }
+
+    public void updateProposalState(Proposal proposal) throws SQLException {
+
+        String query = "UPDATE Proposal SET status = ? WHERE id = ?";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setString(1, proposal.getStatus());
+        ps.setInt(2, proposal.getId());
+        ps.execute();
+
+        c.close();
+    }
+
+    public void assignValidator(Proposal proposal, Validator validator) throws  SQLException {
+
+        String query = "INSERT INTO ProposalValidator(validatorId_fk, proposalId_fk) values(?, ?)";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, validator.getId());
+        ps.setInt(2, proposal.getId());
+        ps.execute();
+
+        c.close();
     }
 
     private List<Version> findProposalVersions(int proposalId) throws SQLException {
@@ -153,172 +395,5 @@ public class ProposalDAO {
         c.close();
 
         return versions;
-    }
-
-    public int newProposal(Proposal proposal) throws SQLException {
-
-        Author mainAuthor = proposal.getProposedBy();
-        int mainAuthorId = mainAuthor.getId();
-
-        String query = "INSERT INTO Proposal(status, mainAuthorId_fk) VALUES (?, ?)";
-
-        Connection c = ds.getConnection();
-
-        PreparedStatement ps = c.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-        ps.setString(1, "Pending");
-        ps.setInt(2, mainAuthorId);
-        ps.execute();
-
-
-
-        int generatedId = 0;
-        ResultSet rs = ps.getGeneratedKeys();
-        if(rs.next()) {
-            generatedId = rs.getInt(1);
-        }
-        else
-            throw new SQLException("Failed to retrieve generated key");
-
-
-
-        Set<Author> coAuthors = proposal.getCollaborators();
-        for(Author author : coAuthors) {
-            int authorId = author.getId();
-
-            String insertCoAuthors = "INSERT INTO ProposalAuthor(authorId_fk, proposalId_fk) values (?, ?)";
-
-            PreparedStatement psForCoAuthors = c.prepareStatement(insertCoAuthors);
-            psForCoAuthors.setInt(1, authorId);
-            psForCoAuthors.setInt(2, generatedId);
-            psForCoAuthors.execute();
-        }
-
-        c.close();
-
-        return generatedId;
-    }
-
-    public int newVersion(Proposal proposal, Version version) throws SQLException {
-
-        String insertVersion = "INSERT INTO Version(title, description, price, data, proposalId_fk) values (?, ?, ?, ?, ?)";
-
-        Connection c = ds.getConnection();
-
-        PreparedStatement ps = c.prepareStatement(insertVersion, Statement.RETURN_GENERATED_KEYS);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String date = version.getDate().format(formatter);
-
-        ps.setString(1, version.getTitle());
-        ps.setString(2, version.getDescription());
-        ps.setInt(3, version.getPrice());
-        ps.setString(4, date);
-        ps.setInt(5, proposal.getId());
-
-        ps.execute();
-
-        ResultSet rs = ps.getGeneratedKeys();
-        int generatedId = 0;
-        if(rs.next()) {
-            generatedId = rs.getInt(1);
-        }
-
-
-
-        Set<String> genres = version.getGenres();
-        for(String genre : genres) {
-            String insertVersionGenres = "INSERT INTO VersionGenre(versionId_fk, genreId_fk) values (?, ?)";
-
-            PreparedStatement genrePs = c.prepareStatement(insertVersionGenres);
-            genrePs.setInt(1, generatedId);
-            genrePs.setString(2, genre);
-            genrePs.execute();
-        }
-
-        c.close();
-
-        return generatedId;
-    }
-
-    public void updateVersion(Version version) throws SQLException {
-
-        String query = "UPDATE Version SET title = ?, description = ?, price = ?, coverImage = ?, report = ?, ebookFile = ?, data = ? WHERE id = ?";
-
-        Connection c = ds.getConnection();
-
-        String report = null;
-        if(version.getReport() != null)
-            report = version.getReport().getName();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String date = version.getDate().format(formatter);
-
-        PreparedStatement ps = c.prepareStatement(query);
-        ps.setString(1, version.getTitle());
-        ps.setString(2, version.getDescription());
-        ps.setInt(3, version.getPrice());
-        ps.setString(4, version.getCoverImage().getName());
-        ps.setString(5, report);
-        ps.setString(6, version.getEbookFile().getName());
-        ps.setString(7, date);
-        ps.setInt(8, version.getId());
-
-        ps.execute();
-
-        c.close();
-    }
-
-    public Proposal findById(int id) throws SQLException {
-
-        String query = "SELECT * FROM Proposal as P WHERE P.id=?";
-
-        Connection c = ds.getConnection();
-
-        PreparedStatement ps = c.prepareStatement(query);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-
-        Proposal proposal = new Proposal();
-        if(rs.next()) {
-            proposal.setId(rs.getInt("id"));
-            proposal.setStatus(rs.getString("status"));
-
-            List<Version> versions = this.findProposalVersions(id);
-            proposal.setVersions(versions);
-        }
-        else
-            return null;
-
-        c.close();
-
-        return proposal;
-    }
-
-    public void updateProposalState(Proposal proposal) throws SQLException {
-
-        String query = "UPDATE Proposal SET status = ? WHERE id = ?";
-
-        Connection c = ds.getConnection();
-
-        PreparedStatement ps = c.prepareStatement(query);
-        ps.setString(1, proposal.getStatus());
-        ps.setInt(2, proposal.getId());
-        ps.execute();
-
-        c.close();
-    }
-
-    public void assignValidator(Proposal proposal, Validator validator) throws  SQLException {
-
-        String query = "INSERT INTO ProposalValidator(validatorId_fk, proposalId_fk) values(?, ?)";
-
-        Connection c = ds.getConnection();
-
-        PreparedStatement ps = c.prepareStatement(query);
-        ps.setInt(1, validator.getId());
-        ps.setInt(2, proposal.getId());
-        ps.execute();
-
-        c.close();
     }
 }

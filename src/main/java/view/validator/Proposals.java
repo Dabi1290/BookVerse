@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import storageSubSystem.InvalidParameterException;
 import storageSubSystem.ProposalDAO;
 import userManager.User;
 import userManager.Validator;
@@ -45,6 +46,9 @@ public class Proposals extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to load assigned proposal to this validator");
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+            throw new ServletException(e.getMessage());
         }
         //Retrieve assigned proposals to validator
 
