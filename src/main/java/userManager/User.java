@@ -21,7 +21,25 @@ public class User {
         this.alreadyLoadedRoleValidator = false;
     }
 
-    public static User makeUser(int id, String name, String surname, String email, String password) {
+    public static User makeUser(int id, String name, String surname, String email, String password) throws Exception {
+
+        //Check parameters
+        if(id <= 0)
+            throw new Exception("value not valid for id");
+
+        if(name == null || name.isEmpty())
+            throw new Exception("value not valid for name");
+
+        if(surname == null || surname.isEmpty())
+            throw new Exception("value not valid for surname");
+
+        if(email == null || email.isEmpty())
+            throw new Exception("value not valid for email");
+
+        if(password == null || password.isEmpty())
+            throw new Exception("value not valid for password");
+        //Check parameters
+
         User user = new User();
 
         user.id = id;
@@ -33,7 +51,24 @@ public class User {
         return user;
     }
 
-    public static User makeUser(int id, String name, String surname, String email) {
+    public static User makeUser(int id, String name, String surname, String email) throws Exception {
+
+        //Check parameters
+        if(id <= 0)
+            throw new Exception("value not valid for id");
+
+        if(name == null || name.isEmpty())
+            throw new Exception("value not valid for name");
+
+        if(surname == null || surname.isEmpty())
+            throw new Exception("value not valid for surname");
+
+        if(email == null || email.isEmpty())
+            throw new Exception("value not valid for email");
+        //Check parameters
+
+
+
         User user = new User();
 
         user.id = id;
