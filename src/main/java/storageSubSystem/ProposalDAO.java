@@ -247,8 +247,6 @@ public class ProposalDAO {
 
         if(version.getId() <= 0)
             throw new InvalidParameterException("not a valid value for id");
-
-
         //Check parameters
 
 
@@ -312,7 +310,17 @@ public class ProposalDAO {
         return proposal;
     }
 
-    public void updateProposalState(Proposal proposal) throws SQLException {
+    public void updateProposalState(Proposal proposal) throws SQLException, InvalidParameterException {
+
+        //Check parameters
+        if(proposal == null || proposal.getId() <= 0)
+            throw new InvalidParameterException("proposal value is not valid");
+
+        if(findById(proposal.getId()) == null)
+            throw new InvalidParameterException("This proposal doesn't exist on database");
+        //Check parameters
+
+
 
         String query = "UPDATE Proposal SET status = ? WHERE id = ?";
 
@@ -326,7 +334,24 @@ public class ProposalDAO {
         c.close();
     }
 
-    public void assignValidator(Proposal proposal, Validator validator) throws  SQLException {
+    public void assignValidator(Proposal proposal, Validator validator) throws SQLException, InvalidParameterException {
+
+        //Check parameters
+        if(proposal == null || proposal.getId() <= 0)
+            throw new InvalidParameterException("value not valid for proposal");
+
+        if(validator == null || validator.getId() <= 0)
+            throw new InvalidParameterException("value not valid for validator");
+
+        if(findById(proposal.getId()) == null)
+            throw new InvalidParameterException("This proposal doesn't exist on database");
+
+        ValidatorDAO validatorDAO = new ValidatorDAO(ds);
+        if(validatorDAO.findValidatorById(validator.getId()) == null)
+            throw new InvalidParameterException("This validator doesn't exist on database");
+        //Check parameters
+
+
 
         String query = "INSERT INTO ProposalValidator(validatorId_fk, proposalId_fk) values(?, ?)";
 
