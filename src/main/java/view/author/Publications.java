@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import proposalManager.Proposal;
 import storageSubSystem.AuthorDAO;
+import storageSubSystem.InvalidParameterException;
 import storageSubSystem.ProposalDAO;
 import userManager.Author;
 import userManager.User;
@@ -60,6 +61,9 @@ public class Publications extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to retrieve the proposals associated with this main author");
+        } catch (InvalidParameterException ex) {
+            ex.printStackTrace();
+            throw new ServletException("Some problems with parameters");
         }
         //Retrieve proposals where author that makes request is main author
 
@@ -76,6 +80,9 @@ public class Publications extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to retrieve the proposals associated with this coAuthor");
+        } catch (InvalidParameterException ex) {
+            ex.printStackTrace();
+            throw new ServletException(ex.getMessage());
         }
         //Retrieve proposals where author that make request is a collaborator
 

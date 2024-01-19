@@ -111,6 +111,9 @@ public class ProposalCreation extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new ServletException("The parameter passed is not valid");
             }
         }
 

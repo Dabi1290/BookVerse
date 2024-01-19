@@ -25,6 +25,29 @@ public class ValidatorDAO implements ValidatorDispatcher {
 
     public Validator findFreeValidator(Author mainAuthor, Set<Author> coAuthors) throws Exception {
 
+        //Check if parameters are valid
+        if(mainAuthor == null || coAuthors == null)
+            throw new InvalidParameterException("mainAuthor or coAuthors can't be null");
+
+        if(mainAuthor.getId() <= 0)
+            throw new InvalidParameterException("not a valid value for id");
+
+        if( coAuthors.stream().anyMatch(a -> a.getId() <= 0))
+            throw new InvalidParameterException("not a valid value for id");
+        
+        AuthorDAO authorDAO = new AuthorDAO(ds);
+
+        if(authorDAO.findByID(mainAuthor.getId()) == null)
+            throw new InvalidParameterException("This mainAuthor doesn't exist on database");
+
+        for(Author a : coAuthors) {
+            if(authorDAO.findByID(a.getId()) == null)
+                throw new InvalidParameterException("At least a coAuthor doesn't exist on database");
+        }
+        //Check if parameters are valid
+
+
+
         Set<Integer> idAuthors = new TreeSet<>();
         idAuthors.add(mainAuthor.getId());
         for(Author coAuthor : coAuthors) {

@@ -10,6 +10,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import storageSubSystem.AuthorDAO;
+import storageSubSystem.InvalidParameterException;
 import userManager.User;
 
 import javax.sql.DataSource;
@@ -35,6 +36,9 @@ public class SearchAuthor extends HttpServlet {
             out.flush();
         } catch (SQLException var9) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } catch (InvalidParameterException ex) {
+            ex.printStackTrace();
+            throw new ServletException("Invalid parameter exception");
         }
 
     }

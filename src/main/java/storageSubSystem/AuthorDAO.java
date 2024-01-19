@@ -20,7 +20,12 @@ public class AuthorDAO {
         this.ds=ds;
     }
 
-    public Author findByID(int id) throws SQLException {
+    public Author findByID(int id) throws InvalidParameterException, SQLException {
+
+        if(id <= 0)
+            throw new InvalidParameterException("The value of id is not valid");
+
+
         Author a=null;
 
         String query = "SELECT * FROM Author WHERE id=?";
@@ -40,7 +45,12 @@ public class AuthorDAO {
         return a;
     }
 
-    public Set<User> findAuthorsByEmail(String email) throws SQLException {
+    public Set<User> findAuthorsByEmail(String email) throws SQLException, InvalidParameterException {
+
+        if(email == null || email.isEmpty())
+            throw new InvalidParameterException("email is not valid");
+
+
         email=email+"%";
         String query = "SELECT * FROM Author, User WHERE Author.id=User.id AND User.email LIKE ?";
 
@@ -73,7 +83,17 @@ public class AuthorDAO {
         return authors;
     }
 
-    public Set<Author> findCoAuthorsForProposal(Proposal proposal) throws SQLException {
+    public Set<Author> findCoAuthorsForProposal(Proposal proposal) throws SQLException, InvalidParameterException {
+
+        //Check if parameters are valid
+        if(proposal == null || proposal.getId() <= 0)
+            throw new InvalidParameterException("proposal parameter is not valid");
+
+        if ( new ProposalDAO(ds).findById(proposal.getId()) == null)
+            throw new InvalidParameterException("proposal doesn't exist on database");
+        //Check if parameters are valid
+
+
 
         String query = "SELECT * FROM Proposal as P, ProposalAuthor as PA, User as U WHERE P.id = PA.proposalId_fk AND U.id = PA.authorId_fk AND P.id = ?";
 
@@ -101,7 +121,17 @@ public class AuthorDAO {
         return coAuthors;
     }
 
-    public Author findMainAuthorForProposal(Proposal proposal) throws SQLException {
+    public Author findMainAuthorForProposal(Proposal proposal) throws SQLException, InvalidParameterException {
+
+        //Check if parameters are valid
+        if(proposal == null || proposal.getId() <= 0)
+            throw new InvalidParameterException("proposal parameter is not valid");
+
+        if ( new ProposalDAO(ds).findById(proposal.getId()) == null)
+            throw new InvalidParameterException("proposal doesn't exist on database");
+        //Check if parameters are valid
+
+
 
         String query = "SELECT * FROM Proposal as P, User as U WHERE P.mainAuthorId_fk = U.id AND P.id = ?";
 
