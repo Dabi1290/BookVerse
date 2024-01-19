@@ -79,7 +79,13 @@ public class RefuseProposal extends HttpServlet {
 
 
         //Add report file to the last version of the proposal and update state of the proposal
-        Version lastVersion = proposal.lastVersion();
+        Version lastVersion = null;
+        try {
+            lastVersion = proposal.lastVersion();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Failed to retrieve last version from proposal");
+        }
 
         String tomcatRootDirectory = getServletContext().getRealPath("/");
         int versionId = lastVersion.getId();

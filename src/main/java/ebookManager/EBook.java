@@ -28,7 +28,7 @@ public class EBook {
         this.mainAuthorAlreadyLoaded = false;
     }
 
-    public static EBook makeEbook(Proposal proposal) {
+    public static EBook makeEbook(Proposal proposal) throws Exception {
         EBook book = new EBook();
 
         book.mainAuthorAlreadyLoaded = true;

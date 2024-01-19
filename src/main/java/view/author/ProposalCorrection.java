@@ -130,7 +130,14 @@ public class ProposalCorrection extends HttpServlet {
 
         //Create a new version and persist to database
         Version lastVersion = Version.makeVersion(title, description, price, null, null, null, LocalDate.now(), genres);
-        proposal.addVersion(lastVersion);
+
+        try {
+            proposal.addVersion(lastVersion);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Failed to add version to proposal");
+        }
+
         int versionId = -1;
         try {
             versionId = proposalDao.newVersion(proposal, lastVersion);

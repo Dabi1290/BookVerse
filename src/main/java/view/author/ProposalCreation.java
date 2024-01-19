@@ -110,7 +110,7 @@ public class ProposalCreation extends HttpServlet {
 
         //Create new proposal and persist to database
         ProposalDAO proposalDao = new ProposalDAO(ds);
-        Proposal proposal = Proposal.makeProposal(mainAuthor, coAuthors,"pending");
+        Proposal proposal = Proposal.makeProposal(mainAuthor, coAuthors,"Pending");
         int proposalId = -1;
         try {
             proposalId = proposalDao.newProposal(proposal);
@@ -140,7 +140,12 @@ public class ProposalCreation extends HttpServlet {
 
         //Create first version of the proposal and persist to database
         Version version = Version.makeVersion(title, description, price, null, null, null, LocalDate.now(),  genres);
-        proposal.addVersion(version);
+        try {
+            proposal.addVersion(version);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Failed to add version to proposal");
+        }
 
         int versionId = -1;
         try {

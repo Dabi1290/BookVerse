@@ -3,6 +3,7 @@ package proposalManager;
 import userManager.Author;
 import userManager.Validator;
 
+import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 import java.io.File;
@@ -91,9 +92,30 @@ public class Proposal {
     public void assignValidator(Validator validator){
         this.assignedValidator = validator;
     }
-    public void addVersion(Version version){
+    public void addVersion(Version version) throws Exception {
+        if(! status.equals("Pending") && ! status.equals("Refused"))
+            throw new Exception("Proposal is not on the correct status to add a version");
+
+        if(version == null)
+            throw new Exception("Version can't be null");
+
+        Version lastVersion = null;
+        if(! versions.isEmpty())
+            lastVersion = versions.get(0);
+
+        if(lastVersion != null && lastVersion.getDate().isAfter(version.getDate()))
+            throw new Exception("Version's date not valid");
+
         versions.add(0, version);
     }
+    public Version lastVersion() throws Exception {
+
+        if(versions.isEmpty())
+            throw new Exception("Versions collections is empty");
+
+        return versions.get(0);
+    }
+
     public int getId() {
         return id;
     }
@@ -122,10 +144,6 @@ public class Proposal {
 
     public Set<Author> getCollaborators() {
         return collaborators;
-    }
-
-    public Version lastVersion() {
-        return versions.get(0);
     }
 
     public void setVersions(List<Version> versions) { this.versions = versions; }

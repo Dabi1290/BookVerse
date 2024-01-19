@@ -135,8 +135,13 @@ public class PayProposal extends HttpServlet {
 
 
         //create ebook
-        EBook ebook = new EBook();
-        ebook = EBook.makeEbook(proposal);
+        EBook ebook = null;
+        try {
+            ebook = EBook.makeEbook(proposal);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException("Failed to create ebook from proposal");
+        }
 
         EBookDAO eBookDAO = new EBookDAO(ds);
         try {
