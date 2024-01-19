@@ -9,6 +9,7 @@ import proposalManager.Proposal;
 import proposalManager.Version;
 import proposalManager.WrongStatusException;
 import storageSubSystem.FileDAO;
+import storageSubSystem.InvalidParameterException;
 import storageSubSystem.ProposalDAO;
 import userManager.User;
 import userManager.Validator;
@@ -109,6 +110,8 @@ public class RefuseProposal extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to add the report file to the last version of the proposal");
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException(e);
         }
         //Persist updates of proposal and lastVersion
 

@@ -164,6 +164,8 @@ public class ProposalCreation extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException(e);
         }
         version.setId(versionId);
         //Create first version of the proposal and persist to database
@@ -186,6 +188,8 @@ public class ProposalCreation extends HttpServlet {
             proposalDao.updateVersion(version);
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
+        } catch (InvalidParameterException e) {
             throw new RuntimeException(e);
         }
         //Update version with correct name of the files

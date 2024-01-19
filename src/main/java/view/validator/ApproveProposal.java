@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import proposalManager.Proposal;
 import proposalManager.WrongStatusException;
+import storageSubSystem.InvalidParameterException;
 import storageSubSystem.ProposalDAO;
 import userManager.User;
 import userManager.Validator;
@@ -78,6 +79,8 @@ public class ApproveProposal extends HttpServlet {
             proposalDao.updateProposalState(proposal);
         } catch (SQLException e) {
             throw new ServletException("Failed to update the state of proposal in the database");
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException(e);
         }
         //Approve proposal and update the state of proposal to database
 

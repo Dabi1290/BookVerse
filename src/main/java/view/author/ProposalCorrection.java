@@ -9,6 +9,7 @@ import proposalManager.Proposal;
 import proposalManager.Version;
 import proposalManager.WrongStatusException;
 import storageSubSystem.FileDAO;
+import storageSubSystem.InvalidParameterException;
 import storageSubSystem.ProposalDAO;
 import userManager.Author;
 import userManager.User;
@@ -131,6 +132,8 @@ public class ProposalCorrection extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to update the state of proposal on database");
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException(e);
         }
         //Correct proposal and update proposal's state to database
 
@@ -152,6 +155,8 @@ public class ProposalCorrection extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to persist new version on database");
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException(e);
         }
         lastVersion.setId(versionId);
         //Create a new version and persist to database
@@ -173,6 +178,8 @@ public class ProposalCorrection extends HttpServlet {
         try {
             proposalDao.updateVersion(lastVersion);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (InvalidParameterException e) {
             throw new RuntimeException(e);
         }
         //Update version to add ebookFileName and coverImageName in database

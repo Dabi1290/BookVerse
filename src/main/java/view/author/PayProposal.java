@@ -15,6 +15,7 @@ import jakarta.servlet.annotation.*;
 import proposalManager.Proposal;
 import proposalManager.WrongStatusException;
 import storageSubSystem.EBookDAO;
+import storageSubSystem.InvalidParameterException;
 import storageSubSystem.ProposalDAO;
 import userManager.Author;
 import userManager.User;
@@ -130,6 +131,8 @@ public class PayProposal extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to update status of proposal in DB");
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException(e);
         }
         //Update status of proposal
 
