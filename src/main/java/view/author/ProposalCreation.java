@@ -76,6 +76,14 @@ public class ProposalCreation extends HttpServlet {
 
 
 
+        //Check if parameters respect the constraints
+        if ( ! Proposal.isValidParameter(title, genres, price, description)) {
+            throw new ServletException("Parameters are not valid");
+        }
+        //Check if parameters respect the constraints
+
+
+
         //Retrieve session and user from it
         HttpSession session = request.getSession();
 
