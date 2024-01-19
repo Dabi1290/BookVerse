@@ -45,16 +45,16 @@
     Version lv = proposal.lastVersion();
 
 %>
-<form class="proposal-form" action="/ProposalCorrection?proposalId=<%=id%>" method="post" enctype="multipart/form-data">    <!-- Start form -->
+<form class="proposal-form" action="/ProposalCorrection?proposalId=<%=id%>" method="post" enctype="multipart/form-data" id="form-pippo">    <!-- Start form -->
     <label for="title" class="label">
         Title
-        <input type="text" placeholder="Title" id="title" name="title" value="<%= lv.getTitle()%>">  <!-- input titolo -->
+        <input type="text" placeholder="Title" id="title" name="title" value="<%= lv.getTitle()%>" onblur="checkTitle()">  <!-- input titolo -->
     </label>
 
     <div class="ebook-inf" >
         <label for="price" class="label">
             Price
-            <input type="text" placeholder="25" id="price" name="price" value="<%= lv.getPrice()%>"> <!-- input prezzo -->
+            <input type="text" placeholder="25" id="price" name="price" value="<%= lv.getPrice()%>" onblur="checkPrice()"> <!-- input prezzo -->
         </label>
 
         <label for="e-book" class="label">
@@ -62,7 +62,7 @@
 
             <div class="input-container" >
                 <img src="assets/images/upload.png" class="icon" id="e-book-icon">
-                <input type="file" id="e-book" class="input-file" name="ebookFile"> <!-- input pdf -->
+                <input type="file" id="e-book" class="input-file" name="ebookFile" onchange="checkEbook()"> <!-- input pdf -->
                 <div class="labeling" id="upload-phrase-file">Click to upload</div>
                 <button class="button" id="e-book-button">PDF</button>
                 <span id="upload-check-file">
@@ -75,7 +75,7 @@
             Cover
             <div class="input-container">
                 <img src="assets/images/upload.png" class="icon" id="cover-icon">
-                <input type="file" id="cover" class="input-file" name="coverImage"> <!-- input copertina -->
+                <input type="file" id="cover" class="input-file" name="coverImage" onchange="checkCover()"> <!-- input copertina -->
                 <div class="labeling" id="upload-phrase-cover"> Click to upload</div>
                 <button class="button" id="cover-button">PNG</button>
                 <span id="upload-check-cover">
@@ -84,7 +84,13 @@
                     </span>
             </div>
         </label>
+
+
     </div>
+    <label for="description" class="description">
+        Description
+        <textarea id="description" name="description" onblur="checkDescription()"><%=lv.getDescription()%></textarea>
+    </label>
     <label class="label">
         Genres
         <div class="genre-grid">
@@ -109,8 +115,8 @@
 
         </div>
     </label>
-    <input type="hidden" value="ops" name="description" >
-    <input type="submit" value="Send" class="proposal-send">
+    <div id="error"></div>
+    <div class="proposal-send" onclick="send()" id="send-button">Send</div>
 
 </form>
 </body>

@@ -58,14 +58,14 @@
         }
     %>
     <div id="myOverlay" class="overlay">
-        <form id="form-report" class="overlay-container" method="post" action="" enctype="multipart/form-data">
+        <form id="form-report" class="overlay-container" method="post" action="" enctype="multipart/form-data"">
             <img src="assets/images/exit-cross.png" onclick="hideReport()">
         <div class="report-box">
             <label for="e-book" class="label">
                 Report
                 <div class="input-container" >
                     <img src="assets/images/upload.png" class="icon" id="e-book-icon">
-                    <input type="file" id="e-book" class="input-file" name="report"> <!-- input pdf -->
+                    <input type="file" id="e-book" class="input-file" name="report" onchange="checkEbook()"> <!-- input pdf -->
                     <div class="labeling" id="upload-phrase-file">Click to upload</div>
                     <button class="button" id="e-book-button">PDF</button>
                     <span id="upload-check-file">
@@ -74,7 +74,7 @@
                     </span>
                 </div>
             </label>
-            <input type="submit" class="orange-button" value="Refuse">
+            <div class="orange-button" onclick="sendValidator()"> Refuse</div>
 
         </div>
         </form>

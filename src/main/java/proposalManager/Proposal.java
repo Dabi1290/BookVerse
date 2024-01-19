@@ -112,7 +112,6 @@ public class Proposal {
 
         if(versions.isEmpty())
             throw new Exception("Versions collections is empty");
-
         return versions.get(0);
     }
 

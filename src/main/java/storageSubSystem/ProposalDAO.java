@@ -159,9 +159,9 @@ public class ProposalDAO {
         if(rs.next()) {
             generatedId = rs.getInt(1);
         }
-        else
+        else {
             throw new SQLException("Failed to retrieve generated key");
-
+        }
 
 
         Set<Author> coAuthors = proposal.getCollaborators();
@@ -220,6 +220,9 @@ public class ProposalDAO {
         int generatedId = 0;
         if(rs.next()) {
             generatedId = rs.getInt(1);
+        }
+        else{
+            throw new SQLException("Tisca Tusca");
         }
 
 

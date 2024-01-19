@@ -321,6 +321,31 @@ body{
     flex-direction: row;
     justify-content: space-between;
 }
+.description{
+    display: flex;
+    flex-direction: column;
+}
+#description{
+    width: 500px;
+    height: 100px;
+}
+#error{
+    color: #EE1515;
+}
+.description{
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+.publish-button{
+    position: fixed;
+    background-color: #DC4712;
+    color: #fff;
+    padding: 10px 10px;
+    cursor: pointer;
+    right: 100px;
+    bottom: 100px;
+    border-radius: 50px;
+}
 @media  (max-width: 630px) {
     .proposal-author{
         width: 300px;
@@ -340,6 +365,12 @@ body{
     .proposal-genres p{
         font: 400 10px Comfortaa, sans-serif;
     }
+
+    #description{
+        width: 300px;
+        height: 100px;
+    }
+
 }
 @media  (max-width: 700px) {
     .ebook-inf{

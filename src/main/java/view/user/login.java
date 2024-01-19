@@ -62,7 +62,7 @@ public class login extends HttpServlet {
 
         //wrong credentials
         if(user == null) {
-            request.setAttribute("error", "Credenziali Errate");
+            request.setAttribute("error", "Wrong credentials");
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
             dispatcher.forward(request, response);
             return ;

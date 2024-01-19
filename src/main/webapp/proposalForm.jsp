@@ -20,7 +20,7 @@
 <%@include file="templates/navbarLogged.jsp" %>
 <%@include file="templates/underNavbarAuthor.jsp" %>
 <% User user = (User) request.getSession().getAttribute("user");%>
-    <form class="proposal-form" action="/ProposalCreation" method="post" enctype="multipart/form-data">    <!-- Start form -->
+    <form class="proposal-form" action="/ProposalCreation" method="post" enctype="multipart/form-data" id="form-pippo">    <!-- Start form -->
         <label for="title" class="label">
             Title
             <input type="text" placeholder="Title" id="title" name="title" onblur="checkTitle()">  <!-- input titolo -->
@@ -60,8 +60,10 @@
                 </div>
             </label>
         </div>
-        <input type="text" value="ops" name="description" >
-
+        <label for="description" class="description">
+            Description
+        <textarea id="description" name="description" onblur="checkDescription()"></textarea>
+        </label>
         <label class="label">
             Author
             <div class="author-row">
@@ -104,7 +106,7 @@
         </label>
 
         <div id="error"></div>
-        <input type="submit" value="Send" class="proposal-send">
+        <div class="proposal-send" onclick="send()" id="send-button">Send</div>
 
     </form>
 </body>

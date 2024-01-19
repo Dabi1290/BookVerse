@@ -94,6 +94,7 @@
     }}
 
 %>
+    <a href="proposalForm.jsp"><div class="publish-button">Publish</div></a>
 </div>
 </body>
 </html>

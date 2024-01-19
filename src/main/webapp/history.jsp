@@ -45,8 +45,17 @@
 
     <div class="proposal-author">
         <div class="title-status">
-            <p><%=v.getTitle() %></p>
+
+            <p>Title<br><br><%=v.getTitle() %></p>
             <div class="status">versions of <%=v.getDate()%></div>
+        </div>
+        <div class="description">
+            <p>Price:  <%=v.getPrice()%></p>
+
+        </div>
+        <div class="description">
+            <p>Description<br></p>
+            <%=v.getDescription()%>asdsadsdsadaasdsadsdsadaasdsadsdsadaasdsadsdsadaasdsadsdsadaasdsadsdsadaasdsadsdsadaasdsadsdsadaasdsadsdsada
         </div>
         <div class="genre-authors">
             <div class="raggruppa">
