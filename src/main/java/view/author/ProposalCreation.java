@@ -150,7 +150,15 @@ public class ProposalCreation extends HttpServlet {
 
 
         //Create first version of the proposal and persist to database
-        Version version = Version.makeVersion(title, description, price, null, null, null, LocalDate.now(),  genres);
+        Version version = null;
+        try {
+            version = Version.makeVersion(title, description, price, null, null, null, LocalDate.now(),  genres);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServletException(e.getMessage());
+        }
+
+
         try {
             proposal.addVersion(version);
         } catch (Exception e) {

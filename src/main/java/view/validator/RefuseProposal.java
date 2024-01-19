@@ -92,7 +92,13 @@ public class RefuseProposal extends HttpServlet {
         int versionId = lastVersion.getId();
         String reportName = "reportFile_" + Integer.toString(versionId) + ".pdf";
 
-        lastVersion.setReport(new File(tomcatRootDirectory + "/../Files/" + Integer.toString(proposal.getId()) + "/" + reportName));
+        //lastVersion.setReport(new File(tomcatRootDirectory + "/../Files/" + Integer.toString(proposal.getId()) + "/" + reportName));
+        try {
+            lastVersion.addReport(new File(tomcatRootDirectory + "/../Files/" + Integer.toString(proposal.getId()) + "/" + reportName));
+        } catch (Exception e) {
+            throw new ServletException(e.getMessage());
+        }
+
         try {
             proposal.refuse();
         } catch (WrongStatusException e) {

@@ -94,6 +94,15 @@ public class Version {
         return v;
     }
 
+    public void addReport(File report) throws Exception {
+        //check parameters
+        if(report == null)
+            throw new Exception("report value is not valid");
+        //check parameters
+
+        this.report = report;
+    }
+
     public LocalDate getDate() {
         return date;
     }
