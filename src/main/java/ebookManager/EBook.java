@@ -31,7 +31,21 @@ public class EBook {
     public static EBook makeEbook(Proposal proposal) throws Exception {
 
         //Check parameters
+        if(proposal == null)
+            throw new Exception("value of proposal is not valid");
 
+        Version lastVersion = proposal.lastVersion();
+        if(lastVersion == null)
+            throw new Exception("there isn't a version in proposal");
+
+        if(lastVersion.getTitle() == null || lastVersion.getTitle().isEmpty())
+            throw new Exception("value of title is not valid");
+
+        if(lastVersion.getPrice() < 0)
+            throw new Exception("");
+
+        if(lastVersion.getDescription() == null || lastVersion.getDescription().isEmpty())
+            throw new Exception("value of description is not valid");
         //Check parameters
 
 
@@ -46,7 +60,7 @@ public class EBook {
         book.coAuthors = proposal.getCollaborators();
 
         //Retrieve last version info and add to ebook
-        Version lastVersion = proposal.lastVersion();
+        //Version lastVersion = proposal.lastVersion();
         book.description = lastVersion.getDescription();
         book.genres = lastVersion.getGenres();
         book.ebookFile = lastVersion.getEbookFile();
