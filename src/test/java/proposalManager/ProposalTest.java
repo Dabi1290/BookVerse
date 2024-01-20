@@ -308,14 +308,37 @@ class ProposalTest {
     }
 
     @Test
-    void lastVersion() {
-        assertThrows(Exception.class, p::lastVersion);
-        Version v = new Version();
+    void lastVersionErrore() {
         List<Version> lv= new ArrayList<>();
-        lv.add(v);
+        p.setVersions(lv);
+        assertThrows(Exception.class,()->p.lastVersion());
+
+    }
+    @Test
+    void lastVersionOK() {
+        Version v1 = new Version();
+        v1.setDate(LocalDate.of(2030,1,1));
+        List<Version> lv= new ArrayList<>();
+        lv.add(v1);
+        p.setVersions(lv);
         try {
-            p.setVersions(lv);
-            assertEquals(v,p.lastVersion());
+            assertEquals(v1,p.lastVersion());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Test
+    void lastVersionOk1() {
+        Version v1 = new Version();
+        v1.setDate(LocalDate.of(2030,1,1));
+        Version v2 = new Version();
+        v2.setDate(LocalDate.of(2029,1,1));
+        List<Version> lv= new ArrayList<>();
+        lv.add(v1);
+        lv.add(v2);
+        p.setVersions(lv);
+        try {
+            assertEquals(v1,p.lastVersion());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
