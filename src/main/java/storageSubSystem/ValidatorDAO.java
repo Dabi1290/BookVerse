@@ -18,9 +18,14 @@ import userManager.ValidatorDispatcher;
 public class ValidatorDAO implements ValidatorDispatcher {
 
     private DataSource ds=null;
+    private AuthorDAO authorDao=null;
 
     public ValidatorDAO(DataSource ds) {
         this.ds = ds;
+    }
+    public ValidatorDAO(DataSource ds, AuthorDAO authorDao) {
+        this.ds = ds;
+        this.authorDao = authorDao;
     }
 
     public Validator findFreeValidator(Author mainAuthor, Set<Author> coAuthors) throws Exception {
@@ -35,13 +40,12 @@ public class ValidatorDAO implements ValidatorDispatcher {
         if( coAuthors.stream().anyMatch(a -> a.getId() <= 0))
             throw new InvalidParameterException("not a valid value for id");
 
-        AuthorDAO authorDAO = new AuthorDAO(ds);
 
-        if(authorDAO.findByID(mainAuthor.getId()) == null)
+        if(authorDao.findByID(mainAuthor.getId()) == null)
             throw new InvalidParameterException("This mainAuthor doesn't exist on database");
 
         for(Author a : coAuthors) {
-            if(authorDAO.findByID(a.getId()) == null)
+            if(authorDao.findByID(a.getId()) == null)
                 throw new InvalidParameterException("At least a coAuthor doesn't exist on database");
         }
         //Check if parameters are valid
