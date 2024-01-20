@@ -140,7 +140,7 @@ public class ProposalCreation extends HttpServlet {
 
 
         //Find a validator and assign to proposal
-        ValidatorDAO validatorDao = new ValidatorDAO(ds);
+        ValidatorDAO validatorDao = new ValidatorDAO(ds, new AuthorDAO(ds));
 
         try {
             Validator validator = validatorDao.findFreeValidator(proposal.getProposedBy(), proposal.getCollaborators());
