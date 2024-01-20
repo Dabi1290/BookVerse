@@ -1,12 +1,12 @@
 package proposalManager;
 
+import com.sun.source.tree.Tree;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import userManager.Author;
 import userManager.Validator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,57 +22,111 @@ class ProposalTest {
     @Test
     void makeProposalErrorMA1() {
         Author ma = null;
-        List<Author> cA = new ArrayList<>();
-        
+        Set<Author> cA = new HashSet<>();
+        try {
+            assertThrows(Exception.class,()->Proposal.makeProposal(ma,cA));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     @Test
     void makeProposalErrorMA2() {
         Author ma = null;
-
-        ma = new Author();
+        Author ma1 = new Author();
+        Set<Author> cA = new HashSet<>();
+        cA.add(ma1);
+        try {
+            assertThrows(Exception.class,()->Proposal.makeProposal(ma,cA));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     @Test
     void makeProposalErrorMA3() {
         Author ma = null;
-
-        ma = new Author();
+        Author ma1 = new Author();
+        Author ma2 = new Author();
+        Set<Author> cA =new HashSet<>();
+        cA.add(ma1);
+        cA.add(ma2);
+        try {
+            assertThrows(Exception.class,()->Proposal.makeProposal(ma,cA));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     @Test
     void makeProposalErrorCA1() {
-        Author ma = null;
-
-        ma = new Author();
+        Author ma = new Author();
+        Set<Author> cA = new HashSet<>();
+        cA.add(ma);
+        try {
+            assertThrows(Exception.class,()->Proposal.makeProposal(ma,cA));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
     @Test
     void makeProposalErrorCA2() {
-        Author ma = null;
-
-        ma = new Author();
+        Author ma = new Author();
+        Author ma1 = new Author();
+        Set<Author> cA = new HashSet<>();
+        cA.add(ma);
+        cA.add(ma1);
+        try {
+            assertThrows(Exception.class,()->Proposal.makeProposal(ma,cA));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    @Test
-    void makeProposalErrorCA3() {
-        Author ma = null;
-
-        ma = new Author();
-    }
     @Test
     void makeProposalOk1() {
-        Author ma = null;
-
-        ma = new Author();
+        Author ma = new Author();
+        Set<Author> cA = new HashSet<>();
+        Proposal p;
+        try {
+            p=Proposal.makeProposal(ma,cA);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(ma,p.getProposedBy());
+        assertEquals(cA,p.getCollaborators());
+        assertEquals("Pending",p.getStatus());
     }
     @Test
     void makeProposalOk2() {
-        Author ma = null;
-
-        ma = new Author();
+        Author ma = new Author();
+        Author ma1 = new Author();
+        Set<Author> cA = new HashSet<>();
+        cA.add(ma1);
+        Proposal p;
+        try {
+            p=Proposal.makeProposal(ma,cA);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(ma,p.getProposedBy());
+        assertEquals(cA,p.getCollaborators());
+        assertEquals("Pending",p.getStatus());
     }
     @Test
     void makeProposalOk3() {
-        Author ma = null;
-
-        ma = new Author();
+        Author ma = new Author();
+        Author ma1 = new Author();
+        Author ma2 = new Author();
+        Set<Author> cA = new HashSet<>();
+        cA.add(ma1);
+        cA.add(ma2);
+        Proposal p;
+        try {
+            p=Proposal.makeProposal(ma,cA);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(ma,p.getProposedBy());
+        assertEquals(cA,p.getCollaborators());
+        assertEquals("Pending",p.getStatus());
     }
 
     @Test
@@ -167,14 +221,42 @@ class ProposalTest {
     }
 
     @Test
-    void assignValidator() {
+    void assignValidatorErrVnull() {
+        p.setStatus("Pending");
+        Validator v= null;
+        Validator v1= null;
+        p.setAssignedValidator(v1);
+        assertThrows(Exception.class,()->p.assignValidator(v));
+    }
+    @Test
+    void assignValidatorErrAlreadyExist() {
+        p.setStatus("Pending");
         Validator v= new Validator();
         Validator v1= new Validator();
-        p.assignValidator(v);
-        assertEquals(v,p.getAssignedValidator());
-        assertNotEquals(v1,p.getAssignedValidator());
+        p.setAssignedValidator(v1);
+        assertThrows(Exception.class,()->p.assignValidator(v));
     }
-
+    @Test
+    void assignValidatorStato() {
+        p.setStatus("Pippo");
+        Validator v= new Validator();
+        Validator v1= null;
+        p.setAssignedValidator(v1);
+        assertThrows(Exception.class,()->p.assignValidator(v));
+    }
+    @Test
+    void assignValidatorOk() {
+        p.setStatus("Pending");
+        Validator v= new Validator();
+        Validator v1= null;
+        p.setAssignedValidator(v1);
+        try {
+            p.assignValidator(v);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(p.getAssignedValidator(),v);
+    }
     @Test
     void addVersion() {
         //TO-DO

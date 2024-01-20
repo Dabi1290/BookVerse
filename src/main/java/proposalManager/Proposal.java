@@ -23,7 +23,14 @@ public class Proposal {
         this.versions = new ArrayList<>();
     }
 
-    public static Proposal makeProposal(Author author, Set<Author> coAuthors){
+    public static Proposal makeProposal(Author author, Set<Author> coAuthors) throws Exception {
+        if(coAuthors==null)
+            throw new Exception("co-author cannot be null");
+        if(coAuthors.contains(author))
+            throw new Exception("main author cannot be present ne co-authors ");
+        if(author==null)
+            throw new Exception("main author cannot be null");
+
         Proposal p = new Proposal();
         p.proposedBy = author;
         p.collaborators = coAuthors;
@@ -88,7 +95,13 @@ public class Proposal {
 
         this.status = "Pending";
     }
-    public void assignValidator(Validator validator){
+    public void assignValidator(Validator validator) throws Exception {
+        if(!this.status.equals("Pending"))
+            throw  new Exception("Lo stato non è Pending");
+        if(getAssignedValidator()!=null)
+            throw  new Exception("è stato già assegnato un validator");
+        if(validator==null)
+            throw  new Exception("validator non può essere null");
         this.assignedValidator = validator;
     }
     public void addVersion(Version version) throws Exception {
