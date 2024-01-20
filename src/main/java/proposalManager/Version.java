@@ -24,13 +24,13 @@ public class Version {
     public static Version makeVersion(int id, String title, String description, int price, File report, File ebookFile, File coverImage, LocalDate date, Set<String> genres) throws Exception {
 
         //Check parameters
-        if(title == null || title.isEmpty())
+        if(title == null || title.isEmpty() || title.length() > 30)
             throw new Exception("Title value is not valid");
 
         if(id <= 0)
             throw new Exception("id value is not valid");
 
-        if(description == null || description.isEmpty())
+        if(description == null || description.isEmpty() || description.length() > 500)
             throw new Exception("description value is not valid");
 
         if(price < 0 || price > 500)
