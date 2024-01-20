@@ -29,6 +29,13 @@ public class EBook {
     }
 
     public static EBook makeEbook(Proposal proposal) throws Exception {
+
+        //Check parameters
+
+        //Check parameters
+
+
+
         EBook book = new EBook();
 
         book.mainAuthorAlreadyLoaded = true;
