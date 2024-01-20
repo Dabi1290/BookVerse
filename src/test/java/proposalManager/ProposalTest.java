@@ -1,5 +1,6 @@
 package proposalManager;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import userManager.Validator;
 
@@ -10,17 +11,26 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ProposalTest {
 
+    private Proposal p;
+
+    @BeforeEach
+    void setUp() {
+        p = new Proposal();
+    }
+
     @Test
     void makeProposal() {
+
     }
 
     @Test
     void isValidParameter() {
+
     }
 
     @Test
     void approve(){
-        Proposal p = new Proposal();
+        //Proposal p = new Proposal();
         p.setStatus("Pending");
         try {
             p.approve();
@@ -34,13 +44,14 @@ class ProposalTest {
 
     @Test
     void refuse() {
-        Proposal p = new Proposal();
         p.setStatus("Pending");
+
         try {
             p.refuse();
         } catch (WrongStatusException e) {
             throw new RuntimeException(e);
         }
+
         assertEquals("Refused",p.getStatus());
         p.setStatus("Pluto");
         assertThrows(WrongStatusException.class, p::refuse);
@@ -48,8 +59,8 @@ class ProposalTest {
 
     @Test
     void permanentlyRefuse() {
-        Proposal p = new Proposal();
         p.setStatus("Pending");
+
         try {
             p.permanentlyRefuse();
         } catch (WrongStatusException e) {
@@ -62,7 +73,6 @@ class ProposalTest {
 
     @Test
     void pay() {
-        Proposal p = new Proposal();
         p.setStatus("Approved");
         try {
             p.pay();
@@ -76,7 +86,6 @@ class ProposalTest {
 
     @Test
     void correct() {
-        Proposal p = new Proposal();
         p.setStatus("Refused");
         try {
             p.correct();
@@ -92,7 +101,6 @@ class ProposalTest {
     void assignValidator() {
         Validator v= new Validator();
         Validator v1= new Validator();
-        Proposal p= new Proposal();
         p.assignValidator(v);
         assertEquals(v,p.getAssignedValidator());
         assertNotEquals(v1,p.getAssignedValidator());
@@ -100,13 +108,12 @@ class ProposalTest {
 
     @Test
     void addVersion() {
-        Proposal p = new Proposal();
+        //TO-DO
         p.setStatus("Refused");
     }
 
     @Test
     void lastVersion() {
-        Proposal p = new Proposal();
         assertThrows(Exception.class, p::lastVersion);
         Version v = new Version();
         List<Version> lv= new ArrayList<>();

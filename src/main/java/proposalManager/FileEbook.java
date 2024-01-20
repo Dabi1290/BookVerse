@@ -14,5 +14,13 @@ public class FileEbook {
         return true;
     }
 
+    public static boolean checkFile(File fileEbook) {
+
+        if(! fileEbook.getAbsolutePath().endsWith(".pdf"))
+            return false;
+
+        return true;
+    }
+
     private static long MAX_FILE_DIM = 500000000;
 }

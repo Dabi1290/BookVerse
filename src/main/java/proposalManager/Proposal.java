@@ -10,7 +10,6 @@ import java.io.File;
 import java.util.*;
 
 public class Proposal {
-
     private int id;
     private String status;
     private boolean alreadyLoadedAuthor;

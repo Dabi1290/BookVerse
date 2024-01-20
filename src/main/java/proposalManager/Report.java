@@ -13,5 +13,12 @@ public class Report {
         return true;
     }
 
+    public static boolean checkReport(File fileReport){
+        if(! fileReport.getAbsolutePath().endsWith(".pdf"))
+            return false;
+
+        return true;
+    }
+
     private static long MAX_FILE_DIM = 500000000;
 }

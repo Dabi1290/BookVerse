@@ -96,7 +96,7 @@ public class Version {
 
     public void addReport(File report) throws Exception {
         //check parameters
-        if(report == null)
+        if(! Report.checkReport(report))
             throw new Exception("report value is not valid");
         //check parameters
 
