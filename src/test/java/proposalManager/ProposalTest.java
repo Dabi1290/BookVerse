@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import userManager.Author;
 import userManager.Validator;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -258,9 +259,52 @@ class ProposalTest {
         assertEquals(p.getAssignedValidator(),v);
     }
     @Test
-    void addVersion() {
-        //TO-DO
-        p.setStatus("Refused");
+    void addVersionErrorDate() {
+        p.setStatus("Pending");
+        Version v1 = new Version();
+        v1.setDate(LocalDate.of(2030,1,1));
+        List<Version> lv= new ArrayList<>();
+        lv.add(v1);
+        p.setVersions(lv);
+        Version v = new Version();
+        v.setDate(LocalDate.of(2020,1,1));
+        assertThrows(Exception.class,()->p.addVersion(v));
+
+    }
+    @Test
+    void addVersionErrorNull() {
+        p.setStatus("Pending");
+        Version v1 = new Version();
+        v1.setDate(LocalDate.of(2030,1,1));
+        List<Version> lv= new ArrayList<>();
+        lv.add(v1);
+        p.setVersions(lv);
+        Version v = null;
+        assertThrows(Exception.class,()->p.addVersion(v));
+    }
+    @Test
+    void addVersionErrorStatus() {
+        p.setStatus("Pippo");
+        Version v = new Version();
+        v.setDate(LocalDate.of(2030,1,1));
+        assertThrows(Exception.class,()->p.addVersion(v));
+
+    }
+    @Test
+    void addVersionOk() {
+        p.setStatus("Pending");
+        Version v = new Version();
+        v.setDate(LocalDate.of(2030,1,1));
+        int pVsize=p.getVersions().size();
+        try {
+            p.addVersion(v);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(pVsize+1,p.getVersions().size());
+        assertTrue(p.getVersions().contains(v));
+        assertEquals(0,p.getVersions().indexOf(v));
+
     }
 
     @Test
