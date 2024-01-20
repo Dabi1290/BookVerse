@@ -2,6 +2,7 @@ package proposalManager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import userManager.Author;
 import userManager.Validator;
 
 import java.util.ArrayList;
@@ -19,8 +20,59 @@ class ProposalTest {
     }
 
     @Test
-    void makeProposal() {
+    void makeProposalErrorMA1() {
+        Author ma = null;
+        List<Author> cA = new ArrayList<>();
+        
+    }
+    @Test
+    void makeProposalErrorMA2() {
+        Author ma = null;
 
+        ma = new Author();
+    }
+    @Test
+    void makeProposalErrorMA3() {
+        Author ma = null;
+
+        ma = new Author();
+    }
+    @Test
+    void makeProposalErrorCA1() {
+        Author ma = null;
+
+        ma = new Author();
+    }
+    @Test
+    void makeProposalErrorCA2() {
+        Author ma = null;
+
+        ma = new Author();
+    }
+
+    @Test
+    void makeProposalErrorCA3() {
+        Author ma = null;
+
+        ma = new Author();
+    }
+    @Test
+    void makeProposalOk1() {
+        Author ma = null;
+
+        ma = new Author();
+    }
+    @Test
+    void makeProposalOk2() {
+        Author ma = null;
+
+        ma = new Author();
+    }
+    @Test
+    void makeProposalOk3() {
+        Author ma = null;
+
+        ma = new Author();
     }
 
     @Test
@@ -29,8 +81,12 @@ class ProposalTest {
     }
 
     @Test
-    void approve(){
-        //Proposal p = new Proposal();
+    void approveErr(){
+        p.setStatus("Pluto");
+        assertThrows(WrongStatusException.class, p::approve);
+    }
+    @Test
+    void approveOk(){
         p.setStatus("Pending");
         try {
             p.approve();
@@ -38,12 +94,15 @@ class ProposalTest {
             throw new RuntimeException(e);
         }
         assertEquals("Approved",p.getStatus());
-        p.setStatus("Pluto");
-        assertThrows(WrongStatusException.class, p::approve);
     }
 
     @Test
-    void refuse() {
+    void refuseErr() {
+        p.setStatus("Pluto");
+        assertThrows(WrongStatusException.class, p::refuse);
+    }
+    @Test
+    void refuseOk(){
         p.setStatus("Pending");
 
         try {
@@ -53,12 +112,16 @@ class ProposalTest {
         }
 
         assertEquals("Refused",p.getStatus());
-        p.setStatus("Pluto");
-        assertThrows(WrongStatusException.class, p::refuse);
     }
 
     @Test
-    void permanentlyRefuse() {
+    void permanentlyRefuseErr() {
+
+        p.setStatus("Pluto");
+        assertThrows(WrongStatusException.class, p::permanentlyRefuse);
+    }
+    @Test
+    void PermanentlyRefuseOk(){
         p.setStatus("Pending");
 
         try {
@@ -67,12 +130,16 @@ class ProposalTest {
             throw new RuntimeException(e);
         }
         assertEquals("PermanentlyRefused",p.getStatus());
-        p.setStatus("Pluto");
-        assertThrows(WrongStatusException.class, p::permanentlyRefuse);
     }
 
     @Test
-    void pay() {
+    void payErr() {
+
+        p.setStatus("Pluto");
+        assertThrows(WrongStatusException.class, p::pay);
+    }
+    @Test
+    void payOk() {
         p.setStatus("Approved");
         try {
             p.pay();
@@ -80,12 +147,16 @@ class ProposalTest {
             throw new RuntimeException(e);
         }
         assertEquals("Completed",p.getStatus());
-        p.setStatus("Pluto");
-        assertThrows(WrongStatusException.class, p::pay);
     }
 
     @Test
-    void correct() {
+    void correctErr() {
+
+        p.setStatus("Pluto");
+        assertThrows(WrongStatusException.class, p::correct);
+    }
+    @Test
+    void correctOK() {
         p.setStatus("Refused");
         try {
             p.correct();
@@ -93,8 +164,6 @@ class ProposalTest {
             throw new RuntimeException(e);
         }
         assertEquals("Pending",p.getStatus());
-        p.setStatus("Pluto");
-        assertThrows(WrongStatusException.class, p::correct);
     }
 
     @Test

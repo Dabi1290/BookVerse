@@ -23,11 +23,11 @@ public class Proposal {
         this.versions = new ArrayList<>();
     }
 
-    public static Proposal makeProposal(Author author, Set<Author> coAuthors, String status){
+    public static Proposal makeProposal(Author author, Set<Author> coAuthors){
         Proposal p = new Proposal();
         p.proposedBy = author;
         p.collaborators = coAuthors;
-        p.status = status;
+        p.status = "Pending";
         return p;
     }
 
