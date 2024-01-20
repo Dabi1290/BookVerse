@@ -24,6 +24,7 @@ public class ProposalDAO {
     public ProposalDAO(DataSource ds, ValidatorDAO validatorDAO, AuthorDAO authorDAO) {
         this.ds=ds;
         this.validatorDAO = validatorDAO;
+        this.authorDAO = authorDAO;
     }
 
     public Set<Proposal> findByValidator(int vid) throws SQLException, InvalidParameterException {
