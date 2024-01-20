@@ -19,7 +19,7 @@ public class ProposalDAO {
     private DataSource ds=null;
 
     public ProposalDAO(DataSource ds) {
-
+        this.ds = ds;
     }
     public ProposalDAO(DataSource ds, ValidatorDAO validatorDAO, AuthorDAO authorDAO) {
         this.ds=ds;
