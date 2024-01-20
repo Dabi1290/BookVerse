@@ -23,7 +23,14 @@ public class Proposal {
         this.versions = new ArrayList<>();
     }
 
-    public static Proposal makeProposal(Author author, Set<Author> coAuthors){
+    public static Proposal makeProposal(Author author, Set<Author> coAuthors) throws Exception {
+        if(coAuthors==null)
+            throw new Exception("co-author cannot be null");
+        if(coAuthors.contains(author))
+            throw new Exception("main author cannot be present ne co-authors ");
+        if(author==null)
+            throw new Exception("main author cannot be null");
+
         Proposal p = new Proposal();
         p.proposedBy = author;
         p.collaborators = coAuthors;
