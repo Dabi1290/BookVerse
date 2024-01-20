@@ -118,7 +118,12 @@ public class ProposalCreation extends HttpServlet {
 
         //Create new proposal and persist to database
         ProposalDAO proposalDao = new ProposalDAO(ds);
-        Proposal proposal = Proposal.makeProposal(mainAuthor, coAuthors);
+        Proposal proposal = null;
+        try {
+            proposal = Proposal.makeProposal(mainAuthor, coAuthors);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         int proposalId = -1;
         try {
             proposalId = proposalDao.newProposal(proposal);
