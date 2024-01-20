@@ -95,7 +95,13 @@ public class Proposal {
 
         this.status = "Pending";
     }
-    public void assignValidator(Validator validator){
+    public void assignValidator(Validator validator) throws Exception {
+        if(!this.status.equals("Pending"))
+            throw  new Exception("Lo stato non è Pending");
+        if(getAssignedValidator()!=null)
+            throw  new Exception("è stato già assegnato un validator");
+        if(validator==null)
+            throw  new Exception("validator non può essere null");
         this.assignedValidator = validator;
     }
     public void addVersion(Version version) throws Exception {

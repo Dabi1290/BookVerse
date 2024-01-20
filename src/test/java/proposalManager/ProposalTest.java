@@ -221,14 +221,42 @@ class ProposalTest {
     }
 
     @Test
-    void assignValidator() {
+    void assignValidatorErrVnull() {
+        p.setStatus("Pending");
+        Validator v= null;
+        Validator v1= null;
+        p.setAssignedValidator(v1);
+        assertThrows(Exception.class,()->p.assignValidator(v));
+    }
+    @Test
+    void assignValidatorErrAlreadyExist() {
+        p.setStatus("Pending");
         Validator v= new Validator();
         Validator v1= new Validator();
-        p.assignValidator(v);
-        assertEquals(v,p.getAssignedValidator());
-        assertNotEquals(v1,p.getAssignedValidator());
+        p.setAssignedValidator(v1);
+        assertThrows(Exception.class,()->p.assignValidator(v));
     }
-
+    @Test
+    void assignValidatorStato() {
+        p.setStatus("Pippo");
+        Validator v= new Validator();
+        Validator v1= null;
+        p.setAssignedValidator(v1);
+        assertThrows(Exception.class,()->p.assignValidator(v));
+    }
+    @Test
+    void assignValidatorOk() {
+        p.setStatus("Pending");
+        Validator v= new Validator();
+        Validator v1= null;
+        p.setAssignedValidator(v1);
+        try {
+            p.assignValidator(v);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        assertEquals(p.getAssignedValidator(),v);
+    }
     @Test
     void addVersion() {
         //TO-DO
