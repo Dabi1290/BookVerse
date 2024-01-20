@@ -92,7 +92,7 @@ public class ProposalCreation extends HttpServlet {
 
         //Retrieve data source and build author dao
         DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
-        AuthorDAO authorDao = new AuthorDAO(ds);
+        AuthorDAO authorDao = new AuthorDAO(ds, new ProposalDAO(ds));
         //Retrieve data source and build author dao
 
 

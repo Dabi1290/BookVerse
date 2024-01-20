@@ -14,17 +14,24 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ProposalDAO {
+    private ValidatorDAO validatorDAO;
+    private AuthorDAO authorDAO;
     private DataSource ds=null;
+
     public ProposalDAO(DataSource ds) {
-        this.ds=ds;
+
     }
+    public ProposalDAO(DataSource ds, ValidatorDAO validatorDAO, AuthorDAO authorDAO) {
+        this.ds=ds;
+        this.validatorDAO = validatorDAO;
+    }
+
     public Set<Proposal> findByValidator(int vid) throws SQLException, InvalidParameterException {
 
         //Check if parameters are valid
         if(vid <= 0)
             throw new InvalidParameterException("Value not valid for validator");
 
-        ValidatorDAO validatorDAO = new ValidatorDAO(ds);
         if(validatorDAO.findValidatorById(vid) == null)
             throw new InvalidParameterException("This validator doesn't exist on database");
         //Check if parameters are valid
@@ -62,7 +69,6 @@ public class ProposalDAO {
         if(authorId <= 0)
             throw new InvalidParameterException("not a valid value for id");
 
-        AuthorDAO authorDAO = new AuthorDAO(ds);
         if(authorDAO.findByID(authorId) == null)
             throw new InvalidParameterException("Doesn't exist an author with this id");
         //Check parameters
@@ -104,7 +110,6 @@ public class ProposalDAO {
         if(mainAuthorId <= 0)
             throw new InvalidParameterException("not a valid value for id");
 
-        AuthorDAO authorDAO = new AuthorDAO(ds);
         if(authorDAO.findByID(mainAuthorId) == null)
             throw new InvalidParameterException("Doesn't exist an author with this id");
         //Check parameters

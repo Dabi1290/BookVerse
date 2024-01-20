@@ -16,9 +16,12 @@ import java.util.TreeSet;
 
 public class AuthorDAO {
     private DataSource ds=null;
+    private ProposalDAO proposalDao=null;
     public AuthorDAO(DataSource ds) {
         this.ds=ds;
     }
+
+    public AuthorDAO(DataSource ds, ProposalDAO proposalDao) { this.ds = ds; this.proposalDao = proposalDao; }
 
     public Author findByID(int id) throws InvalidParameterException, SQLException {
 
@@ -89,7 +92,7 @@ public class AuthorDAO {
         if(proposal == null || proposal.getId() <= 0)
             throw new InvalidParameterException("proposal parameter is not valid");
 
-        if ( new ProposalDAO(ds).findById(proposal.getId()) == null)
+        if ( proposalDao.findById(proposal.getId()) == null)
             throw new InvalidParameterException("proposal doesn't exist on database");
         //Check if parameters are valid
 
@@ -132,7 +135,7 @@ public class AuthorDAO {
         if(proposal == null || proposal.getId() <= 0)
             throw new InvalidParameterException("proposal parameter is not valid");
 
-        if ( new ProposalDAO(ds).findById(proposal.getId()) == null)
+        if ( proposalDao.findById(proposal.getId()) == null)
             throw new InvalidParameterException("proposal doesn't exist on database");
         //Check if parameters are valid
 

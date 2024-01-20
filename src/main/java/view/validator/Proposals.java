@@ -9,8 +9,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import storageSubSystem.AuthorDAO;
 import storageSubSystem.InvalidParameterException;
 import storageSubSystem.ProposalDAO;
+import storageSubSystem.ValidatorDAO;
 import userManager.User;
 import userManager.Validator;
 
@@ -35,7 +37,7 @@ public class Proposals extends HttpServlet {
 
         //Retrieve data source and build ProposalDAO
         DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
-        ProposalDAO proposalDao = new ProposalDAO(ds);
+        ProposalDAO proposalDao = new ProposalDAO(ds, new ValidatorDAO(ds), new AuthorDAO(ds));
         //Retrieve data source and build ProposalDAO
 
 

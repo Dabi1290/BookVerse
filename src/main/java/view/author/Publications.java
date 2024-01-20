@@ -12,6 +12,7 @@ import proposalManager.Proposal;
 import storageSubSystem.AuthorDAO;
 import storageSubSystem.InvalidParameterException;
 import storageSubSystem.ProposalDAO;
+import storageSubSystem.ValidatorDAO;
 import userManager.Author;
 import userManager.User;
 
@@ -38,12 +39,12 @@ public class Publications extends HttpServlet {
         //Retrieve data source and build proposal dao
         DataSource ds = (DataSource) request.getServletContext().getAttribute("DataSource");
 
-        ProposalDAO proposalDAO = new ProposalDAO(ds);
+        ProposalDAO proposalDAO = new ProposalDAO(ds, new ValidatorDAO(ds), new AuthorDAO(ds));
         //Retrieve data source and build proposal dao
 
 
 
-        AuthorDAO authorDao = new AuthorDAO(ds);
+        AuthorDAO authorDao = new AuthorDAO(ds, new ProposalDAO(ds));
 
         //Retrieve proposals where author that makes request is main author
         try {
