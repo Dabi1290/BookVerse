@@ -270,6 +270,9 @@ public class ProposalDAO {
 
         if(version.getId() <= 0)
             throw new InvalidParameterException("not a valid value for id");
+
+        if(findVersionById(version.getId()) == null)
+            throw new InvalidParameterException("this version isn't on database");
         //Check parameters
 
 
@@ -387,6 +390,45 @@ public class ProposalDAO {
         ps.executeUpdate();
 
         c.close();
+    }
+
+    //ATTENTION: method not complete
+    private Version findVersionById(int versionId) throws SQLException, InvalidParameterException {
+
+        //Check parameters
+        if(versionId <= 0)
+            throw new InvalidParameterException("versionId is not valid");
+        //Check parameters
+
+        String query = "SELECT * FROM Version as V WHERE V.id = ?";
+
+        Connection c = ds.getConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, versionId);
+        ResultSet rs = ps.executeQuery();
+
+        c.close();
+
+        Version version = new Version();
+        if(rs.next()) {
+            String title = rs.getString("title");
+            String description = rs.getString("description");
+            String coverImagePath = rs.getString("coverImage");
+            String reportPath = rs.getString("report");
+            String ebookFilePath = rs.getString("ebookFile");
+            int price = rs.getInt("price");
+            String date = rs.getString("data");
+
+            version.setTitle(title);
+            version.setDescription(description);
+//            version.setCoverImage(new File(FileDAO.getFilesDirectory() + coverImagePath));
+//            version.setEbookFile(new File(FileDAO.getFilesDirectory() + ebookFilePath));
+//            version.setReport(new File(FileDAO.getFilesDirectory() + reportPath));
+            version.setPrice(price);
+        }
+
+        return version;
     }
 
     private List<Version> findProposalVersions(int proposalId) throws SQLException, InvalidParameterException {
