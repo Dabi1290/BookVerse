@@ -42,7 +42,7 @@ public class EBook {
             throw new Exception("value of title is not valid");
 
         if(lastVersion.getPrice() < 0)
-            throw new Exception("");
+            throw new Exception("value of price is not valid");
 
         if(lastVersion.getDescription() == null || lastVersion.getDescription().isEmpty())
             throw new Exception("value of description is not valid");
