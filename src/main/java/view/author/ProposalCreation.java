@@ -1,6 +1,8 @@
 package view.author;
 
 import com.bookverse.bookverse.sessionConstants.SessionCostants;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,6 +15,7 @@ import userManager.User;
 import userManager.Validator;
 
 import javax.sql.DataSource;
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -27,6 +30,10 @@ import java.util.*;
         maxRequestSize = 1024 * 1024 * 1500)   // 1500MB
 public class ProposalCreation extends HttpServlet {
 
+    private AuthorDAO authorDao = null;
+    private ProposalDAO proposalDao = null;
+    private ValidatorDAO validatorDao = null;
+
     protected static String TITLE_PAR = "title";
     protected static String PRICE_PAR = "price";
     protected static String DESCRIPTION_PAR = "description";
@@ -34,6 +41,32 @@ public class ProposalCreation extends HttpServlet {
     protected static String COVERIMAGE_PAR = "coverImage";
     protected static String GENRES_PAR = "genres";
     protected static String AUTHORS_PAR = "authors";
+
+    public ProposalCreation(ProposalDAO proposaldao, AuthorDAO authorDao, ValidatorDAO validatorDAO) {
+        this.proposalDao = proposaldao;
+        this.authorDao = authorDao;
+        this.validatorDao = validatorDAO;
+    }
+
+    public ProposalCreation() {
+
+    }
+
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+
+        DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
+
+        if(proposalDao == null) {
+            this.proposalDao = new ProposalDAO(ds);
+        }
+
+        if(authorDao == null)
+            this.authorDao = new AuthorDAO(ds, new ProposalDAO(ds));
+
+        if(validatorDao == null)
+            this.validatorDao = new ValidatorDAO(ds, new AuthorDAO(ds));
+    }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -91,8 +124,8 @@ public class ProposalCreation extends HttpServlet {
 
 
         //Retrieve data source and build author dao
-        DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
-        AuthorDAO authorDao = new AuthorDAO(ds, new ProposalDAO(ds));
+        //DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
+        //AuthorDAO authorDao = new AuthorDAO(ds, new ProposalDAO(ds));
         //Retrieve data source and build author dao
 
 
@@ -117,7 +150,7 @@ public class ProposalCreation extends HttpServlet {
 
 
         //Create new proposal and persist to database
-        ProposalDAO proposalDao = new ProposalDAO(ds);
+        //ProposalDAO proposalDao = new ProposalDAO(ds);
         Proposal proposal = null;
         try {
             proposal = Proposal.makeProposal(mainAuthor, coAuthors);
@@ -140,7 +173,7 @@ public class ProposalCreation extends HttpServlet {
 
 
         //Find a validator and assign to proposal
-        ValidatorDAO validatorDao = new ValidatorDAO(ds, new AuthorDAO(ds));
+        //ValidatorDAO validatorDao = new ValidatorDAO(ds, new AuthorDAO(ds));
 
         try {
             Validator validator = validatorDao.findFreeValidator(proposal.getProposedBy(), proposal.getCollaborators());
@@ -187,7 +220,7 @@ public class ProposalCreation extends HttpServlet {
 
 
         //Create the name of files
-        String tomcatRootDirectory = getServletContext().getRealPath("/");
+        String tomcatRootDirectory = request.getServletContext().getRealPath("/");
 
         String ebookFileName = "ebookFile_" + Integer.toString(versionId) + ".pdf";
         String coverImageName = "coverImage_" + Integer.toString(versionId) + ".png";

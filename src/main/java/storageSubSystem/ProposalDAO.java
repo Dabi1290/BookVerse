@@ -18,6 +18,10 @@ public class ProposalDAO {
     private AuthorDAO authorDAO;
     private DataSource ds=null;
 
+    public ProposalDAO() {
+
+    }
+
     public ProposalDAO(DataSource ds) {
         this.ds = ds;
     }
