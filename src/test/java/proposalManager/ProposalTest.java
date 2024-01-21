@@ -137,7 +137,7 @@ class ProposalTest {
 
     @Test
     void approveErr(){
-        p.setStatus("Pluto");
+        p.setStatus("Completed");
         assertThrows(WrongStatusException.class, p::approve);
     }
     @Test
