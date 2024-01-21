@@ -211,9 +211,6 @@ public class ProposalDAO {
         Proposal testP = findById(proposal.getId());
         if(testP == null)
             throw new InvalidParameterException("This proposal doesn't exist on database");
-
-        if(! testP.getStatus().equals("Refused"))
-            throw new InvalidParameterException("Can't create version when the proposal is not in Refused status");
         //Check parameters
 
 

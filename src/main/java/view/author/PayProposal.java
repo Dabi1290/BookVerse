@@ -154,6 +154,9 @@ public class PayProposal extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to add ebook in DB");
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+            throw new ServletException(e.getMessage());
         }
         //create ebook
 

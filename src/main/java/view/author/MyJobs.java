@@ -12,6 +12,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import proposalManager.Proposal;
 import storageSubSystem.EBookDAO;
+import storageSubSystem.InvalidParameterException;
 import storageSubSystem.ProposalDAO;
 import userManager.Author;
 import userManager.User;
@@ -48,6 +49,9 @@ public class MyJobs extends HttpServlet {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServletException("Failed to retrieve the proposals associated with this main author");
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();
+            throw new ServletException(e.getMessage());
         }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(NEXT_PAGE);

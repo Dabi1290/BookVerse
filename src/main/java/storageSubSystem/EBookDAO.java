@@ -12,12 +12,47 @@ import java.util.Set;
 
 public class EBookDAO {
     private DataSource ds = null;
+    private AuthorDAO authorDAO = null;
+
+    private EBookDAO(DataSource ds, AuthorDAO authorDAO) {
+        this.ds = ds;
+        this.authorDAO = authorDAO;
+    }
 
     public EBookDAO(DataSource ds) {
         this.ds = ds;
     }
 
-    public int newEbook(EBook ebook) throws SQLException {
+    public int newEbook(EBook ebook) throws SQLException, InvalidParameterException {
+
+        //Check parameters
+        if(ebook == null)
+            throw new InvalidParameterException("not a valid value for ebook");
+
+        if(! Proposal.isValidParameter(ebook.getTitle(), ebook.getGenres(), ebook.getPrice(), ebook.getDescription() ) )
+            throw new InvalidParameterException("Parameters not valid for ebook");
+
+        if(ebook.getMainAuthor() == null || ebook.getMainAuthor().getId() <= 0)
+            throw new InvalidParameterException("this mainAuthor is not valid");
+
+        if(ebook.getCoAuthors() == null)
+            throw new InvalidParameterException("this coAuthros value is not valid");
+
+        for(Author c : ebook.getCoAuthors()) {
+            if(c.getId() <= 0)
+                throw new InvalidParameterException("at least one coAuthors values is not valid");
+        }
+
+        if(authorDAO.findByID(ebook.getMainAuthor().getId()) == null)
+            throw new InvalidParameterException("mainAuthor doesn't exist on database");
+
+        for(Author c : ebook.getCoAuthors()) {
+            if(authorDAO.findByID(c.getId()) == null)
+                throw new InvalidParameterException("at least one coAuthors does'nt exist on database");
+        }
+        //Check parameters
+
+
 
         Connection c = ds.getConnection();
 
@@ -79,7 +114,17 @@ public class EBookDAO {
 
         return ebookId;
     }
-    public Set<EBook> findByCoWriter(int authorId) throws SQLException {
+    public Set<EBook> findByCoWriter(int authorId) throws SQLException, InvalidParameterException {
+
+        //Check parameters
+        if(authorId <= 0)
+            throw new InvalidParameterException("author id is not valid");
+
+        if(authorDAO.findByID(authorId) == null)
+            throw new InvalidParameterException("author is valid");
+        //Check parameters
+
+
 
         String query = "SELECT * FROM EBook JOIN EBookAuthor as p ON ebookId_fk=id WHERE p.authorId_fk=?";
 
@@ -106,7 +151,17 @@ public class EBookDAO {
         return s;
     }
 
-    public Set<EBook> findByMainWriter(int mainAuthorId) throws SQLException {
+    public Set<EBook> findByMainWriter(int mainAuthorId) throws SQLException, InvalidParameterException {
+
+        //Check parameters
+        if(mainAuthorId <= 0)
+            throw new InvalidParameterException("mainAuthor id is not valid");
+
+        if(authorDAO.findByID(mainAuthorId) == null)
+            throw new InvalidParameterException("mainAuthor is not on database");
+        //Check parameters
+
+
 
         String query = "SELECT * FROM EBook WHERE mainAuthorId_fk=?";
 
