@@ -121,7 +121,7 @@ public class EBookDAO {
             throw new InvalidParameterException("author id is not valid");
 
         if(authorDAO.findByID(authorId) == null)
-            throw new InvalidParameterException("author is valid");
+            throw new InvalidParameterException("author is not valid");
         //Check parameters
 
 
