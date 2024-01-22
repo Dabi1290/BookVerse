@@ -86,11 +86,11 @@ public class UserDAOTest {
     }
 
     @Test
-    public void login_VE1_VP1_VR2_VD1() throws SQLException {
+    public void login_VE1_VP1_VR2_VD2() throws SQLException {
 
         //Prepare database
         executeSQLscript("src/test/db/UserDAOTest/createDbForTest.sql");
-        String scriptFilePath = "src/test/db/UserDAOTest/login_VE1_VP1_VR2_VD1.sql";
+        String scriptFilePath = "src/test/db/UserDAOTest/login_VE1_VP1_VR2_VD2.sql";
         executeSQLscript(scriptFilePath);
         //Prepare database
 
@@ -99,11 +99,11 @@ public class UserDAOTest {
     }
 
     @Test
-    public void login_VE1_VP2_VR1_VD1() throws SQLException {
+    public void login_VE1_VP2_VR1_VD2() throws SQLException {
 
         //Prepare database
         executeSQLscript("src/test/db/UserDAOTest/createDbForTest.sql");
-        String scriptFilePath = "src/test/db/UserDAOTest/login_VE1_VP2_VR1_VD1.sql";
+        String scriptFilePath = "src/test/db/UserDAOTest/login_VE1_VP2_VR1_VD2.sql";
         executeSQLscript(scriptFilePath);
         //Prepare database
 
@@ -112,11 +112,11 @@ public class UserDAOTest {
     }
 
     @Test
-    public void login_VE2_VP1_VR1_VD1() throws SQLException {
+    public void login_VE2_VP1_VR1_VD2() throws SQLException {
 
         //Prepare database
         executeSQLscript("src/test/db/UserDAOTest/createDbForTest.sql");
-        String scriptFilePath = "src/test/db/UserDAOTest/login_VE2_VP1_VR1_VD1.sql";
+        String scriptFilePath = "src/test/db/UserDAOTest/login_VE2_VP1_VR1_VD2.sql";
         executeSQLscript(scriptFilePath);
         //Prepare database
 
