@@ -1,8 +1,10 @@
 DROP database if exists BookVerseTest;
 
 CREATE DATABASE BookVerseTest;
-CREATE USER IF NOT EXISTS 'client'@'localhost' IDENTIFIED BY 'client';
-GRANT ALL ON BookVerseTest.* TO 'client'@'localhost';
+DROP USER IF EXISTS 'testClient'@'localhost';
+CREATE USER 'testClient'@'localhost' IDENTIFIED BY 'testClient';
+GRANT ALL ON *.* TO 'testClient'@'localhost';
+FLUSH PRIVILEGES;
 USE BookVerseTest;
 
 
