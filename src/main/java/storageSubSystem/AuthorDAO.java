@@ -40,7 +40,7 @@ public class AuthorDAO {
 
         ResultSet rs = ps.executeQuery();
         if(rs.next()) {
-            a = new Author(id);
+            a = new Author(Integer.parseInt(rs.getString("id")));
         }
 
         c.close();
