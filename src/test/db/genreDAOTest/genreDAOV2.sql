@@ -1,0 +1,1 @@
+INSERT INTO GENRE(name) VALUES('Fantasy');
