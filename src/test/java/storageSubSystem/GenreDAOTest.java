@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import testing.ExtractStatementsFromScript;
+import testing.RetrieveCredentials;
 import userManager.Author;
 
 import javax.sql.DataSource;
@@ -26,8 +27,14 @@ class GenreDAOTest {
 
     @BeforeEach
     public void setUp() throws SQLException, ClassNotFoundException, InvalidParameterException {
+
+        String[] crendentials = RetrieveCredentials.retrieveCredentials("src/test/credentials.xml");
+
         Class.forName("com.mysql.cj.jdbc.Driver");
-        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BookVerseTest?useUnicode=true;useJDBCCompliantTimezoneShift=true;useLegacyDatetimeCode=false;serverTimezone=UTC", "root", "Samuele$02");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/", crendentials[0], crendentials[1]);
+
+        executeSQLscript("src/test/db/init.sql");
+        conn.setCatalog("BookVerseTest");
 
         ds = Mockito.mock(DataSource.class);
         Mockito.when(ds.getConnection()).thenReturn(conn);

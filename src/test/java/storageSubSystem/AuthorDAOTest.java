@@ -28,12 +28,12 @@ public class AuthorDAOTest {
     @BeforeEach
     public void setUp() throws SQLException, ClassNotFoundException {
 
-        String[] crendentials = RetrieveCredentials.retrieveCredentials("src/test/db/credentials.xml");
+        String[] crendentials = RetrieveCredentials.retrieveCredentials("src/test/credentials.xml");
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/", crendentials[0], crendentials[1]);
 
-        executeSQLscript("src/test/db/createDbForTest2.sql");
+        executeSQLscript("src/test/db/init.sql");
         conn.setCatalog("BookVerseTest");
 
         ds = Mockito.mock(DataSource.class);
