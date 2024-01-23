@@ -85,7 +85,7 @@ public class AuthorDAOTest {
     public void findAuthorById_IV1_IA2() throws SQLException, InvalidParameterException {
         //Prepare database
         executeSQLscript("src/test/db/createDbForTest.sql");
-        String scriptFilePath = "src/test/db/AuthorDAOTest/findAuthorById_IV1_IA1.sql";
+        String scriptFilePath = "src/test/db/AuthorDAOTest/findAuthorById_IV1_IA2.sql";
         executeSQLscript(scriptFilePath);
         //Prepare database
 
@@ -95,10 +95,10 @@ public class AuthorDAOTest {
     }
 
     @Test
-    public void findAuthorById_IV2_IA1() throws SQLException{
+    public void findAuthorById_IV2_IA2() throws SQLException{
         //Prepare database
         executeSQLscript("src/test/db/createDbForTest.sql");
-        String scriptFilePath = "src/test/db/AuthorDAOTest/findAuthorById_IV2_IA1.sql";
+        String scriptFilePath = "src/test/db/AuthorDAOTest/findAuthorById_IV2_IA2.sql";
         executeSQLscript(scriptFilePath);
         //Prepare database
 
