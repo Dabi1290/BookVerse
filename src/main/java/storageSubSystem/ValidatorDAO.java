@@ -58,28 +58,52 @@ public class ValidatorDAO implements ValidatorDispatcher {
             idAuthors.add(coAuthor.getId());
         }
 
-        Connection c = ds.getConnection();
 
-        String query = "SELECT COUNT(*) FROM Validator";
+        //Format how necessary query
+        String notInPart = "(";
+        int count = 1;
+        for(int id : idAuthors) {
+
+            notInPart += "?";
+
+            if(count != idAuthors.size())
+                notInPart += ",";
+
+            count++;
+        }
+        notInPart += ")";
+
+        String query = "SELECT V.id, Count(ProposalValidator.proposalId_fk) as numProp FROM Validator as V LEFT JOIN ProposalValidator on V.id = ProposalValidator.validatorId_fk WHERE V.id NOT IN "
+                + notInPart +
+                " GROUP BY V.id ORDER BY numProp LIMIT 1";
+        //Format how necessary query
+
+
+
+        //Prepare query
+        Connection c = ds.getConnection();
 
         PreparedStatement ps = c.prepareStatement(query);
 
+        int index = 1;
+        for(int id : idAuthors) {
+            ps.setInt(index, id);
+            index++;
+        }
+        //Prepare query
+
+
+
+        //Execute query
         ResultSet rs = ps.executeQuery();
 
-        int numeroRighe = 0;
-
-        if (rs.next()) {
-            numeroRighe = rs.getInt(1);
+        if(! rs.next()) {
+            return null;
         }
 
-        Random rand = new Random();
-
-        int idValidator = mainAuthor.getId();
-        while(idAuthors.contains(idValidator)) {
-            idValidator = rand.nextInt((numeroRighe - 1) + 1) + 1;
-        }
-
+        int idValidator = rs.getInt("V.id");
         Validator validator = Validator.makeValidator(idValidator, null);
+        //Execute query
 
         c.close();
 
