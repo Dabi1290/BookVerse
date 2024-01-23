@@ -63,43 +63,39 @@ class GenreDAOTest {
     }
 
     @Test
-    public void findAllV1() throws SQLException{
+    public void findAll_V1() throws SQLException{
 
         //Prepare database
         executeSQLscript("src/test/db/createDbForTest.sql");
-        String scriptFilePath = "src/test/db/genreDAOTest/genreDAOV1.sql";
+        String scriptFilePath = "src/test/db/GenreDAOTest/findAll_V1.sql";
         executeSQLscript(scriptFilePath);
         //Prepare database
 
         List<String> generi = genreDAO.findAll();
 
         assertEquals(0, generi.size());
-
     }
 
     @Test
-    public void findAllV2() throws SQLException{
+    public void findAll_V2() throws SQLException{
 
         //Prepare database
         executeSQLscript("src/test/db/createDbForTest.sql");
-        String scriptFilePath = "src/test/db/genreDAOTest/genreDAOV2.sql";
+        String scriptFilePath = "src/test/db/GenreDAOTest/findAll_V2.sql";
         executeSQLscript(scriptFilePath);
         //Prepare database
 
         List<String> generi = genreDAO.findAll();
 
         assertEquals(1, generi.size());
-
     }
 
-
-
     @Test
-    public void findAllV3() throws SQLException{
+    public void findAll_V3() throws SQLException{
 
         //Prepare database
         executeSQLscript("src/test/db/createDbForTest.sql");
-        String scriptFilePath = "src/test/db/genreDAOTest/genreDAOV3.sql";
+        String scriptFilePath = "src/test/db/GenreDAOTest/findAll_V3.sql";
         executeSQLscript(scriptFilePath);
         //Prepare database
 
@@ -108,5 +104,4 @@ class GenreDAOTest {
         assertEquals(2, generi.size());
 
     }
-
 }
