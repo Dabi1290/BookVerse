@@ -111,4 +111,16 @@ public class Author {
     public void setAlreadyLoadedUser(boolean alreadyLoadedUser) {
         this.alreadyLoadedUser = alreadyLoadedUser;
     }
+
+
+
+
+
+    public boolean equals(Object other) {
+        return id == ((Author)other).getId();
+    }
+
+    public int hashCode() {
+        return id;
+    }
 }

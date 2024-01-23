@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import proposalManager.Proposal;
 import testing.ExtractStatementsFromScript;
 import testing.RetrieveCredentials;
 import userManager.Author;
@@ -17,6 +18,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,8 +40,6 @@ public class AuthorDAOTest {
 
         ds = Mockito.mock(DataSource.class);
         Mockito.when(ds.getConnection()).thenReturn(conn);
-
-        authorDAO = new AuthorDAO(ds);
     }
 
     @AfterEach
@@ -77,6 +77,8 @@ public class AuthorDAOTest {
         //Prepare database
 
 
+        authorDAO = new AuthorDAO(ds);
+
         Author a = authorDAO.findByID(1);
         assertEquals(1, a.getId());
     }
@@ -89,6 +91,7 @@ public class AuthorDAOTest {
         executeSQLscript(scriptFilePath);
         //Prepare database
 
+        authorDAO = new AuthorDAO(ds);
 
         Author a = authorDAO.findByID(2);
         assertNull(a);
@@ -101,6 +104,8 @@ public class AuthorDAOTest {
         String scriptFilePath = "src/test/db/AuthorDAOTest/findAuthorById_IV2_IA2.sql";
         executeSQLscript(scriptFilePath);
         //Prepare database
+
+        authorDAO = new AuthorDAO(ds);
 
         InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> authorDAO.findByID(-1));
         assertEquals("The value of id is not valid", ex.getMessage());
@@ -116,6 +121,8 @@ public class AuthorDAOTest {
 
         String email = "ant";
 
+        authorDAO = new AuthorDAO(ds);
+
         Set<User> authors = authorDAO.findAuthorsByEmail(email);
         assertTrue(authors.isEmpty());
     }
@@ -129,6 +136,8 @@ public class AuthorDAOTest {
         //Prepare database
 
         String email = "ema";
+
+        authorDAO = new AuthorDAO(ds);
 
         Set<User> authors = authorDAO.findAuthorsByEmail(email);
         assertTrue(authors.size() == 1 && authors.stream().allMatch((u) -> u.getEmail().startsWith(email)));
@@ -160,6 +169,8 @@ public class AuthorDAOTest {
 
         String email = "ema";
 
+        authorDAO = new AuthorDAO(ds);
+
         Set<User> authors = authorDAO.findAuthorsByEmail(email);
 
         boolean equals = true;
@@ -176,7 +187,192 @@ public class AuthorDAOTest {
 
         String email = "";
 
+        authorDAO = new AuthorDAO(ds);
+
         InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> authorDAO.findAuthorsByEmail(email));
         assertEquals("email is not valid", ex.getMessage());
+    }
+
+    @Test
+    public void findCoAuthorsForProposal_P1_PDB1_AP1() throws SQLException, InvalidParameterException {
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/AuthorDAOTest/findCoAuthorsForProposal_P1_PDB1_AP1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+        //Oracolo
+        Set<Author> expectedAuthorsId = new HashSet<>();
+        expectedAuthorsId.add(new Author(1));
+        expectedAuthorsId.add(new Author(2));
+        expectedAuthorsId.add(new Author(3));
+        //Oracolo
+
+        Proposal proposal = new Proposal();
+        proposal.setId(1);
+
+        ProposalDAO proposalDao = Mockito.mock(ProposalDAO.class);
+        Mockito.when(proposalDao.findById(1)).thenReturn(proposal);
+
+        authorDAO = new AuthorDAO(ds, proposalDao);
+        Set<Author> authors = authorDAO.findCoAuthorsForProposal(proposal);
+
+
+
+        assertTrue(expectedAuthorsId.containsAll(authors) && authors.containsAll(expectedAuthorsId));
+    }
+
+    @Test
+    public void findCoAuthorsForProposal_P1_PDB1_AP2() throws SQLException, InvalidParameterException {
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/AuthorDAOTest/findCoAuthorsForProposal_P1_PDB1_AP2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+        //Oracolo
+        Set<Author> expectedAuthorsId = new HashSet<>();
+        expectedAuthorsId.add(new Author(1));
+        //Oracolo
+
+        Proposal proposal = new Proposal();
+        proposal.setId(1);
+
+        ProposalDAO proposalDao = Mockito.mock(ProposalDAO.class);
+        Mockito.when(proposalDao.findById(1)).thenReturn(proposal);
+
+        authorDAO = new AuthorDAO(ds, proposalDao);
+        Set<Author> authors = authorDAO.findCoAuthorsForProposal(proposal);
+
+        assertTrue(expectedAuthorsId.containsAll(authors) && authors.containsAll(expectedAuthorsId));
+    }
+
+
+    @Test
+    public void findCoAuthorsForProposal_P1_PDB1_AP3() throws SQLException, InvalidParameterException {
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/AuthorDAOTest/findCoAuthorsForProposal_P1_PDB1_AP3.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        Proposal proposal = new Proposal();
+        proposal.setId(1);
+
+        ProposalDAO proposalDao = Mockito.mock(ProposalDAO.class);
+        Mockito.when(proposalDao.findById(1)).thenReturn(proposal);
+
+        authorDAO = new AuthorDAO(ds, proposalDao);
+        Set<Author> authors = authorDAO.findCoAuthorsForProposal(proposal);
+
+        assertTrue(authors.isEmpty());
+    }
+
+    @Test
+    public void findCoAuthorsForProposal_P1_PDB2_AP3() throws SQLException, InvalidParameterException {
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/AuthorDAOTest/findCoAuthorsForProposal_P1_PDB2_AP3.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        Proposal proposal = new Proposal();
+        proposal.setId(2);
+
+        ProposalDAO proposalDao = Mockito.mock(ProposalDAO.class);
+        Mockito.when(proposalDao.findById(2)).thenThrow(new InvalidParameterException("proposal doesn't exist on database"));
+
+        authorDAO = new AuthorDAO(ds, proposalDao);
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> authorDAO.findCoAuthorsForProposal(proposal));
+        assertEquals(ex.getMessage(), "proposal doesn't exist on database");
+    }
+
+    @Test
+    public void findCoAuthorsForProposal_P2_PDB2_AP3() throws SQLException, InvalidParameterException {
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/AuthorDAOTest/findCoAuthorsForProposal_P2_PDB2_AP3.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        Proposal proposal = new Proposal();
+        proposal.setId(0);
+
+        //Not so useful mock
+        ProposalDAO proposalDao = Mockito.mock(ProposalDAO.class);
+        Mockito.when(proposalDao.findById(0)).thenReturn(proposal);
+        //Not so useful mock
+
+        authorDAO = new AuthorDAO(ds, proposalDao);
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> authorDAO.findCoAuthorsForProposal(proposal));
+        assertEquals(ex.getMessage(), "proposal parameter is not valid");
+    }
+
+    @Test
+    public void findMainAuthorForProposal_P1_PDB1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/AuthorDAOTest/findMainAuthorForProposal_P1_PDB1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+        Author expcetedAuthor = new Author();
+        expcetedAuthor.setId(5);
+
+        Proposal proposal = new Proposal();
+        proposal.setId(1);
+
+        ProposalDAO proposalDAO = Mockito.mock(ProposalDAO.class);
+        Mockito.when(proposalDAO.findById(1)).thenReturn(proposal);
+
+        authorDAO = new AuthorDAO(ds, proposalDAO);
+        assertEquals(expcetedAuthor, authorDAO.findMainAuthorForProposal(proposal));
+    }
+
+    @Test
+    public void findMainAuthorForProposal_P1_PDB2() throws SQLException, InvalidParameterException {
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/AuthorDAOTest/findMainAuthorForProposal_P1_PDB2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+        Proposal proposal = new Proposal();
+        proposal.setId(2);
+
+        ProposalDAO proposalDAO = Mockito.mock(ProposalDAO.class);
+        Mockito.when(proposalDAO.findById(2)).thenThrow(new InvalidParameterException("proposal doesn't exist on database"));
+
+        authorDAO = new AuthorDAO(ds, proposalDAO);
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> authorDAO.findMainAuthorForProposal(proposal));
+        assertEquals(ex.getMessage(), "proposal doesn't exist on database");
+    }
+
+    @Test
+    public void findMainAuthorForProposal_P2_PDB2() throws SQLException, InvalidParameterException {
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/AuthorDAOTest/findMainAuthorForProposal_P2_PDB2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+        Proposal proposal = new Proposal();
+        proposal.setId(0);
+
+        ProposalDAO proposalDAO = Mockito.mock(ProposalDAO.class);
+        Mockito.when(proposalDAO.findById(2)).thenThrow(new InvalidParameterException("proposal doesn't exist on database"));
+
+        authorDAO = new AuthorDAO(ds, proposalDAO);
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> authorDAO.findMainAuthorForProposal(proposal));
+        assertEquals(ex.getMessage(), "proposal parameter is not valid");
     }
 }
