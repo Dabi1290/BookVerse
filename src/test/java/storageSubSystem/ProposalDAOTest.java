@@ -253,11 +253,141 @@ public class ProposalDAOTest {
         Mockito.when(authorDAO.findByID(coAuthorId)).thenReturn(null);
         ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
 
-        proposalDao = new ProposalDAO(ds);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
 
         InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.findByCoAuthor(coAuthorId));
         assertEquals(ex.getMessage(), "not a valid value for id");
     }
 
 
+
+
+
+
+
+
+
+
+
+    @Test
+    public void findByMainAuthor_IP1_IC1_NP1() throws SQLException, InvalidParameterException {
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findByMainAuthor_IP1_IC1_NP1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+        int mainAuthorId = 2;
+
+        Author mainAuthor = new Author();
+        mainAuthor.setId(mainAuthorId);
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        Mockito.when(authorDAO.findByID(mainAuthorId)).thenReturn(mainAuthor);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+        assertTrue(proposalDao.findByMainAuthor(mainAuthorId).isEmpty());
+    }
+
+    @Test
+    public void findByMainAuthor_IP1_IC1_NP2() throws SQLException, InvalidParameterException {
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findByMainAuthor_IP1_IC1_NP2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+        int mainAuthorId = 1;
+
+        //Create oracle
+        Author mainAuthor = new Author();
+        mainAuthor.setId(mainAuthorId);
+
+        Set<Proposal> expectedProposals = new HashSet<>();
+        Proposal proposal = new Proposal();
+        proposal.setId(1);
+        expectedProposals.add(proposal);
+        //Create oracle
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        Mockito.when(authorDAO.findByID(mainAuthorId)).thenReturn(mainAuthor);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+        Set<Proposal> proposals = proposalDao.findByMainAuthor(mainAuthorId);
+        assertTrue(expectedProposals.containsAll(proposals) && proposals.containsAll(expectedProposals));
+    }
+
+    @Test
+    public void findByMainAuthor_IP1_IC1_NP3() throws SQLException, InvalidParameterException {
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findByMainAuthor_IP1_IC1_NP3.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+        int mainAuthorId = 1;
+
+        //Create oracle
+        Author mainAuthor = new Author();
+        mainAuthor.setId(mainAuthorId);
+
+        Set<Proposal> expectedProposals = new HashSet<>();
+        Proposal proposal = new Proposal();
+        proposal.setId(1);
+        expectedProposals.add(proposal);
+        proposal = new Proposal();
+        proposal.setId(2);
+        expectedProposals.add(proposal);
+        //Create oracle
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        Mockito.when(authorDAO.findByID(mainAuthorId)).thenReturn(mainAuthor);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+        Set<Proposal> proposals = proposalDao.findByMainAuthor(mainAuthorId);
+        assertTrue(expectedProposals.containsAll(proposals) && proposals.containsAll(expectedProposals));
+    }
+
+    @Test
+    public void findByMainAuthor_IP1_IC2_NP1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findByMainAuthor_IP1_IC2_NP1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+        int mainAuthorId = 4;
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        Mockito.when(authorDAO.findByID(mainAuthorId)).thenReturn(null);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.findByMainAuthor(mainAuthorId));
+        assertEquals(ex.getMessage(), "Doesn't exist an author with this id");
+    }
+
+    @Test
+    public void findByMainAuthor_IP2_IC2_NP1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findByMainAuthor_IP2_IC2_NP1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+        int mainAuthorId = -1;
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        Mockito.when(authorDAO.findByID(mainAuthorId)).thenReturn(null);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.findByMainAuthor(mainAuthorId));
+        assertEquals(ex.getMessage(), "not a valid value for id");
+    }
 }
