@@ -6,6 +6,7 @@ import userManager.Author;
 
 import java.util.Collection;
 import java.io.File;
+import java.util.Objects;
 import java.util.Set;
 
 public class EBook {
@@ -166,5 +167,18 @@ public class EBook {
 
     public void setInCatalog(boolean inCatalog) {
         this.inCatalog = inCatalog;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EBook eBook = (EBook) o;
+        return id == eBook.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }
