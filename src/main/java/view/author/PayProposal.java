@@ -14,6 +14,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import proposalManager.Proposal;
 import proposalManager.WrongStatusException;
+import storageSubSystem.AuthorDAO;
 import storageSubSystem.EBookDAO;
 import storageSubSystem.InvalidParameterException;
 import storageSubSystem.ProposalDAO;
@@ -147,7 +148,7 @@ public class PayProposal extends HttpServlet {
             throw new ServletException("Failed to create ebook from proposal");
         }
 
-        EBookDAO eBookDAO = new EBookDAO(ds);
+        EBookDAO eBookDAO = new EBookDAO(ds, new AuthorDAO(ds));
         try {
             int ebookId = eBookDAO.newEbook(ebook);
             ebook.setId(ebookId);

@@ -14,14 +14,5 @@ INSERT INTO Author(id) values (2);
 INSERT INTO Validator(id) values (3);
 INSERT INTO Author(id) values (3);
 
-INSERT INTO Proposal(status, mainAuthorId_fk) values ("pending", 1);
-
-INSERT INTO ProposalValidator(validatorId_fk, proposalId_fk) values (2, 1);
-
-INSERT INTO Version(title, description, price, coverImage, report, ebookFile, data, proposalId_fk) values ("titolo", "descrizione", 10, "coverImagePath", "reportPath", "ebookFilePath", "2002-10-03", 1);
-INSERT INTO VersionGenre(versionId_fk, genreId_fk) values (1, "genere1");
-INSERT INTO VersionGenre(versionId_fk, genreId_fk) values (1, "genere2");
-INSERT INTO Version(title, description, price, coverImage, report, ebookFile, data, proposalId_fk) values ("titolo2", "descrizione", 11, "coverImagePath", "reportPath", "ebookFilePath", "2003-10-03", 1);
-INSERT INTO VersionGenre(versionId_fk, genreId_fk) values (2, "genere1");
 
 SHOW STATUS LIKE 'Threads_connected';
