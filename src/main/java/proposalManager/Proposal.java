@@ -185,4 +185,17 @@ public class Proposal {
     public void setAssignedValidator(Validator assignedValidator) {
         this.assignedValidator = assignedValidator;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if(other == this)
+            return true;
+
+        return ((Proposal)other).id == id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

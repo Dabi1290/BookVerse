@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
 
 public class AuthorDAOTest {
     private Connection conn;
