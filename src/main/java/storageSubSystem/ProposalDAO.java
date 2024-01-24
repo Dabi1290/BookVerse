@@ -408,7 +408,7 @@ public class ProposalDAO {
         ps.setInt(1, versionId);
         ResultSet rs = ps.executeQuery();
 
-        c.close();
+
 
         Version version = new Version();
         if(rs.next()) {
@@ -427,6 +427,7 @@ public class ProposalDAO {
 //            version.setReport(new File(FileDAO.getFilesDirectory() + reportPath));
             version.setPrice(price);
         }
+        c.close();
 
         return version;
     }
