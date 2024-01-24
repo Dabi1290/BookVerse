@@ -21,7 +21,7 @@
         <div id="payment-title">Credit Card</div>
         <div class="first-line">
             <input type="text" id="ints"name="intestatario" placeholder="Nome Cognome" class="grande" onblur="checkInte()">
-            <input type="text" id="num"name="cardNumber" placeholder="1234 1234 1234 1234" class="grande" onblur="checkNum()">
+            <input type="text" id="num"name="cardNumber" placeholder="1234-1234-1234-1234" class="grande" onblur="checkNum()">
         </div>
         <div class="first-line">
             <div class="second-line">
@@ -30,6 +30,7 @@
             </div>
             <input type="text" id="cvv" name="cvv" placeholder="000" class="grande" onblur="checkCvv()">
         </div>
+        <div id="error"> </div>
     </div>
     <div class="riepilogo">
         <div class="summary">

@@ -68,6 +68,9 @@ body{
     justify-content: center;
     cursor: pointer;
 }
+#error{
+    color: #EE1515;
+}
 
 @media (max-width: 1300px) {
     .payment-container{
