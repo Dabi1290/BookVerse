@@ -14,7 +14,7 @@ public class EBookDAO {
     private DataSource ds = null;
     private AuthorDAO authorDAO = null;
 
-    private EBookDAO(DataSource ds, AuthorDAO authorDAO) {
+    public EBookDAO(DataSource ds, AuthorDAO authorDAO) {
         this.ds = ds;
         this.authorDAO = authorDAO;
     }

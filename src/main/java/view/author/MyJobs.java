@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import proposalManager.Proposal;
+import storageSubSystem.AuthorDAO;
 import storageSubSystem.EBookDAO;
 import storageSubSystem.InvalidParameterException;
 import storageSubSystem.ProposalDAO;
@@ -38,7 +39,7 @@ public class MyJobs extends HttpServlet {
 
         //Retrieve data source and build ProposalDAO
         DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
-        EBookDAO eBookDAO = new EBookDAO(ds);
+        EBookDAO eBookDAO = new EBookDAO(ds, new AuthorDAO(ds));
         //Retrieve data source and build ProposalDAO
 
         try {
