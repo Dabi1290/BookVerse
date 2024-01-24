@@ -9,10 +9,6 @@ window.onload = function() {
     let c = document.getElementById("c");
     let role = document.getElementById("role");
     let form = document.getElementById("form");
-r.addEventListener("click", function() {
-        role.value="Reader";
-        form.submit();
-    });
 a.addEventListener("click", function() {
         role.value="Author";
         form.submit();
