@@ -260,7 +260,4 @@ public class ProposalDAOTest {
     }
 
 
-
-
-    
 }

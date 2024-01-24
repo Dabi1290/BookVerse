@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ReportTest {
 
     @Test
-    void checkReportE1() {
+    void checkReport_E1() {
 
         File fileReport = new File("report.pdf");
 
@@ -18,7 +18,7 @@ class ReportTest {
     }
 
     @Test
-    void checkReportE2() {
+    void checkReport_E2() {
 
         File fileReport = new File("report.png");
 
