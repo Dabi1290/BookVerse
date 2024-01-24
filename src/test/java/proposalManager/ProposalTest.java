@@ -98,7 +98,9 @@ class ProposalTest {
     @Test
     void makeProposalOk2() {
         Author ma = new Author();
+        ma.setId(1);
         Author ma1 = new Author();
+        ma1.setId(2);
         Set<Author> cA = new HashSet<>();
         cA.add(ma1);
         Proposal p;
@@ -114,8 +116,11 @@ class ProposalTest {
     @Test
     void makeProposalOk3() {
         Author ma = new Author();
+        ma.setId(1);
         Author ma1 = new Author();
+        ma1.setId(2);
         Author ma2 = new Author();
+        ma2.setId(3);
         Set<Author> cA = new HashSet<>();
         cA.add(ma1);
         cA.add(ma2);
