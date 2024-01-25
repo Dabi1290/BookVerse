@@ -136,9 +136,6 @@ public class ProposalDAOTest {
 
 
 
-
-
-
     @Test
     public void findByCoAuthor_IP1_IC1_NP1() throws InvalidParameterException, SQLException {
 
@@ -917,11 +914,97 @@ public class ProposalDAOTest {
 
         Proposal proposal = new Proposal();
         proposal.setId(proposalId);
+        //Expected proposal
 
         proposalDao = new ProposalDAO(ds);
 
         InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.findById(proposalId));
         assertEquals(ex.getMessage(), "id value is not valid");
-        //Expected proposal
+    }
+
+
+
+    @Test
+    public void updateProposalState_I1_PDB1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/updateProposalState_I1_PDB1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+        int proposalId = 1;
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+        proposal.setStatus("Refused");
+
+        proposalDao = new ProposalDAO(ds);
+
+        proposalDao.updateProposalState(proposal);
+    }
+
+
+    @Test
+    public void updateProposalState_I1_PDB2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/updateProposalState_I1_PDB2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        int proposalId = 1;
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+        proposal.setStatus("Approved");
+
+        proposalDao = new ProposalDAO(ds);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.updateProposalState(proposal));
+        assertEquals(ex.getMessage(), "Can't pass from status of proposal on database to state the of proposal");
+    }
+
+    @Test
+    public void updateProposalState_I1_PDB3() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/updateProposalState_I1_PDB3.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        int proposalId = 3;
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+        proposal.setStatus("Approved");
+
+        proposalDao = new ProposalDAO(ds);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.updateProposalState(proposal));
+        assertEquals(ex.getMessage(), "This proposal doesn't exist on database");
+    }
+
+    @Test
+    public void updateProposalState_I2_PDB3() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/updateProposalState_I2_PDB3.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        Proposal proposal = null;
+
+        proposalDao = new ProposalDAO(ds);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.updateProposalState(proposal));
+        assertEquals(ex.getMessage(), "proposal value is not valid");
     }
 }

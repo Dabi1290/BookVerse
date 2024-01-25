@@ -350,8 +350,27 @@ public class ProposalDAO {
         if(proposal == null || proposal.getId() <= 0)
             throw new InvalidParameterException("proposal value is not valid");
 
-        if(findById(proposal.getId()) == null)
+
+        Proposal tp = findById(proposal.getId());
+        if(tp == null)
             throw new InvalidParameterException("This proposal doesn't exist on database");
+
+        String currentStatus = tp.getStatus();
+        String nextStatus = proposal.getStatus();
+        if(currentStatus.equals("Pending") && ( nextStatus.equals("Pending") || nextStatus.equals("Completed")) )
+            throw new InvalidParameterException("Can't pass from status of proposal on database to state the of proposal");
+
+        if(currentStatus.equals("PermanentlyRefused"))
+            throw new InvalidParameterException("Can't pass from status of proposal on database to state the of proposal");
+
+        if(currentStatus.equals("Completed"))
+            throw new InvalidParameterException("Can't pass from status of proposal on database to state the of proposal");
+
+        if(currentStatus.equals("Refused") && (! nextStatus.equals("Pending")))
+            throw new InvalidParameterException("Can't pass from status of proposal on database to state the of proposal");
+
+        if(currentStatus.equals("Approved") && (! nextStatus.equals("Completed")))
+            throw new InvalidParameterException("Can't pass from status of proposal on database to state the of proposal");
         //Check parameters
 
 
@@ -404,7 +423,7 @@ public class ProposalDAO {
 
         //Check parameters
         if(versionId <= 0)
-            throw new InvalidParameterException("versionId is not valid");
+            throw new InvalidParameterException("id of version is not valid");
         //Check parameters
 
         String query = "SELECT * FROM Version as V WHERE V.id = ?";
