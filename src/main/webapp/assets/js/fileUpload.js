@@ -25,7 +25,7 @@ function checkEbook(){
             document.getElementById('e-book-icon').src = 'assets/images/upload.png';
             uploadText.style.color="#EE1515"
             image.src="assets/images/redCheck.png";
-            uploadText.innerText="The file format must \nbe in pdf and a maximum size of 500 mb";
+            uploadText.innerText="The file format must be in pdf and a maximum size of 500 mb";
             return false;
         }
     } else {
@@ -59,7 +59,7 @@ function checkCover(){
         document.getElementById('cover-icon').src = 'assets/images/upload.png';
         uploadText.style.color="#EE1515"
         image.src="assets/images/redCheck.png";
-        uploadText.innerText="The file format must \nbe in png and a maximum size of 500 mb";
+        uploadText.innerText="The file format must be in png and a maximum size of 500 mb";
         return false;
     }
     }
