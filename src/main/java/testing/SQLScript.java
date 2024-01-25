@@ -2,6 +2,9 @@ package testing;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class SQLScript {
 
@@ -27,7 +30,18 @@ public class SQLScript {
         return scriptContent.toString();
     }
 
-    public void executeSQLScript() {
+    public void executeSQLScript(String scriptFilePath, Connection conn) throws SQLException {
+        String[] sqlStatements = retrieveStatements(scriptFilePath);
 
+        // Create a Statement
+        try (Statement statement = conn.createStatement()) {
+            // Execute each SQL statement
+            for (String sql : sqlStatements) {
+                // Skip empty statements
+                if (!sql.trim().isEmpty()) {
+                    statement.execute(sql.trim());
+                }
+            }
+        }
     }
 }

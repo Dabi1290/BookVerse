@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import proposalManager.Proposal;
-import testing.ExtractStatementsFromScript;
+import testing.SQLScript;
 import testing.RetrieveCredentials;
 import userManager.Author;
 
@@ -68,7 +68,7 @@ class EBookDAOTest {
     }
 
     private void executeSQLscript(String scriptFilePath) throws SQLException {
-        String[] sqlStatements = ExtractStatementsFromScript.retrieveStatements(scriptFilePath);
+        String[] sqlStatements = SQLScript.retrieveStatements(scriptFilePath);
 
         // Create a Statement
         try (Statement statement = conn.createStatement()) {
