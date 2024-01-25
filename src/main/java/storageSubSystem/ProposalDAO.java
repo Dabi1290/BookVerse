@@ -1,6 +1,5 @@
 package storageSubSystem;
 
-import jakarta.servlet.ServletException;
 import proposalManager.Proposal;
 import proposalManager.Version;
 import userManager.Author;
