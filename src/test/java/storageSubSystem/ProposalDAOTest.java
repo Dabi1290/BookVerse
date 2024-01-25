@@ -10,8 +10,9 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import proposalManager.Proposal;
 import proposalManager.Version;
-import testing.ExtractStatementsFromScript;
+import testing.SQLScript;
 import testing.RetrieveCredentials;
+import testing.SQLScript;
 import userManager.Author;
 import userManager.Validator;
 
@@ -67,7 +68,7 @@ public class ProposalDAOTest {
     }
 
     private void executeSQLscript(String scriptFilePath) throws SQLException {
-        String[] sqlStatements = ExtractStatementsFromScript.retrieveStatements(scriptFilePath);
+        String[] sqlStatements = SQLScript.retrieveStatements(scriptFilePath);
 
         // Create a Statement
         try (Statement statement = conn.createStatement()) {
@@ -895,6 +896,8 @@ public class ProposalDAOTest {
         Proposal proposal = new Proposal();
         proposal.setId(proposalId);
 
+        proposalDao = new ProposalDAO(ds);
+
         assertNull(proposalDao.findById(proposalId));
         //Expected proposal
     }
@@ -910,8 +913,15 @@ public class ProposalDAOTest {
 
 
         //Expected proposal
+        int proposalId = 0;
+
         Proposal proposal = new Proposal();
-        proposal.setId(1);
+        proposal.setId(proposalId);
+
+        proposalDao = new ProposalDAO(ds);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.findById(proposalId));
+        assertEquals(ex.getMessage(), "id value is not valid");
         //Expected proposal
     }
 }
