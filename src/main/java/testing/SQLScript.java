@@ -3,7 +3,7 @@ package testing;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-public class ExtractStatementsFromScript {
+public class SQLScript {
 
     public static String[] retrieveStatements(String filePath) {
 
@@ -25,5 +25,9 @@ public class ExtractStatementsFromScript {
             e.printStackTrace();
         }
         return scriptContent.toString();
+    }
+
+    public void executeSQLScript() {
+
     }
 }

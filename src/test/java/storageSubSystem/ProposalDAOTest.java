@@ -9,8 +9,10 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import proposalManager.Proposal;
-import testing.ExtractStatementsFromScript;
+import proposalManager.Version;
+import testing.SQLScript;
 import testing.RetrieveCredentials;
+import testing.SQLScript;
 import userManager.Author;
 import userManager.Validator;
 
@@ -19,12 +21,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.*;
 
 public class ProposalDAOTest {
 
@@ -65,7 +68,7 @@ public class ProposalDAOTest {
     }
 
     private void executeSQLscript(String scriptFilePath) throws SQLException {
-        String[] sqlStatements = ExtractStatementsFromScript.retrieveStatements(scriptFilePath);
+        String[] sqlStatements = SQLScript.retrieveStatements(scriptFilePath);
 
         // Create a Statement
         try (Statement statement = conn.createStatement()) {
@@ -392,6 +395,8 @@ public class ProposalDAOTest {
         assertEquals(ex.getMessage(), "not a valid value for id");
     }
 
+
+
     @Test
     public void findByValidator_IP1_VDB1_NP1() throws SQLException, InvalidParameterException {
 
@@ -515,5 +520,408 @@ public class ProposalDAOTest {
         proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
         InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.findByValidator(validatorId));
         assertEquals(ex.getMessage(), "Value not valid for validator");
+    }
+
+
+
+    @Test
+    public void newVersion_PV1_VV1_PDB1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/newVersion_PV1_VV1_PDB1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        int proposalId = 1;
+
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+
+        Version version = new Version();
+        version.setTitle("Titolo1");
+        version.setDescription("Descrizione1");
+        version.setPrice(0);
+        version.setDate(LocalDate.now());
+        version.setReport(null);
+        version.setEbookFile(null);
+        version.setCoverImage(null);
+
+        Set<String> genres = new HashSet<>();
+        genres.add("genere1");
+        genres.add("genere2");
+        version.setGenres(genres);
+
+
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+        assertEquals(2, proposalDao.newVersion(proposal, version));
+    }
+
+    @Test
+    public void newVersion_PV1_VV1_PDB2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/newVersion_PV1_VV1_PDB2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        int proposalId = 10;
+
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+
+        Version version = new Version();
+        version.setTitle("Titolo1");
+        version.setDescription("Descrizione1");
+        version.setPrice(0);
+        version.setDate(LocalDate.now());
+        version.setReport(null);
+        version.setEbookFile(null);
+        version.setCoverImage(null);
+
+        Set<String> genres = new HashSet<>();
+        genres.add("genere1");
+        genres.add("genere2");
+        version.setGenres(genres);
+
+
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.newVersion(proposal, version));
+        assertEquals(ex.getMessage(), "This proposal doesn't exist on database");
+    }
+
+    @Test
+    public void newVersion_PV1_VV2_PDB1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/newVersion_PV1_VV2_PDB1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        int proposalId = 10;
+
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+
+        Version version = null;
+
+
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.newVersion(proposal, version));
+        assertEquals(ex.getMessage(), "null is not a valid value for version");
+    }
+
+    @Test
+    public void newVersion_PV2_VV1_PDB2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/newVersion_PV2_VV1_PDB2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+
+        Proposal proposal = null;
+
+        Version version = null;
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.newVersion(proposal, version));
+        assertEquals(ex.getMessage(), "null is not a valid value for proposal");
+    }
+
+
+
+
+
+    @Test
+    public void updateVersion_PV1_VBD2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/updateVersion_PV1_VDB2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        int versionId = 15;
+        Version version = new Version();
+        version.setId(versionId);
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.updateVersion(version));
+        assertEquals(ex.getMessage(), "this version isn't on database");
+    }
+
+    @Test
+    public void updateVersion_PV2_VBD2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/updateVersion_PV2_VDB2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        Version version = null;
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.updateVersion(version));
+        assertEquals(ex.getMessage(), "version can't be null");
+    }
+
+    @Test
+    public void updateVersion_PV1_VBD1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/updateVersion_PV1_VDB1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        int versionId = 1;
+        Version version = new Version();
+        version.setId(versionId);
+        version.setTitle("Titolo1");
+        version.setDescription("Descrizione1");
+        version.setDate(LocalDate.now());
+
+
+        Set<String> genres = new TreeSet<>();
+        genres.add("genere1");
+        version.setGenres(genres);
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        proposalDao.updateVersion(version);
+
+
+        //Retrieve from database for test
+    }
+
+    @Test
+    public void assignValidator_PV1_VV1_PDB1_VDB1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/assignValidator_PV1_VV1_PDB1_VDB1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+        Proposal proposal = new Proposal();
+        proposal.setId(1);
+        Validator validator = new Validator();
+        validator.setId(1);
+
+
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        proposalDao.assignValidator(proposal, validator);
+    }
+
+    @Test
+    public void assignValidator_PV1_VV1_PDB1_VDB2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/assignValidator_PV1_VV1_PDB1_VDB2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+        Proposal proposal = new Proposal();
+        proposal.setId(1);
+        Validator validator = new Validator();
+        validator.setId(2);
+
+
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+        Mockito.when(validatorDAO.findValidatorById(validator.getId())).thenReturn(null);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.assignValidator(proposal, validator));
+        assertEquals(ex.getMessage(), "This validator doesn't exist on database");
+    }
+
+    @Test
+    public void assignValidator_PV1_VV1_PDB2_VDB1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/assignValidator_PV1_VV1_PDB2_VDB1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+        Proposal proposal = new Proposal();
+        proposal.setId(2);
+        Validator validator = new Validator();
+        validator.setId(1);
+
+
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+        Mockito.when(validatorDAO.findValidatorById(validator.getId())).thenReturn(validator);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.assignValidator(proposal, validator));
+        assertEquals(ex.getMessage(), "This proposal doesn't exist on database");
+    }
+
+    @Test
+    public void assignValidator_PV1_VV2_PDB1_VDB2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/assignValidator_PV1_VV2_PDB1_VDB2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+        Proposal proposal = new Proposal();
+        proposal.setId(1);
+        Validator validator = new Validator();
+        validator.setId(-1);
+
+
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.assignValidator(proposal, validator));
+        assertEquals(ex.getMessage(), "value not valid for validator");
+    }
+
+    @Test
+    public void assignValidator_PV2_VV1_PDB2_VDB1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/assignValidator_PV2_VV1_PDB2_VDB1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+        Proposal proposal = new Proposal();
+        proposal.setId(0);
+        Validator validator = new Validator();
+        validator.setId(1);
+
+
+
+        AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
+        ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.assignValidator(proposal, validator));
+        assertEquals(ex.getMessage(), "value not valid for proposal");
+    }
+
+
+
+    @Test
+    public void findById_IP1_PDB1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findById_IP1_PDB1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+        //Expected proposal
+        int proposalId = 1;
+
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+        //Expected proposal
+
+        proposalDao = new ProposalDAO(ds);
+
+        assertEquals(proposal.getId(), proposalDao.findById(proposalId).getId());
+    }
+
+    @Test
+    public void findById_IP1_PDB2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findById_IP1_PDB2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+        //Expected proposal
+        int proposalId = 3;
+
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+
+        proposalDao = new ProposalDAO(ds);
+
+        assertNull(proposalDao.findById(proposalId));
+        //Expected proposal
+    }
+
+    @Test
+    public void findById_IP2_PDB2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findById_IP2_PDB2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+        //Expected proposal
+        int proposalId = 0;
+
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+
+        proposalDao = new ProposalDAO(ds);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.findById(proposalId));
+        assertEquals(ex.getMessage(), "id value is not valid");
+        //Expected proposal
     }
 }

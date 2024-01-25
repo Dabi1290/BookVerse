@@ -401,6 +401,4 @@ class EBookDAOTest {
 
         assertThrows(InvalidParameterException.class, ()->eBookDAO.findByMainWriter(-1));
     }
-
-
 }

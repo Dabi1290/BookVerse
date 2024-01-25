@@ -1,6 +1,5 @@
 package storageSubSystem;
 
-import jakarta.servlet.ServletException;
 import proposalManager.Proposal;
 import proposalManager.Version;
 import userManager.Author;
@@ -284,6 +283,14 @@ public class ProposalDAO {
         String report = null;
         if(version.getReport() != null)
             report = version.getReport().getName();
+        String fileEbookName = null;
+        if(version.getEbookFile() != null)
+            fileEbookName = version.getEbookFile().getName();
+        String coverImageName = null;
+        if(version.getCoverImage() != null)
+            coverImageName = version.getCoverImage().getName();
+
+
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = version.getDate().format(formatter);
@@ -292,9 +299,9 @@ public class ProposalDAO {
         ps.setString(1, version.getTitle());
         ps.setString(2, version.getDescription());
         ps.setInt(3, version.getPrice());
-        ps.setString(4, version.getCoverImage().getName());
+        ps.setString(4, coverImageName);
         ps.setString(5, report);
-        ps.setString(6, version.getEbookFile().getName());
+        ps.setString(6, fileEbookName);
         ps.setString(7, date);
         ps.setInt(8, version.getId());
 
@@ -426,6 +433,9 @@ public class ProposalDAO {
 //            version.setEbookFile(new File(FileDAO.getFilesDirectory() + ebookFilePath));
 //            version.setReport(new File(FileDAO.getFilesDirectory() + reportPath));
             version.setPrice(price);
+        }
+        else {
+            return null;
         }
         c.close();
 
