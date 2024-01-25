@@ -204,7 +204,7 @@ public class ProposalCorrection extends HttpServlet {
 
 
         //Redirect to the next page
-        response.sendRedirect(NEXT_PAGE);
+        response.sendRedirect("/confirmationPage.jsp?imagePath=bigCheck.png&msg=Your%20publication%20proposal%20has%20been%20successfully%20submitted%2C%20you%20will%20receive%20acknowledgement%20within%2010%20business%20days");
         //Redirect to the next page
     }
 }
