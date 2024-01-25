@@ -7,8 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import testing.RetrieveCredentials;
+import testing.SQLScript;
 import userManager.User;
-import testing.ExtractStatementsFromScript;
+import testing.SQLScript;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -45,7 +46,7 @@ public class UserDAOTest {
     }
 
     private void executeSQLscript(String scriptFilePath) throws SQLException {
-        String[] sqlStatements = ExtractStatementsFromScript.retrieveStatements(scriptFilePath);
+        String[] sqlStatements = SQLScript.retrieveStatements(scriptFilePath);
 
         // Create a Statement
         try (Statement statement = conn.createStatement()) {

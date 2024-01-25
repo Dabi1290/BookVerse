@@ -6,8 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import proposalManager.Proposal;
-import testing.ExtractStatementsFromScript;
+import testing.SQLScript;
 import testing.RetrieveCredentials;
+import testing.SQLScript;
 import userManager.Author;
 import userManager.User;
 
@@ -49,7 +50,7 @@ public class AuthorDAOTest {
     }
 
     private void executeSQLscript(String scriptFilePath) throws SQLException {
-        String[] sqlStatements = ExtractStatementsFromScript.retrieveStatements(scriptFilePath);
+        String[] sqlStatements = SQLScript.retrieveStatements(scriptFilePath);
 
         // Create a Statement
         try (Statement statement = conn.createStatement()) {
