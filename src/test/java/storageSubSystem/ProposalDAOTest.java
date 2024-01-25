@@ -1,5 +1,7 @@
 package storageSubSystem;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
+import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,10 +19,7 @@ import userManager.Author;
 import userManager.Validator;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -80,11 +79,15 @@ public class ProposalDAOTest {
                 }
             }
         }
+    }
 
-        catch(SQLException ex) {
-            System.out.println(ex.getSQLState());
-            //System.out.println(ex.getErrorCode());
-        }
+    public Connection newConnection() throws SQLException {
+        String[] credentials = RetrieveCredentials.retrieveCredentials("src/test/credentials.xml");
+
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/BookVerseTest", credentials[0], credentials[1]);
+        connection.setCatalog("BookVerseTest");
+
+        return connection;
     }
 
     @Test
@@ -97,6 +100,8 @@ public class ProposalDAOTest {
         //Prepare database
 
         //Create a proposal
+        int expectedProposalId = 2;
+
         Proposal proposal = new Proposal();
         Author mainAuthor = new Author();
         mainAuthor.setId(1);
@@ -111,7 +116,47 @@ public class ProposalDAOTest {
 
         proposalDao = new ProposalDAO(ds);
 
-        assertEquals(2, proposalDao.newProposal(proposal));
+        assertEquals(expectedProposalId, proposalDao.newProposal(proposal));
+
+
+
+        //Controll if query modifed the database correctly
+        String query = "SELECT * FROM Proposal as P WHERE P.id = ?";
+
+        Connection c = newConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, expectedProposalId);
+        ResultSet rs = ps.executeQuery();
+
+        assertTrue(rs.next());
+        assertEquals("Pending", rs.getString("status"));
+
+        assertEquals(proposal.getProposedBy().getId(), rs.getInt("mainAuthorId_fk"));
+
+
+
+
+        query = "SELECT * FROM ProposalAuthor as PA WHERE PA.proposalId_fk = ?";
+
+        ps = c.prepareStatement(query);
+        ps.setInt(1, expectedProposalId);
+        rs = ps.executeQuery();
+
+        Set<Integer> idCoAuthors = new TreeSet<>();
+
+        while(rs.next()) {
+            idCoAuthors.add(rs.getInt("authorId_fk"));
+        }
+
+        assertEquals(proposal.getCollaborators().size(), idCoAuthors.size());
+
+        for(Author coAuthor : proposal.getCollaborators()) {
+            assertTrue(idCoAuthors.contains(coAuthor.getId()));
+        }
+
+        c.close();
+        //Controll if query modifed the database correctly
     }
 
     @Test
@@ -130,9 +175,6 @@ public class ProposalDAOTest {
         InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.newProposal(null));
         assertEquals(ex.getMessage(), "Can't create a null proposal in the database");
     }
-
-
-
 
 
 
@@ -534,6 +576,9 @@ public class ProposalDAOTest {
         //Prepare database
 
 
+        //Prepare oracle and input
+        int expectedVersion = 2;
+
 
         int proposalId = 1;
 
@@ -553,14 +598,36 @@ public class ProposalDAOTest {
         genres.add("genere1");
         genres.add("genere2");
         version.setGenres(genres);
-
+        //Prepare oracle and input
 
 
         AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
         ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
 
         proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
-        assertEquals(2, proposalDao.newVersion(proposal, version));
+        assertEquals(expectedVersion, proposalDao.newVersion(proposal, version));
+
+
+        //Control if the method created the version correctly
+        String query = "SELECT * FROM Version as V WHERE V.id = ?";
+
+
+        Connection c = newConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, expectedVersion);
+        ResultSet rs = ps.executeQuery();
+
+        assertTrue(rs.next());
+        assertEquals(version.getTitle(), rs.getString("title"));
+        assertEquals(version.getDescription(), rs.getString("description"));
+        assertEquals(version.getPrice(), rs.getInt("price"));
+        assertNull(rs.getString("ebookFile"));
+        assertNull(rs.getString("report"));
+        assertNull(rs.getString("coverImage"));
+        assertEquals(proposalId, rs.getInt("proposalId_fk"));
+        assertEquals(version.getDate(), LocalDate.parse(rs.getString("data")));
+        //Control if the method created the version correctly
     }
 
     @Test
@@ -744,10 +811,13 @@ public class ProposalDAOTest {
         executeSQLscript(scriptFilePath);
         //Prepare database
 
+
+        int proposalId = 1;
+        int validatorId = 1;
         Proposal proposal = new Proposal();
-        proposal.setId(1);
+        proposal.setId(proposalId);
         Validator validator = new Validator();
-        validator.setId(1);
+        validator.setId(validatorId);
 
 
 
@@ -756,6 +826,22 @@ public class ProposalDAOTest {
         proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
 
         proposalDao.assignValidator(proposal, validator);
+
+
+        //Control if the method modified correctly the database
+        String query = "SELECT * FROM ProposalValidator as PV WHERE PV.validatorId_fk = ? AND PV.proposalId_fk = ?";
+
+        Connection c = newConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, validatorId);
+        ps.setInt(2, proposalId);
+        ResultSet rs = ps.executeQuery();
+
+        assertTrue(rs.next());
+
+        c.close();
+        //Control if the method modified correctly the database
     }
 
     @Test
@@ -917,11 +1003,115 @@ public class ProposalDAOTest {
 
         Proposal proposal = new Proposal();
         proposal.setId(proposalId);
+        //Expected proposal
 
         proposalDao = new ProposalDAO(ds);
 
         InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.findById(proposalId));
         assertEquals(ex.getMessage(), "id value is not valid");
-        //Expected proposal
+    }
+
+
+
+    @Test
+    public void updateProposalState_I1_PDB1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/updateProposalState_I1_PDB1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+        //Create oracle
+        int proposalId = 1;
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+        proposal.setStatus("Refused");
+        //Create oracle
+
+        proposalDao = new ProposalDAO(ds);
+
+        proposalDao.updateProposalState(proposal);
+
+
+        //Controll if effectively updated the state of proposal
+        String query = "SELECT * FROM Proposal as P WHERE P.id = ?";
+        Connection c = newConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, proposalId);
+
+        ResultSet rs = ps.executeQuery();
+
+        assertTrue(rs.next());
+        assertEquals(proposal.getStatus(), rs.getString("status"));
+
+        c.close();
+        //Controll if effectively updated the state of proposal
+    }
+
+
+    @Test
+    public void updateProposalState_I1_PDB2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/updateProposalState_I1_PDB2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        int proposalId = 1;
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+        proposal.setStatus("Approved");
+
+        proposalDao = new ProposalDAO(ds);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.updateProposalState(proposal));
+        assertEquals(ex.getMessage(), "Can't pass from status of proposal on database to state the of proposal");
+    }
+
+    @Test
+    public void updateProposalState_I1_PDB3() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/updateProposalState_I1_PDB3.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        int proposalId = 3;
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+        proposal.setStatus("Approved");
+
+        proposalDao = new ProposalDAO(ds);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.updateProposalState(proposal));
+        assertEquals(ex.getMessage(), "This proposal doesn't exist on database");
+    }
+
+    @Test
+    public void updateProposalState_I2_PDB3() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/updateProposalState_I2_PDB3.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+
+        Proposal proposal = null;
+
+        proposalDao = new ProposalDAO(ds);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.updateProposalState(proposal));
+        assertEquals(ex.getMessage(), "proposal value is not valid");
     }
 }

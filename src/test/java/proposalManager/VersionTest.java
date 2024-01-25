@@ -27,7 +27,7 @@ public class VersionTest {
         Mockito.when(ebook.getAbsolutePath()).thenReturn("pippo.pdf");
     }
     @Test
-    void makeVersionErrorNUmberOfGenres() {
+    void makeVersion_T1_D1_G1_P1_S1() {
         String title="Titolo";
         String description="Description";
         Set<String> genres= null;
@@ -37,7 +37,7 @@ public class VersionTest {
 
     }
     @Test
-    void makeVersionOk() {
+    void makeVersion_T1_D1_G2_P1_S1() {
         String title="Titolo";
         String description="Description";
         Set<String> genres= new HashSet<>();
@@ -59,7 +59,7 @@ public class VersionTest {
         assertEquals(data,res.getDate());
     }
     @Test
-    void makeVersionOk1() {
+    void makeVersion_T1_D1_G3_P1_S1() {
         String title="Titolo";
         String description="Description";
         Set<String> genres= new HashSet<>();
@@ -85,7 +85,7 @@ public class VersionTest {
 
     }
     @Test
-    void makeVersionErrorTitle1() {
+    void makeVersion_T2_D1_G2_P1_S1() {
         String title=null;
         String description="Description";
         Set<String> genres= new HashSet<>();
@@ -96,7 +96,7 @@ public class VersionTest {
 
     }
     @Test
-    void makeVersionErrorTitle2() {
+    void makeVersion_T2_D1_G3_P1_S1() {
         String title=null;
         String description="Description";
         Set<String> genres= new HashSet<>();
@@ -108,7 +108,7 @@ public class VersionTest {
 
     }
     @Test
-    void makeVersionErrorDescritpion1() {
+    void makeVersion_T1_D2_G2_P1_S1() {
         String title="Title";
         String description=null;
         Set<String> genres= new HashSet<>();
@@ -119,7 +119,7 @@ public class VersionTest {
 
     }
     @Test
-    void makeVersionErrorDescritpion2() {
+    void makeVersionT1_D2_G3_P1_S1() {
         String title="Title";
         String description=null;
         Set<String> genres= new HashSet<>();
@@ -131,7 +131,7 @@ public class VersionTest {
 
     }
     @Test
-    void makeVersionErrorPrice1() {
+    void makeVersion_T1_D1_G2_P2_S1() {
         String title="Title";
         String description="Description";
         Set<String> genres= new HashSet<>();
@@ -142,7 +142,7 @@ public class VersionTest {
 
     }
     @Test
-    void makeVersionErrorPrice2() {
+    void makeVersion_T1_D1_G3_P2_S1() {
         String title="Title";
         String description="Description";
         Set<String> genres= new HashSet<>();
@@ -154,7 +154,7 @@ public class VersionTest {
 
     }
     @Test
-    void makeVersionErrorData() {
+    void makeVersion_T1_D1_G3_P1_S2() {
         String title="Title";
         String description="Description";
         Set<String> genres= new HashSet<>();
@@ -167,12 +167,12 @@ public class VersionTest {
     }
 
     @Test
-    void addReportError() {
+    void addReport_A1() {
         report= null;
         assertThrows(Exception.class,()->v.addReport(report));
     }
     @Test
-    void addReportOk() {
+    void addReport_A2() {
         try {
             v.addReport(report);
         } catch (Exception e) {

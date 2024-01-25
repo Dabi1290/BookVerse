@@ -14,7 +14,7 @@ class BankAdapterTest {
         b = new BankAdapter();
     }
     @Test
-    void checkDataFormatOk() {
+    void checkDataFormat_RP1_FC1_VS1_FI1_VN1() {
         int price=50;
         String cvv="123";
         LocalDate deadline= LocalDate.of(2030,1,1);
@@ -23,7 +23,7 @@ class BankAdapterTest {
         assertTrue(b.checkDataFormat(cvv,deadline,intestatario,numCard,price));
     }
     @Test
-    void checkDataFormatErrorCardNumber() {
+    void checkDataFormatRP1_FC1_VS1_FI1_VN2() {
         int price=50;
         String cvv="123";
         LocalDate deadline= LocalDate.of(2030,1,1);
@@ -32,7 +32,7 @@ class BankAdapterTest {
         assertFalse(b.checkDataFormat(cvv,deadline,intestatario,numCard,price));
     }
     @Test
-    void checkDataFormatErrorIntestatario() {
+    void checkDataFormat_RP1_FC1_VS1_FI2_VN1() {
         int price=50;
         String cvv="123";
         LocalDate deadline= LocalDate.of(2030,1,1);
@@ -41,7 +41,7 @@ class BankAdapterTest {
         assertFalse(b.checkDataFormat(cvv,deadline,intestatario,numCard,price));
     }
     @Test
-    void checkDataFormatErrorData() {
+    void checkDataFormat_RP1_FC1_VS2_FI1_VN1() {
         int price=50;
         String cvv="123";
         LocalDate deadline= LocalDate.of(2010,1,1);
@@ -50,7 +50,7 @@ class BankAdapterTest {
         assertFalse(b.checkDataFormat(cvv,deadline,intestatario,numCard,price));
     }
     @Test
-    void checkDataFormatErrorCvv() {
+    void checkDataFormat_RP1_FC2_VS1_FI1_VN1() {
         int price=50;
         String cvv="1234";
         LocalDate deadline= LocalDate.of(2030,1,1);
@@ -59,7 +59,7 @@ class BankAdapterTest {
         assertFalse(b.checkDataFormat(cvv,deadline,intestatario,numCard,price));
     }
     @Test
-    void checkDataFormatErrorPrice() {
+    void checkDataFormat_RP2_FC1_VS1_FI1_VN1() {
         int price=-1;
         String cvv="123";
         LocalDate deadline= LocalDate.of(2030,1,1);

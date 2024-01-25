@@ -21,7 +21,7 @@ class ProposalTest {
     }
 
     @Test
-    void makeProposalErrorMA1() {
+    void makeProposal_A1_B1_D2() {
         Author ma = null;
         Set<Author> cA = new HashSet<>();
         try {
@@ -31,7 +31,7 @@ class ProposalTest {
         }
     }
     @Test
-    void makeProposalErrorMA2() {
+    void makeProposal_A1_B2_D2() {
         Author ma = null;
         Author ma1 = new Author();
         Set<Author> cA = new HashSet<>();
@@ -43,7 +43,7 @@ class ProposalTest {
         }
     }
     @Test
-    void makeProposalErrorMA3() {
+    void makeProposal_A1_B3_D2() {
         Author ma = null;
         Author ma1 = new Author();
         Author ma2 = new Author();
@@ -57,7 +57,7 @@ class ProposalTest {
         }
     }
     @Test
-    void makeProposalErrorCA1() {
+    void makeProposal_A2_B2_D1() {
         Author ma = new Author();
         Set<Author> cA = new HashSet<>();
         cA.add(ma);
@@ -68,7 +68,7 @@ class ProposalTest {
         }
     }
     @Test
-    void makeProposalErrorCA2() {
+    void makeProposalA2_B3_D1() {
         Author ma = new Author();
         Author ma1 = new Author();
         Set<Author> cA = new HashSet<>();
@@ -82,7 +82,7 @@ class ProposalTest {
     }
 
     @Test
-    void makeProposalOk1() {
+    void makeProposal_A2_B1_D2() {
         Author ma = new Author();
         Set<Author> cA = new HashSet<>();
         Proposal p;
@@ -96,7 +96,7 @@ class ProposalTest {
         assertEquals("Pending",p.getStatus());
     }
     @Test
-    void makeProposalOk2() {
+    void makeProposal_A2_B2_D2() {
         Author ma = new Author();
         ma.setId(1);
         Author ma1 = new Author();
@@ -114,7 +114,7 @@ class ProposalTest {
         assertEquals("Pending",p.getStatus());
     }
     @Test
-    void makeProposalOk3() {
+    void makeProposal_A2_B3_D2() {
         Author ma = new Author();
         ma.setId(1);
         Author ma1 = new Author();
@@ -141,12 +141,12 @@ class ProposalTest {
     }
 
     @Test
-    void approveErr(){
+    void approve_A2(){
         p.setStatus("Completed");
         assertThrows(WrongStatusException.class, p::approve);
     }
     @Test
-    void approveOk(){
+    void approve_A1(){
         p.setStatus("Pending");
         try {
             p.approve();
@@ -157,12 +157,12 @@ class ProposalTest {
     }
 
     @Test
-    void refuseErr() {
+    void refuse_A2() {
         p.setStatus("Pluto");
         assertThrows(WrongStatusException.class, p::refuse);
     }
     @Test
-    void refuseOk(){
+    void refuse_A1(){
         p.setStatus("Pending");
 
         try {
@@ -175,13 +175,13 @@ class ProposalTest {
     }
 
     @Test
-    void permanentlyRefuseErr() {
+    void permanentlyRefuse_A2() {
 
         p.setStatus("Pluto");
         assertThrows(WrongStatusException.class, p::permanentlyRefuse);
     }
     @Test
-    void PermanentlyRefuseOk(){
+    void PermanentlyRefuse_A1(){
         p.setStatus("Pending");
 
         try {
@@ -193,13 +193,13 @@ class ProposalTest {
     }
 
     @Test
-    void payErr() {
+    void pay_A2() {
 
         p.setStatus("Pluto");
         assertThrows(WrongStatusException.class, p::pay);
     }
     @Test
-    void payOk() {
+    void pay_A1() {
         p.setStatus("Approved");
         try {
             p.pay();
@@ -210,13 +210,13 @@ class ProposalTest {
     }
 
     @Test
-    void correctErr() {
+    void correct_A2() {
 
         p.setStatus("Pluto");
         assertThrows(WrongStatusException.class, p::correct);
     }
     @Test
-    void correctOK() {
+    void correct_A1() {
         p.setStatus("Refused");
         try {
             p.correct();
@@ -227,7 +227,7 @@ class ProposalTest {
     }
 
     @Test
-    void assignValidatorErrVnull() {
+    void assignValidator_A1_B1_C1() {
         p.setStatus("Pending");
         Validator v= null;
         Validator v1= null;
@@ -235,7 +235,7 @@ class ProposalTest {
         assertThrows(Exception.class,()->p.assignValidator(v));
     }
     @Test
-    void assignValidatorErrAlreadyExist() {
+    void assignValidator_A1_B2_C2() {
         p.setStatus("Pending");
         Validator v= new Validator();
         Validator v1= new Validator();
@@ -243,7 +243,7 @@ class ProposalTest {
         assertThrows(Exception.class,()->p.assignValidator(v));
     }
     @Test
-    void assignValidatorStato() {
+    void assignValidator_A2_B2_C1() {
         p.setStatus("Pippo");
         Validator v= new Validator();
         Validator v1= null;
@@ -251,7 +251,7 @@ class ProposalTest {
         assertThrows(Exception.class,()->p.assignValidator(v));
     }
     @Test
-    void assignValidatorOk() {
+    void assignValidator_A1_B2_C1() {
         p.setStatus("Pending");
         Validator v= new Validator();
         Validator v1= null;
@@ -264,7 +264,7 @@ class ProposalTest {
         assertEquals(p.getAssignedValidator(),v);
     }
     @Test
-    void addVersionErrorDate() {
+    void addVersion_S1_V1_D2() {
         p.setStatus("Pending");
         Version v1 = new Version();
         v1.setDate(LocalDate.of(2030,1,1));
@@ -277,7 +277,7 @@ class ProposalTest {
 
     }
     @Test
-    void addVersionErrorNull() {
+    void addVersionS1_V2_D1() {
         p.setStatus("Pending");
         Version v1 = new Version();
         v1.setDate(LocalDate.of(2030,1,1));
@@ -288,7 +288,7 @@ class ProposalTest {
         assertThrows(Exception.class,()->p.addVersion(v));
     }
     @Test
-    void addVersionErrorStatus() {
+    void addVersion_S2_V1_D1() {
         p.setStatus("Pippo");
         Version v = new Version();
         v.setDate(LocalDate.of(2030,1,1));
@@ -296,7 +296,7 @@ class ProposalTest {
 
     }
     @Test
-    void addVersionOk() {
+    void addVersionS1_V1_D1() {
         p.setStatus("Pending");
         Version v = new Version();
         v.setDate(LocalDate.of(2030,1,1));
@@ -313,14 +313,14 @@ class ProposalTest {
     }
 
     @Test
-    void lastVersionErrore() {
+    void lastVersion_V1() {
         List<Version> lv= new ArrayList<>();
         p.setVersions(lv);
         assertThrows(Exception.class,()->p.lastVersion());
 
     }
     @Test
-    void lastVersionOK() {
+    void lastVersion_V2() {
         Version v1 = new Version();
         v1.setDate(LocalDate.of(2030,1,1));
         List<Version> lv= new ArrayList<>();
@@ -333,7 +333,7 @@ class ProposalTest {
         }
     }
     @Test
-    void lastVersionOk1() {
+    void lastVersion_V3() {
         Version v1 = new Version();
         v1.setDate(LocalDate.of(2030,1,1));
         Version v2 = new Version();

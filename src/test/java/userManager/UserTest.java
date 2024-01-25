@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserTest {
 
     @Test
-    void makeUserOk() {
+    void makeUser_VI1_VN1_VS1_VE1_VP1() {
         int id=1;
         String name= "Pippo";
         String surname= "Topolino";
@@ -27,7 +27,7 @@ class UserTest {
         assertEquals(id,u.getId());
     }
     @Test
-    void makeUserErrorPass() {
+    void makeUser_VI1_VN1_VS1_VE1_VP2() {
         int id=1;
         String name= "Pippo";
         String surname= "Topolino";
@@ -37,7 +37,7 @@ class UserTest {
 
     }
     @Test
-    void makeUserErrorEmail() {
+    void makeUser_VI1_VN1_VS1_VE2_VP1() {
         int id=1;
         String name= "Pippo";
         String surname= "Topolino";
@@ -47,7 +47,7 @@ class UserTest {
 
     }
     @Test
-    void makeUserErrorSurname() {
+    void makeUser_VI1_VN1_VS2_VE1_VP1() {
         int id=1;
         String name= "Pippo";
         String surname= "";
@@ -57,7 +57,7 @@ class UserTest {
 
     }
     @Test
-    void makeUserErrorName() {
+    void makeUser_VI1_VN2_VS1_VE1_VP1() {
         int id=1;
         String name= "";
         String surname= "Topolino";
@@ -66,7 +66,7 @@ class UserTest {
         assertThrows(Exception.class,()->User.makeUser(id,name,surname,email,password));
     }
     @Test
-    void makeUserErrorId() {
+    void makeUser_VI2_VN1_VS1_VE1_VP1() {
         int id=-1;
         String name= "Pippo";
         String surname= "Topolino";
