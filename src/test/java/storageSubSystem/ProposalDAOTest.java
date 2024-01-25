@@ -1,5 +1,6 @@
 package storageSubSystem;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,10 +18,7 @@ import userManager.Author;
 import userManager.Validator;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -80,11 +78,15 @@ public class ProposalDAOTest {
                 }
             }
         }
+    }
 
-        catch(SQLException ex) {
-            System.out.println(ex.getSQLState());
-            //System.out.println(ex.getErrorCode());
-        }
+    public Connection newConnection() throws SQLException {
+        String[] credentials = RetrieveCredentials.retrieveCredentials("src/test/credentials.xml");
+
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/BookVerseTest", credentials[0], credentials[1]);
+        connection.setCatalog("BookVerseTest");
+
+        return connection;
     }
 
     @Test
@@ -934,14 +936,32 @@ public class ProposalDAOTest {
         //Prepare database
 
 
+        //Create oracle
         int proposalId = 1;
         Proposal proposal = new Proposal();
         proposal.setId(proposalId);
         proposal.setStatus("Refused");
+        //Create oracle
 
         proposalDao = new ProposalDAO(ds);
 
         proposalDao.updateProposalState(proposal);
+
+
+        //Controll if effectively updated the state of proposal
+        String query = "SELECT * FROM Proposal as P WHERE P.id = ?";
+        Connection c = newConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, proposalId);
+
+        ResultSet rs = ps.executeQuery();
+
+        assertTrue(rs.next());
+        assertEquals(proposal.getStatus(), rs.getString("status"));
+
+        c.close();
+        //Controll if effectively updated the state of proposal
     }
 
 
