@@ -719,6 +719,7 @@ public class ProposalDAOTest {
         version.setDescription("Descrizione1");
         version.setDate(LocalDate.now());
 
+
         Set<String> genres = new TreeSet<>();
         genres.add("genere1");
         version.setGenres(genres);
