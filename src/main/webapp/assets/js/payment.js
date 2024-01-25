@@ -1,5 +1,5 @@
 let cvvre = /\b\d{3}\b/;
-let intsre = /^[a-zA-Z\s]+$/;
+let intsre = /^[a-zA-Z\s]{1,30}$/;
 let numre = /^\d{4}-\d{4}-\d{4}-\d{4}$/;
 
 
@@ -20,7 +20,7 @@ function checkData(){
     if (inputDate < currentDate) {
         year.style.borderColor = "red";
         month.style.borderColor = "red";
-        error.innerText = "Expiration date cannot be earlier than today.";
+        error.innerText = "Expiration date cannot be earlier than today and the format must be MM/YY";
         return false;
     }
 
@@ -34,7 +34,7 @@ function checkData(){
     else{
         year.style.borderColor = "red";
         month.style.borderColor = "red";
-        error.innerText = "Expiration date cannot be earlier than today.";
+        error.innerText = "Expiration date cannot be earlier than today and the format must be MM/YY";
         return false;
     }
 }

@@ -40,3 +40,20 @@ Insert into ProposalValidator (validatorId_fk,proposalId_fk) values (2,1);
 Insert into Version (id,title,description,price,coverImage,report,ebookFile,data,proposalId_fk) values (1,"Titolo bellissimo","Ciao come stai",50,"coverImage_1.png","reportFile_1.pdf","ebookFile_1.pdf","2024-01-25",1);
 Insert into VersionGenre (versionId_fk,genreId_fk) values (1,"Action");
 Insert into VersionGenre (versionId_fk,genreId_fk) values (1,"Horror");
+
+
+Insert into Proposal (id,status,mainAuthorId_fk) values (2,"Approved",4);
+Insert into ProposalValidator (validatorId_fk,proposalId_fk) values (1,2);
+Insert into Version (id,title,description,price,coverImage,report,ebookFile,data,proposalId_fk) values (2,"Titolo bellissimo","Ciao come stai",50,"coverImage_1.png",null,"ebookFile_1.pdf","2024-01-25",2);
+Insert into VersionGenre (versionId_fk,genreId_fk) values (2,"Action");
+Insert into VersionGenre (versionId_fk,genreId_fk) values (2,"Horror");
+
+
+Insert into Proposal (id,status,mainAuthorId_fk) values (3,"Pending",1);
+Insert into ProposalAuthor (authorId_fk,proposalId_fk) values (4,3);
+Insert into ProposalValidator (validatorId_fk,proposalId_fk) values (3,3);
+Insert into Version (id,title,description,price,coverImage,report,ebookFile,data,proposalId_fk) values (3,"Titolo bellissimo","Ciao come stai",50,"coverImage_1.png",null,"ebookFile_1.pdf","2024-01-25",3);
+Insert into VersionGenre (versionId_fk,genreId_fk) values (3,"Action");
+Insert into VersionGenre (versionId_fk,genreId_fk) values (3,"Horror");
+
+
