@@ -811,10 +811,13 @@ public class ProposalDAOTest {
         executeSQLscript(scriptFilePath);
         //Prepare database
 
+
+        int proposalId = 1;
+        int validatorId = 1;
         Proposal proposal = new Proposal();
-        proposal.setId(1);
+        proposal.setId(proposalId);
         Validator validator = new Validator();
-        validator.setId(1);
+        validator.setId(validatorId);
 
 
 
@@ -823,6 +826,22 @@ public class ProposalDAOTest {
         proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
 
         proposalDao.assignValidator(proposal, validator);
+
+
+        //Control if the method modified correctly the database
+        String query = "SELECT * FROM ProposalValidator as PV WHERE PV.validatorId_fk = ? AND PV.proposalId_fk = ?";
+
+        Connection c = newConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, validatorId);
+        ps.setInt(2, proposalId);
+        ResultSet rs = ps.executeQuery();
+
+        assertTrue(rs.next());
+
+        c.close();
+        //Control if the method modified correctly the database
     }
 
     @Test
