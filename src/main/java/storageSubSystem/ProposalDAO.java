@@ -426,6 +426,9 @@ public class ProposalDAO {
 //            version.setReport(new File(FileDAO.getFilesDirectory() + reportPath));
             version.setPrice(price);
         }
+        else {
+            return null;
+        }
         c.close();
 
         return version;
