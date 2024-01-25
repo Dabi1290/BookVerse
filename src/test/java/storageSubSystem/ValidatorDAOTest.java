@@ -112,7 +112,8 @@ class ValidatorDAOTest {
         set.add(b);
         set.add(c);
 
-        assertThrows(InvalidParameterException.class, ()->validatorDAO.findFreeValidator(a, set));
+        InvalidParameterException e = assertThrows(InvalidParameterException.class, ()->validatorDAO.findFreeValidator(a, set));
+        assertEquals( "At least a coAuthor doesn't exist on database",e.getMessage());
 
     }
 
@@ -133,7 +134,8 @@ class ValidatorDAOTest {
         set.add(b);
         set.add(c);
 
-        assertThrows(InvalidParameterException.class, ()->validatorDAO.findFreeValidator(a, set));
+        InvalidParameterException e = assertThrows(InvalidParameterException.class, ()->validatorDAO.findFreeValidator(a, set));
+        assertEquals("This mainAuthor doesn't exist on database",e.getMessage());
 
     }
 
@@ -174,8 +176,8 @@ class ValidatorDAOTest {
         executeSQLscript(scriptFilePath);
         //Prepare database
 
-        assertThrows(InvalidParameterException.class, ()->validatorDAO.findValidatorById(-1));
-
+        InvalidParameterException e =assertThrows(InvalidParameterException.class, ()->validatorDAO.findValidatorById(-1));
+        assertEquals("Value not valid for id",e.getMessage());
 
     }
 

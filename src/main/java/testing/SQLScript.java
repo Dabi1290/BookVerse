@@ -30,7 +30,7 @@ public class SQLScript {
         return scriptContent.toString();
     }
 
-    public void executeSQLScript(String scriptFilePath, Connection conn) throws SQLException {
+    public static void executeSQLScript(String scriptFilePath, Connection conn) throws SQLException {
         String[] sqlStatements = retrieveStatements(scriptFilePath);
 
         // Create a Statement
