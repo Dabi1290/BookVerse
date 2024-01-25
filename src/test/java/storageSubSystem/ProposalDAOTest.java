@@ -99,6 +99,8 @@ public class ProposalDAOTest {
         //Prepare database
 
         //Create a proposal
+        int expectedProposalId = 2;
+
         Proposal proposal = new Proposal();
         Author mainAuthor = new Author();
         mainAuthor.setId(1);
@@ -113,7 +115,47 @@ public class ProposalDAOTest {
 
         proposalDao = new ProposalDAO(ds);
 
-        assertEquals(2, proposalDao.newProposal(proposal));
+        assertEquals(expectedProposalId, proposalDao.newProposal(proposal));
+
+
+
+        //Controll if query modifed the database correctly
+        String query = "SELECT * FROM Proposal as P WHERE P.id = ?";
+
+        Connection c = newConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, expectedProposalId);
+        ResultSet rs = ps.executeQuery();
+
+        assertTrue(rs.next());
+        assertEquals("Pending", rs.getString("status"));
+
+        assertEquals(proposal.getProposedBy().getId(), rs.getInt("mainAuthorId_fk"));
+
+
+
+
+        query = "SELECT * FROM ProposalAuthor as PA WHERE PA.proposalId_fk = ?";
+
+        ps = c.prepareStatement(query);
+        ps.setInt(1, expectedProposalId);
+        rs = ps.executeQuery();
+
+        Set<Integer> idCoAuthors = new TreeSet<>();
+
+        while(rs.next()) {
+            idCoAuthors.add(rs.getInt("authorId_fk"));
+        }
+
+        assertEquals(proposal.getCollaborators().size(), idCoAuthors.size());
+
+        for(Author coAuthor : proposal.getCollaborators()) {
+            assertTrue(idCoAuthors.contains(coAuthor.getId()));
+        }
+
+        c.close();
+        //Controll if query modifed the database correctly
     }
 
     @Test
