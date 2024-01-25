@@ -217,9 +217,8 @@ class EBookDAOTest {
 
         ebook.setProposedThrough(p);
 
-        assertThrows(InvalidParameterException.class, ()->eBookDAO.newEbook(ebook));
-
-
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, ()->eBookDAO.newEbook(ebook));
+        assertEquals("", ex.getMessage());
     }
 
     @Test
