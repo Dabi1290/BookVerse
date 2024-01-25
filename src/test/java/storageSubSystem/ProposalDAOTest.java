@@ -686,7 +686,7 @@ public class ProposalDAOTest {
 
         //Prepare database
         executeSQLscript("src/test/db/createDbForTest.sql");
-        String scriptFilePath = "src/test/db/ProposalDAOTest/updateVersion_PV2_VBD2.sql";
+        String scriptFilePath = "src/test/db/ProposalDAOTest/updateVersion_PV2_VDB2.sql";
         executeSQLscript(scriptFilePath);
         //Prepare database
 
@@ -853,5 +853,65 @@ public class ProposalDAOTest {
 
         InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.assignValidator(proposal, validator));
         assertEquals(ex.getMessage(), "value not valid for proposal");
+    }
+
+
+
+    @Test
+    public void findById_IP1_PDB1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findById_IP1_PDB1.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+        //Expected proposal
+        int proposalId = 1;
+
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+        //Expected proposal
+
+        proposalDao = new ProposalDAO(ds);
+
+        assertEquals(proposal.getId(), proposalDao.findById(proposalId).getId());
+    }
+
+    @Test
+    public void findById_IP1_PDB2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findById_IP1_PDB2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+        //Expected proposal
+        int proposalId = 3;
+
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+
+        assertNull(proposalDao.findById(proposalId));
+        //Expected proposal
+    }
+
+    @Test
+    public void findById_IP2_PDB2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLscript("src/test/db/createDbForTest.sql");
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findById_IP2_PDB2.sql";
+        executeSQLscript(scriptFilePath);
+        //Prepare database
+
+
+        //Expected proposal
+        Proposal proposal = new Proposal();
+        proposal.setId(1);
+        //Expected proposal
     }
 }
