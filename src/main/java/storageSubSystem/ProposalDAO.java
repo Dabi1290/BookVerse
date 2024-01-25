@@ -452,6 +452,7 @@ public class ProposalDAO {
 //            version.setEbookFile(new File(FileDAO.getFilesDirectory() + ebookFilePath));
 //            version.setReport(new File(FileDAO.getFilesDirectory() + reportPath));
             version.setPrice(price);
+            version.setDate(LocalDate.parse(date));
         }
         else {
             return null;

@@ -1,6 +1,7 @@
 package storageSubSystem;
 
 import com.mysql.cj.x.protobuf.MysqlxPrepare;
+import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -575,6 +576,9 @@ public class ProposalDAOTest {
         //Prepare database
 
 
+        //Prepare oracle and input
+        int expectedVersion = 2;
+
 
         int proposalId = 1;
 
@@ -594,14 +598,36 @@ public class ProposalDAOTest {
         genres.add("genere1");
         genres.add("genere2");
         version.setGenres(genres);
-
+        //Prepare oracle and input
 
 
         AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
         ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
 
         proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
-        assertEquals(2, proposalDao.newVersion(proposal, version));
+        assertEquals(expectedVersion, proposalDao.newVersion(proposal, version));
+
+
+        //Control if the method created the version correctly
+        String query = "SELECT * FROM Version as V WHERE V.id = ?";
+
+
+        Connection c = newConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, expectedVersion);
+        ResultSet rs = ps.executeQuery();
+
+        assertTrue(rs.next());
+        assertEquals(version.getTitle(), rs.getString("title"));
+        assertEquals(version.getDescription(), rs.getString("description"));
+        assertEquals(version.getPrice(), rs.getInt("price"));
+        assertNull(rs.getString("ebookFile"));
+        assertNull(rs.getString("report"));
+        assertNull(rs.getString("coverImage"));
+        assertEquals(proposalId, rs.getInt("proposalId_fk"));
+        assertEquals(version.getDate(), LocalDate.parse(rs.getString("data")));
+        //Control if the method created the version correctly
     }
 
     @Test
