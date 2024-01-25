@@ -174,7 +174,8 @@ class EBookDAOTest {
 
         ebook.setProposedThrough(p);
 
-        assertThrows(InvalidParameterException.class, ()->eBookDAO.newEbook(ebook));
+        InvalidParameterException e = assertThrows(InvalidParameterException.class, ()->eBookDAO.newEbook(ebook));
+        assertEquals("at least one coAuthors does'nt exist on database", e.getMessage());
 
 
     }
@@ -218,7 +219,7 @@ class EBookDAOTest {
         ebook.setProposedThrough(p);
 
         InvalidParameterException ex = assertThrows(InvalidParameterException.class, ()->eBookDAO.newEbook(ebook));
-        assertEquals("", ex.getMessage());
+        assertEquals("this mainAuthor is not valid", ex.getMessage());
     }
 
     @Test
@@ -294,8 +295,8 @@ class EBookDAOTest {
         executeSQLscript(scriptFilePath);
         //Prepare database
 
-        assertThrows(InvalidParameterException.class, ()->eBookDAO.findByCoWriter(10));
-
+        InvalidParameterException e = assertThrows(InvalidParameterException.class, ()->eBookDAO.findByCoWriter(10));
+        assertEquals("author is not valid", e.getMessage());
     }
 
     @Test
@@ -307,8 +308,8 @@ class EBookDAOTest {
         executeSQLscript(scriptFilePath);
         //Prepare database
 
-        assertThrows(InvalidParameterException.class, ()->eBookDAO.findByCoWriter(-1));
-
+        InvalidParameterException e = assertThrows(InvalidParameterException.class, ()->eBookDAO.findByCoWriter(-1));
+        assertEquals("author id is not valid", e.getMessage());
     }
 
 
@@ -385,7 +386,9 @@ class EBookDAOTest {
         //Prepare database
 
 
-        assertThrows(InvalidParameterException.class, ()->eBookDAO.findByMainWriter(10));
+        InvalidParameterException e = assertThrows(InvalidParameterException.class, ()->eBookDAO.findByMainWriter(10));
+        assertEquals( "mainAuthor is not on database",e.getMessage());
+
     }
 
     @Test
@@ -398,6 +401,7 @@ class EBookDAOTest {
         //Prepare database
 
 
-        assertThrows(InvalidParameterException.class, ()->eBookDAO.findByMainWriter(-1));
+        InvalidParameterException e = assertThrows(InvalidParameterException.class, ()->eBookDAO.findByMainWriter(-1));
+        assertEquals( "mainAuthor id is not valid",e.getMessage());
     }
 }
