@@ -1,8 +1,11 @@
-package proposalManager;
+package unitTesting.proposalManager;
 
 import com.sun.source.tree.Tree;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import proposalManager.Proposal;
+import proposalManager.Version;
+import proposalManager.WrongStatusException;
 import userManager.Author;
 import userManager.Validator;
 

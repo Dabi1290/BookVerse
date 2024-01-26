@@ -1,5 +1,6 @@
-package PaymenManager;
+package unitTesting.PaymenManager;
 
+import PaymenManager.BankAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

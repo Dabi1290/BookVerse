@@ -1,6 +1,8 @@
-package proposalManager;
+package unitTesting.proposalManager;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import proposalManager.Report;
 
 import java.io.File;
 
@@ -13,7 +15,7 @@ class ReportTest {
 
         File fileReport = new File("report.pdf");
 
-        assertTrue(Report.checkReport(fileReport));
+        Assertions.assertTrue(Report.checkReport(fileReport));
 
     }
 

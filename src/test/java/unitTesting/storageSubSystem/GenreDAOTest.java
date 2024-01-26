@@ -1,9 +1,11 @@
-package storageSubSystem;
+package unitTesting.storageSubSystem;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import storageSubSystem.GenreDAO;
+import storageSubSystem.InvalidParameterException;
 import testing.SQLScript;
 import testing.RetrieveCredentials;
 import userManager.Author;

@@ -1,4 +1,4 @@
-package EBookManager;
+package unitTesting.EBookManager;
 
 import ebookManager.EBook;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,8 +1,9 @@
-package userManager;
+package unitTesting.userManager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import proposalManager.Proposal;
+import userManager.Validator;
 
 import java.util.HashSet;
 

@@ -1,4 +1,4 @@
-package storageSubSystem;
+package unitTesting.storageSubSystem;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import storageSubSystem.UserDAO;
 import testing.RetrieveCredentials;
 import testing.SQLScript;
 import userManager.User;

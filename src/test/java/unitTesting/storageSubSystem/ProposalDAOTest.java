@@ -1,4 +1,4 @@
-package storageSubSystem;
+package unitTesting.storageSubSystem;
 
 import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import net.bytebuddy.asm.Advice;
@@ -12,6 +12,10 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import proposalManager.Proposal;
 import proposalManager.Version;
+import storageSubSystem.AuthorDAO;
+import storageSubSystem.InvalidParameterException;
+import storageSubSystem.ProposalDAO;
+import storageSubSystem.ValidatorDAO;
 import testing.SQLScript;
 import testing.RetrieveCredentials;
 import testing.SQLScript;

@@ -1,4 +1,4 @@
-package storageSubSystem;
+package unitTesting.storageSubSystem;
 
 import ebookManager.EBook;
 import org.junit.jupiter.api.AfterEach;
@@ -9,6 +9,9 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import proposalManager.Proposal;
+import storageSubSystem.AuthorDAO;
+import storageSubSystem.EBookDAO;
+import storageSubSystem.InvalidParameterException;
 import testing.SQLScript;
 import testing.RetrieveCredentials;
 import userManager.Author;
