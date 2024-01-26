@@ -24,6 +24,11 @@
             My jobs
         </div>
     </a>
+    <a href="<%=request.getContextPath()%>/requisiti.jsp">
+        <div class="page-name">
+            Requirements
+        </div>
+    </a>
 </div>
 </body>
 </html>
