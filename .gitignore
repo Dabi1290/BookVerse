@@ -39,6 +39,6 @@ build/
 
 
 ###Added
-!**/src/test/credentials.xml
+src/test/credentials.xml
 src/test/files/pippo_grande.png
 src/test/files/pippo_grande.pdf
