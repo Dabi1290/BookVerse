@@ -218,7 +218,7 @@ public class ProposalDAOTest_wValidatorDAO {
 
         proposalDao.assignValidator(proposal, validator);
 
-        
+
 
         //Control if the method modified correctly the database
         String query = "SELECT * FROM ProposalValidator as PV WHERE PV.validatorId_fk = ? AND PV.proposalId_fk = ?";
