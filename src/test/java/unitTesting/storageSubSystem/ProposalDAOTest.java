@@ -443,6 +443,8 @@ public class ProposalDAOTest {
 
 
 
+
+
     @Test
     public void findByValidator_IP1_VDB1_NP1() throws SQLException, InvalidParameterException {
 
