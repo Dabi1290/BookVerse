@@ -57,15 +57,15 @@ public class ProposalCreation extends HttpServlet {
 
         DataSource ds = (DataSource) getServletContext().getAttribute("DataSource");
 
-        if(proposalDao == null) {
-            this.proposalDao = new ProposalDAO(ds);
-        }
-
         if(authorDao == null)
             this.authorDao = new AuthorDAO(ds, new ProposalDAO(ds));
 
         if(validatorDao == null)
             this.validatorDao = new ValidatorDAO(ds, new AuthorDAO(ds));
+
+        if(proposalDao == null) {
+            this.proposalDao = new ProposalDAO(ds, validatorDao, authorDao);
+        }
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -399,7 +399,7 @@ public class ProposalDAO {
         if(findById(proposal.getId()) == null)
             throw new InvalidParameterException("This proposal doesn't exist on database");
 
-        ValidatorDAO validatorDAO = new ValidatorDAO(ds);
+        //ValidatorDAO validatorDAO = new ValidatorDAO(ds);
         if(validatorDAO.findValidatorById(validator.getId()) == null)
             throw new InvalidParameterException("This validator doesn't exist on database");
         //Check parameters
