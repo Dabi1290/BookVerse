@@ -1,33 +1,16 @@
+![logo.png](Assets%2Flogo.png)
 # BookVerse
-[IS Project ] e-book e-commerce
 
-## Requisiti
+BookVerse is an innovative e-commerce platform dedicated to e-books. It offers a unique blend of commerce and creativity, providing a marketplace for readers to discover new digital literature, and for authors to publish their work.
 
-- jdk 19
-  - se è 19.0.2 è meglio
-- Tomcat 10
 
-## Come clonare il progetto
+# Ide configuration
 
-https://blog.jetbrains.com/idea/2020/10/clone-a-project-from-github/
+If you are interested in collaborating in BookVerse, you only need to set up your development environment as demonstrated [here](Dev.md)
 
-## Aggiungere Tomcat
+# Deliverables
 
-![1.png](Assets%2F1.png)
-![2.png](Assets%2F2.png)
-![3.png](Assets%2F3.png)
-![4.png](Assets%2F4.png)
-![5.png](Assets%2F5.png)
-Nel caso non è gia presente 
-![111.png](Assets%2F111.png)
-![11.png](Assets%2F11.png)
-Inserire il path di Tomcat: /PathTo/apache-tomcat-9.0.73/
+All documents produced during the design, development and testing of the project are stored in the [Deliverables](Deliverables) folder
+# Testing configuration
 
-Cliccare su OK
-
-Dopo averlo aggiunto dovrebbe essere presente all'interno della schermata precedente
-![6.png](Assets%2F6.png)
-![7.png](Assets%2F7.png)
-![8.png](Assets%2F8.png)
-![10.png](Assets%2F10.png)
-Cliccare su ok, adesso basta runnare il progetto direttamente dal tasto play in alto a destra, l'importante è che a destra del tasto compaia tomcat appena configurato
+If you want to take advantage of our testing suites, all you have to do is set up a few things as explained [here](Testing.md)
