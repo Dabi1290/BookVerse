@@ -16,9 +16,7 @@ import static testing.SQLScript.*;
 import userManager.Validator;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -191,6 +189,147 @@ public class ProposalDAOTest_wValidatorDAO {
         assertEquals(ex.getMessage(), "Value not valid for validator");
     }
 
+
+
+
+
+    @Test
+    public void assignValidator_PV1_VV1_PDB1_VDB1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/ProposalDAOTest/assignValidator_PV1_VV1_PDB1_VDB1.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+
+        int proposalId = 1;
+        int validatorId = 1;
+        Proposal proposal = new Proposal();
+        proposal.setId(proposalId);
+        Validator validator = new Validator();
+        validator.setId(validatorId);
+
+
+
+        AuthorDAO authorDAO = new AuthorDAO(ds);
+        ValidatorDAO validatorDAO = new ValidatorDAO(ds);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        proposalDao.assignValidator(proposal, validator);
+
+        
+
+        //Control if the method modified correctly the database
+        String query = "SELECT * FROM ProposalValidator as PV WHERE PV.validatorId_fk = ? AND PV.proposalId_fk = ?";
+
+        Connection c = newConnection();
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, validatorId);
+        ps.setInt(2, proposalId);
+        ResultSet rs = ps.executeQuery();
+
+        assertTrue(rs.next());
+
+        c.close();
+        //Control if the method modified correctly the database
+    }
     
+    @Test
+    public void assignValidator_PV1_VV1_PDB1_VDB2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/ProposalDAOTest/assignValidator_PV1_VV1_PDB1_VDB2.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        Proposal proposal = new Proposal();
+        proposal.setId(1);
+        Validator validator = new Validator();
+        validator.setId(2);
+
+
+
+        AuthorDAO authorDAO = new AuthorDAO(ds);
+        ValidatorDAO validatorDAO = new ValidatorDAO(ds);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.assignValidator(proposal, validator));
+        assertEquals(ex.getMessage(), "This validator doesn't exist on database");
+    }
+
+    @Test
+    public void assignValidator_PV1_VV1_PDB2_VDB1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/ProposalDAOTest/assignValidator_PV1_VV1_PDB2_VDB1.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        Proposal proposal = new Proposal();
+        proposal.setId(2);
+        Validator validator = new Validator();
+        validator.setId(1);
+
+
+
+        AuthorDAO authorDAO = new AuthorDAO(ds);
+        ValidatorDAO validatorDAO = new ValidatorDAO(ds);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.assignValidator(proposal, validator));
+        assertEquals(ex.getMessage(), "This proposal doesn't exist on database");
+    }
+
+    @Test
+    public void assignValidator_PV1_VV2_PDB1_VDB2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/ProposalDAOTest/assignValidator_PV1_VV2_PDB1_VDB2.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        Proposal proposal = new Proposal();
+        proposal.setId(1);
+        Validator validator = new Validator();
+        validator.setId(-1);
+
+
+
+        AuthorDAO authorDAO = new AuthorDAO(ds);
+        ValidatorDAO validatorDAO = new ValidatorDAO(ds);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.assignValidator(proposal, validator));
+        assertEquals(ex.getMessage(), "value not valid for validator");
+    }
+
+    @Test
+    public void assignValidator_PV2_VV1_PDB2_VDB1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/ProposalDAOTest/assignValidator_PV2_VV1_PDB2_VDB1.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        Proposal proposal = new Proposal();
+        proposal.setId(0);
+        Validator validator = new Validator();
+        validator.setId(1);
+
+
+
+        AuthorDAO authorDAO = new AuthorDAO(ds);
+        ValidatorDAO validatorDAO = new ValidatorDAO(ds);
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.assignValidator(proposal, validator));
+        assertEquals(ex.getMessage(), "value not valid for proposal");
+    }
 
 }
