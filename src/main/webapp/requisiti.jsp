@@ -15,30 +15,31 @@
 <%@include file="templates/navbarLogged.jsp" %>
 <%@include file="templates/underNavbarAuthor.jsp" %>
 <div class="requisiti">
-<h2>Formato del File</h2>
-<li> Formato: Utilizzare esclusivamente il formato PDF per l'ebook.</li>
+<h2>File Format</h2>
+<li>Format: Use only PDF format for the ebook.</li>
+    <li>Format: Use only PNG format for the ebook cover.</li>
 
 <h2>Metadata</h2>
-<li> Titolo: Inserire un titolo appropriato e accattivante.</li>
-<li>  Autore: Indicare il nome dell'autore o di eventuali co-autori.</li>
-<li>  Descrizione: Fornire una descrizione completa e interessante del libro.</li>
-<li>  Copertina: Utilizzare un'immagine per la copertina di alta qualità, accattivante e pertinente al contenuto del libro.</li>
+<li>Title: Insert an appropriate and catchy title.</li>
+<li>Author: Indicate the email of any co-authors.</li>
+<li>Description: Provide a complete and interesting description of the book.</li>
+<li>Cover: Use an image for the cover that is high quality, eye-catching and relevant to the content of the book.</li>
 
-<h2>Contenuto</h2>
-<li> Testo: Assicurarsi che il testo sia formattato correttamente senza errori grammaticali o ortografici.</li>
-<li>  Formattazione: Mantenere una formattazione coerente per capitoli, paragrafi e stili di testo.</li>
-<li>  Immagini: Se presenti, assicurarsi che le immagini siano di alta qualità e ben integrate nel testo.</li>
+<h2>Content</h2>
+<li>Text: Make sure the text is formatted correctly without grammatical or spelling errors.</li>
+<li>Formatting: Maintain consistent formatting for chapters, paragraphs and text styles.</li>
+<li>Images: If present, ensure that images are of high quality and well integrated into the text.</li>
 
-<h2>Accessibilità</h2>
-<li>  Tabelle: Se si utilizzano tabelle, verificarne la leggibilità e l'accessibilità.</li>
-<li>  Testo Alternativo: Fornire testo alternativo per immagini per garantire l'accessibilità.</li>
+<h2>Accessibility</h2>
+<li>Tables: If using tables, check their readability and accessibility.</li>
+<li>Alternative Text: Provide alternative text for images to ensure accessibility.</li>
 
-<h2>Conformità Legale</h2>
-<li>  Diritti d'Autore: Assicurarsi di avere i diritti d'autore per il contenuto o fornire le informazioni necessarie.</li>
-<li> Contenuti Illegali: Evitare la pubblicazione di contenuti illegali o in violazione dei diritti d'autore.</li>
+<h2>Legal Compliance</h2>
+<li>Copyrights: Make sure you have copyrights for the content or provide the necessary information.</li>
+<li>Illegal Content: Avoid posting illegal or infringing content.</li>
 
-<h2>Prezzo</h2>
-<li> Prezzo: Determinare un prezzo appropriato per il libro.</li>
+<h2>Price</h2>
+<li>Price: Determine an appropriate price for the book.</li>
 </div>
 
 
