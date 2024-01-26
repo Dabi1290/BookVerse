@@ -5,7 +5,7 @@
   "url": "http://localhost:8080",
   "tests": [{
     "id": "a2b8220a-b008-4eb6-a24c-8ea83319450c",
-    "name": "LoginOk",
+    "name": "Login_E1-FP1-R1",
     "commands": [{
       "id": "573e5375-544e-4ffb-b552-5ca7357306b0",
       "comment": "",
@@ -110,7 +110,7 @@
     }]
   }, {
     "id": "c47a2c1f-acbb-4d75-9819-7f7b84cdf6e1",
-    "name": "Login EMail Non Presente",
+    "name": "Login_E2-FP1-R1",
     "commands": [{
       "id": "944eaed8-86c8-4a06-bcc3-f4015b941b87",
       "comment": "",
@@ -204,7 +204,7 @@
     }]
   }, {
     "id": "1d6528a3-f42c-41bb-ba5c-445955be5d60",
-    "name": "Login Pass errata",
+    "name": "Login_E1-FP2-R1",
     "commands": [{
       "id": "97c33db0-edac-4627-a409-03eb33484151",
       "comment": "",
@@ -298,7 +298,7 @@
     }]
   }, {
     "id": "d96d5795-194f-4fae-a70f-713fc9f27fc9",
-    "name": "Login Ruolo errato",
+    "name": "Login_E1-FP1-R2",
     "commands": [{
       "id": "cfbc1a41-3ff3-49a4-8a25-b97e27741784",
       "comment": "",
@@ -28973,20 +28973,6 @@
     "parallel": false,
     "timeout": 300,
     "tests": ["d08ec127-66d0-44a1-a0bb-c50265293108", "b089a9ad-e088-4eff-a9e7-ef8504b08cfd", "3f63c7ea-f736-43cc-8b30-ade81a8411dd"]
-  }, {
-    "id": "bc1b7d0f-c7e4-404c-ae2b-81da4d2a4928",
-    "name": "Approve",
-    "persistSession": false,
-    "parallel": false,
-    "timeout": 300,
-    "tests": ["b73b2fa2-0454-4ef9-a72f-5bd9b996dbc9"]
-  }, {
-    "id": "d36d6692-2750-43be-b4d5-3d3ff553454e",
-    "name": "Permanently Refuse",
-    "persistSession": false,
-    "parallel": false,
-    "timeout": 300,
-    "tests": ["8def1bfb-eb45-483d-8614-60cfbf8e1e98"]
   }],
   "urls": ["http://localhost:8080/"],
   "plugins": []
