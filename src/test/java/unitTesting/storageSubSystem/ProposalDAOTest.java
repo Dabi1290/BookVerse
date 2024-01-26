@@ -827,6 +827,7 @@ public class ProposalDAOTest {
 
         AuthorDAO authorDAO = Mockito.mock(AuthorDAO.class);
         ValidatorDAO validatorDAO = Mockito.mock(ValidatorDAO.class);
+        Mockito.when(validatorDAO.findValidatorById(validatorId)).thenReturn(validator);
         proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
 
         proposalDao.assignValidator(proposal, validator);
