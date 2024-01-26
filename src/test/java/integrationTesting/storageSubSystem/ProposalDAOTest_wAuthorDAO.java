@@ -194,7 +194,127 @@ public class ProposalDAOTest_wAuthorDAO {
     }
 
 
-
-
     
+
+
+    @Test
+    public void findByMainAuthor_IP1_IC1_NP1() throws SQLException, InvalidParameterException {
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findByMainAuthor_IP1_IC1_NP1.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        int mainAuthorId = 2;
+
+        Author mainAuthor = new Author();
+        mainAuthor.setId(mainAuthorId);
+
+        AuthorDAO authorDAO = new AuthorDAO(ds);
+        ValidatorDAO validatorDAO = new ValidatorDAO(ds);
+
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+        assertTrue(proposalDao.findByMainAuthor(mainAuthorId).isEmpty());
+    }
+
+    @Test
+    public void findByMainAuthor_IP1_IC1_NP2() throws SQLException, InvalidParameterException {
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findByMainAuthor_IP1_IC1_NP2.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        int mainAuthorId = 1;
+
+        //Create oracle
+        Author mainAuthor = new Author();
+        mainAuthor.setId(mainAuthorId);
+
+        Set<Proposal> expectedProposals = new HashSet<>();
+        Proposal proposal = new Proposal();
+        proposal.setId(1);
+        expectedProposals.add(proposal);
+        //Create oracle
+
+        AuthorDAO authorDAO = new AuthorDAO(ds);
+        ValidatorDAO validatorDAO = new ValidatorDAO(ds);
+
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+        Set<Proposal> proposals = proposalDao.findByMainAuthor(mainAuthorId);
+        assertTrue(expectedProposals.containsAll(proposals) && proposals.containsAll(expectedProposals));
+    }
+
+    @Test
+    public void findByMainAuthor_IP1_IC1_NP3() throws SQLException, InvalidParameterException {
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findByMainAuthor_IP1_IC1_NP3.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        int mainAuthorId = 1;
+
+        //Create oracle
+        Author mainAuthor = new Author();
+        mainAuthor.setId(mainAuthorId);
+
+        Set<Proposal> expectedProposals = new HashSet<>();
+        Proposal proposal = new Proposal();
+        proposal.setId(1);
+        expectedProposals.add(proposal);
+        proposal = new Proposal();
+        proposal.setId(2);
+        expectedProposals.add(proposal);
+        //Create oracle
+
+        AuthorDAO authorDAO = new AuthorDAO(ds);
+        ValidatorDAO validatorDAO = new ValidatorDAO(ds);
+
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+        Set<Proposal> proposals = proposalDao.findByMainAuthor(mainAuthorId);
+        assertTrue(expectedProposals.containsAll(proposals) && proposals.containsAll(expectedProposals));
+    }
+
+    @Test
+    public void findByMainAuthor_IP1_IC2_NP1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findByMainAuthor_IP1_IC2_NP1.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        int mainAuthorId = 4;
+
+        AuthorDAO authorDAO = new AuthorDAO(ds);
+        ValidatorDAO validatorDAO = new ValidatorDAO(ds);
+
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.findByMainAuthor(mainAuthorId));
+        assertEquals(ex.getMessage(), "Doesn't exist an author with this id");
+    }
+
+    @Test
+    public void findByMainAuthor_IP2_IC2_NP1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/ProposalDAOTest/findByMainAuthor_IP2_IC2_NP1.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        int mainAuthorId = -1;
+
+        AuthorDAO authorDAO = new AuthorDAO(ds);
+        ValidatorDAO validatorDAO = new ValidatorDAO(ds);
+
+        proposalDao = new ProposalDAO(ds, validatorDAO, authorDAO);
+        InvalidParameterException ex = assertThrows(InvalidParameterException.class, () -> proposalDao.findByMainAuthor(mainAuthorId));
+        assertEquals(ex.getMessage(), "not a valid value for id");
+    }
+
+
+
+
 }

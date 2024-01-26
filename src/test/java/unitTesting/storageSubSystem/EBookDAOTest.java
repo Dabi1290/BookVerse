@@ -18,10 +18,7 @@ import userManager.Author;
 
 import javax.sql.DataSource;
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -95,6 +92,15 @@ class EBookDAOTest {
         conn.close();
     }
 
+    public Connection newConnection() throws SQLException {
+        String[] credentials = RetrieveCredentials.retrieveCredentials("src/test/credentials.xml");
+
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/BookVerseTest", credentials[0], credentials[1]);
+        connection.setCatalog("BookVerseTest");
+
+        return connection;
+    }
+
     @Test
     void newEbook_EV1_AV1_CP1() throws Exception {
 
@@ -105,12 +111,14 @@ class EBookDAOTest {
         //Prepare database
 
 
+        int expectedEbookId = 1;
+
         EBook ebook = new EBook();
-        ebook.setId(1);
+        ebook.setId(expectedEbookId);
         ebook.setEbookFile(new File("amicaGeniale.pdf"));
         ebook.setTitle("L'amica Geniale");
 
-        HashSet<String> generi = new HashSet<>(Arrays.asList("Horror", "Fantasy"));
+        Set<String> generi = new HashSet<>(Arrays.asList("Horror", "Fantasy"));
         ebook.setGenres(generi);
 
         ebook.setDescription("fiction RAI");
@@ -126,16 +134,75 @@ class EBookDAOTest {
         HashSet<Author> coautori = new HashSet<>(Arrays.asList(c1, c2));
         ebook.setCoAuthors(coautori);
 
+        int proposalId = 1;
         Proposal p = new Proposal();
-        p.setId(1);
+        p.setId(proposalId);
         p.setProposedBy(main);
         p.setCollaborators(coautori);
 
         ebook.setProposedThrough(p);
 
-        assertEquals(1, eBookDAO.newEbook(ebook));
 
 
+        assertEquals(expectedEbookId, eBookDAO.newEbook(ebook));
+
+
+        //Check if the method saved correctly on database information
+        String query = "SELECT * FROM EBook as b WHERE b.id = ?";
+
+        Connection c = newConnection();
+
+
+
+        PreparedStatement ps = c.prepareStatement(query);
+        ps.setInt(1, expectedEbookId);
+
+        ResultSet rs = ps.executeQuery();
+
+        assertTrue(rs.next());
+        assertEquals(proposalId, rs.getInt("proposalId_fk"));
+        assertEquals(ebook.getTitle(), rs.getString("title"));
+        assertEquals(ebook.getPrice(), rs.getInt("price"));
+        assertEquals(ebook.getDescription(), rs.getString("description"));
+        assertEquals(ebook.getProposedThrough().getId(), rs.getInt("mainAuthorId_fk"));
+
+
+
+        query = "SELECT * FROM EBookGenre as EG WHERE EG.ebookId_fk = ? AND EG.genreId_fk = ? ";
+
+        ps.clearParameters();
+        ps = c.prepareStatement(query);
+        ps.setInt(1, expectedEbookId);
+        ps.setString(2, "Horror");
+        rs = ps.executeQuery();
+
+        assertTrue(rs.next());
+
+        ps.clearParameters();
+        ps = c.prepareStatement(query);
+        ps.setInt(1, expectedEbookId);
+        ps.setString(2, "Fantasy");
+        rs = ps.executeQuery();
+
+        assertTrue(rs.next());
+
+
+
+        query = "SELECT * FROM EBookAuthor as EA WHERE EA.ebookId_fk = ? AND EA.authorId_fk = ?";
+
+        for(Author coAuthor : coautori) {
+
+            ps.clearParameters();
+            ps = c.prepareStatement(query);
+            ps.setInt(1, expectedEbookId);
+            ps.setInt(2, coAuthor.getId());
+            rs = ps.executeQuery();
+
+            assertTrue(rs.next());
+        }
+
+        c.close();
+        //Check if the method saved correctly on database information
     }
 
 
@@ -179,8 +246,6 @@ class EBookDAOTest {
 
         InvalidParameterException e = assertThrows(InvalidParameterException.class, ()->eBookDAO.newEbook(ebook));
         assertEquals("at least one coAuthors does'nt exist on database", e.getMessage());
-
-
     }
 
     @Test
@@ -236,8 +301,7 @@ class EBookDAOTest {
 
         Set<EBook> ebooks = eBookDAO.findByCoWriter(2);
 
-        assertEquals(0, ebooks.size());
-
+        assertTrue(ebooks.isEmpty());
     }
 
 
@@ -260,7 +324,6 @@ class EBookDAOTest {
         oracolo.add(e);
 
         assertTrue(ebooks.containsAll(oracolo) && oracolo.containsAll(ebooks));
-
     }
 
     @Test
@@ -286,7 +349,6 @@ class EBookDAOTest {
         oracolo.add(e1);
 
         assertTrue(ebooks.containsAll(oracolo) && oracolo.containsAll(ebooks));
-
     }
 
     @Test
