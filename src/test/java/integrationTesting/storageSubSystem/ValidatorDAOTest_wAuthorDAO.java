@@ -4,6 +4,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import storageSubSystem.AuthorDAO;
 import storageSubSystem.InvalidParameterException;
 import storageSubSystem.ValidatorDAO;
@@ -46,9 +48,20 @@ public class ValidatorDAOTest_wAuthorDAO {
         conn.setCatalog("BookVerseTest");
 
         ds = Mockito.mock(DataSource.class);
-        Mockito.when(ds.getConnection()).thenReturn(conn);
+        Answer<Connection> getConnection = new Answer<Connection>() {
+            @Override
+            public Connection answer(InvocationOnMock invocationOnMock) throws Throwable {
+                String[] crendentials = RetrieveCredentials.retrieveCredentials("src/test/credentials.xml");
 
-        
+                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BookVerseTest", crendentials[0], crendentials[1]);
+                conn.setCatalog("BookVerseTest");
+
+                return conn;
+            }
+        };
+        Mockito.when(ds.getConnection()).thenAnswer(getConnection);
+
+
         authorDAO = new AuthorDAO(ds);
         validatorDAO = new ValidatorDAO(ds, authorDAO);
     }
@@ -74,7 +87,14 @@ public class ValidatorDAOTest_wAuthorDAO {
     }
 
 
+    private Connection newConnection() throws SQLException {
+        String[] credentials = RetrieveCredentials.retrieveCredentials("src/test/credentials.xml");
 
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/BookVerseTest", credentials[0], credentials[1]);
+        connection.setCatalog("BookVerseTest");
+
+        return connection;
+    }
 
     @Test
     public void findFreeValidatorM1_C1_AP1() throws Exception {
