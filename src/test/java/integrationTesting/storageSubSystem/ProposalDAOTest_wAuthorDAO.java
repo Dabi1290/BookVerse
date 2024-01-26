@@ -316,5 +316,5 @@ public class ProposalDAOTest_wAuthorDAO {
 
 
 
-    
+
 }
