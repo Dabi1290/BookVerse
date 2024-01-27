@@ -276,4 +276,93 @@ public class EBookDAOTest_wAuthorDAO {
     }
 
 
+
+
+    
+    @Test
+    void findByCoWriter_IA1_ADB1_NC1() throws InvalidParameterException, SQLException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/EbookDAOTest/findByCowriter_IA1_ADB1_NC1.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        Set<EBook> ebooks = eBookDAO.findByCoWriter(2);
+
+        assertTrue(ebooks.isEmpty());
+    }
+
+
+    @Test
+    void findByCoWriter_IA1_ADB1_NC2() throws InvalidParameterException, SQLException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/EbookDAOTest/findByCowriter_IA1_ADB1_NC2.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        Set<EBook> ebooks = eBookDAO.findByCoWriter(2);
+
+        assertEquals(1, ebooks.size());
+
+        HashSet<EBook> oracolo = new HashSet<>();
+        EBook e = new EBook();
+        e.setId(1);
+        oracolo.add(e);
+
+        assertTrue(ebooks.containsAll(oracolo) && oracolo.containsAll(ebooks));
+    }
+
+    @Test
+    void findByCoWriter_IA1_ADB1_NC3() throws InvalidParameterException, SQLException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/EbookDAOTest/findByCowriter_IA1_ADB1_NC3.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        Set<EBook> ebooks = eBookDAO.findByCoWriter(2);
+
+        assertEquals(2, ebooks.size());
+
+        //creo oracolo
+        HashSet<EBook> oracolo = new HashSet<>();
+        EBook e = new EBook();
+        e.setId(1);
+        oracolo.add(e);
+        EBook e1 = new EBook();
+        e1.setId(2);
+        oracolo.add(e1);
+
+        assertTrue(ebooks.containsAll(oracolo) && oracolo.containsAll(ebooks));
+    }
+
+    @Test
+    void findByCoWriter_IA1_ADB2_NC1() throws InvalidParameterException, SQLException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/EbookDAOTest/findByCowriter_IA1_ADB2_NC1.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        InvalidParameterException e = assertThrows(InvalidParameterException.class, ()->eBookDAO.findByCoWriter(10));
+        assertEquals("author is not valid", e.getMessage());
+    }
+
+    @Test
+    void findByCoWriter_IA2_ADB2_NC1() throws InvalidParameterException, SQLException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/EbookDAOTest/findByCowriter_IA1_ADB2_NC1.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        InvalidParameterException e = assertThrows(InvalidParameterException.class, ()->eBookDAO.findByCoWriter(-1));
+        assertEquals("author id is not valid", e.getMessage());
+    }
 }
