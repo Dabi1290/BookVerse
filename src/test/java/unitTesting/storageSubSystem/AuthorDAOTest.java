@@ -198,6 +198,11 @@ public class AuthorDAOTest {
         assertEquals("email is not valid", ex.getMessage());
     }
 
+
+
+
+
+
     @Test
     public void findCoAuthorsForProposal_P1_PDB1_AP1() throws SQLException, InvalidParameterException {
         //Prepare database
