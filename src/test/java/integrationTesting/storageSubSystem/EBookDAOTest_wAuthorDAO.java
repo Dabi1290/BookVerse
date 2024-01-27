@@ -365,4 +365,101 @@ public class EBookDAOTest_wAuthorDAO {
         InvalidParameterException e = assertThrows(InvalidParameterException.class, ()->eBookDAO.findByCoWriter(-1));
         assertEquals("author id is not valid", e.getMessage());
     }
+
+
+
+
+
+    @Test
+    void findByMainWriter_IA1_ADB1_NC1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/EbookDAOTest/findByMainwriter_IA1_ADB1_NC1.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        Set<EBook> ebooks = eBookDAO.findByMainWriter(1);
+
+        assertEquals(0, ebooks.size());
+
+    }
+
+    @Test
+    void findByMainWriter_IA1_ADB1_NC2() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/EbookDAOTest/findByMainwriter_IA1_ADB1_NC2.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        Set<EBook> ebooks = eBookDAO.findByMainWriter(1);
+
+        assertEquals(1, ebooks.size());
+
+        //creo oracolo
+        HashSet<EBook> oracolo = new HashSet<>();
+        EBook e = new EBook();
+        e.setId(1);
+        oracolo.add(e);
+
+        assertTrue(ebooks.containsAll(oracolo) && oracolo.containsAll(ebooks));
+    }
+
+
+    @Test
+    void findByMainWriter_IA1_ADB1_NC3() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/EbookDAOTest/findByMainwriter_IA1_ADB1_NC3.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+        Set<EBook> ebooks = eBookDAO.findByMainWriter(1);
+
+        assertEquals(2, ebooks.size());
+
+        //creo oracolo
+        HashSet<EBook> oracolo = new HashSet<>();
+        EBook e = new EBook();
+        e.setId(1);
+        oracolo.add(e);
+        EBook e1 = new EBook();
+        e1.setId(2);
+        oracolo.add(e1);
+
+        assertTrue(ebooks.containsAll(oracolo) && oracolo.containsAll(ebooks));
+    }
+
+    @Test
+    void findByMainWriter_IA1_ADB2_NC1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/EbookDAOTest/findByMainwriter_IA1_ADB1_NC3.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+
+        InvalidParameterException e = assertThrows(InvalidParameterException.class, ()->eBookDAO.findByMainWriter(10));
+        assertEquals( "mainAuthor is not on database",e.getMessage());
+
+    }
+
+    @Test
+    void findByMainWriter_IA2_ADB2_NC1() throws SQLException, InvalidParameterException {
+
+        //Prepare database
+        executeSQLScript("src/test/db/createDbForTest.sql", conn);
+        String scriptFilePath = "src/test/db/EbookDAOTest/findByMainwriter_IA1_ADB1_NC3.sql";
+        executeSQLScript(scriptFilePath, conn);
+        //Prepare database
+
+
+        InvalidParameterException e = assertThrows(InvalidParameterException.class, ()->eBookDAO.findByMainWriter(-1));
+        assertEquals( "mainAuthor id is not valid",e.getMessage());
+    }
+
 }
