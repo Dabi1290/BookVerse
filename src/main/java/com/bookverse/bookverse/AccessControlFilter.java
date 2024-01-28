@@ -11,7 +11,7 @@ import userManager.User;
 import java.io.IOException;
 import java.util.*;
 
-//@WebFilter(filterName = "/AccessControlFiler", urlPatterns = "/*")
+@WebFilter(filterName = "/AccessControlFiler", urlPatterns = "/*")
 public class AccessControlFilter extends HttpFilter implements Filter {
 
     //Map servlet/page -> role
@@ -29,7 +29,7 @@ public class AccessControlFilter extends HttpFilter implements Filter {
         servletToRoles.put("/home", Arrays.asList(ROLE_AUTHOR, ROLE_VALIDATOR, ROLE_GUEST));
 
 
-        servletToRoles.put("/login", Arrays.asList(ROLE_AUTHOR, ROLE_VALIDATOR));
+        servletToRoles.put("/login", Arrays.asList(ROLE_GUEST));
         servletToRoles.put("/logout", Arrays.asList(ROLE_VALIDATOR, ROLE_AUTHOR));
 
 
@@ -51,7 +51,7 @@ public class AccessControlFilter extends HttpFilter implements Filter {
         servletToRoles.put("/correctProposalForm.jsp", Arrays.asList(ROLE_AUTHOR));
         servletToRoles.put("/history", Arrays.asList(ROLE_AUTHOR));
         servletToRoles.put("/historyv", Arrays.asList(ROLE_VALIDATOR));
-        servletToRoles.put("/home.jsp", Arrays.asList());
+        servletToRoles.put("/home.jsp", Arrays.asList(ROLE_AUTHOR, ROLE_VALIDATOR, ROLE_GUEST));
         servletToRoles.put("/homeAuthor.jsp", Arrays.asList(ROLE_AUTHOR));
         servletToRoles.put("/homeValidator.jsp", Arrays.asList(ROLE_VALIDATOR));
         servletToRoles.put("/login.jsp", Arrays.asList(ROLE_GUEST));
@@ -95,11 +95,11 @@ public class AccessControlFilter extends HttpFilter implements Filter {
 
 
             //If the page/servlet is not mapped get out!
-//            if(roles == null) {
-//                System.out.println("Trying to access to a not mapped ")
-//                httpServletResponse.sendError(500);
-//                return;
-//            }
+            if(roles == null) {
+                System.out.println("Trying to access to a not mapped functionality");
+                httpServletResponse.sendError(500);
+                return;
+            }
             //If the page/servlet is not mapped get out!
 
             //If the page/servlet mapped, control the roles and the right

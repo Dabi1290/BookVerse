@@ -11,7 +11,7 @@ import userManager.User;
 
 import javax.sql.DataSource;
 
-@WebServlet(name = "logoutServlet", value = "/logoutServlet")
+@WebServlet(name = "logout", value = "/logout")
 public class logout extends HttpServlet {
 
 

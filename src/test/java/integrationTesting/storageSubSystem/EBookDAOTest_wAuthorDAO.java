@@ -29,9 +29,7 @@ public class EBookDAOTest_wAuthorDAO {
 
     private Connection conn;
     private DataSource ds;
-
     private EBookDAO eBookDAO;
-
     private AuthorDAO authorDAO;
 
     @BeforeEach
