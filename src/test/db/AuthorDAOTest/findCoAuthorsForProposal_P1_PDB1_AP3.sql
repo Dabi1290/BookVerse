@@ -17,5 +17,3 @@ INSERT INTO Proposal(status, mainAuthorId_fk) values ("pending", 3);
 
 
 INSERT INTO Proposal(status, mainAuthorId_fk) values ("pending", 3);
-
-INSERT INTO ProposalAuthor(authorId_fk, proposalId_fk) values (4, 2);

@@ -61,6 +61,7 @@ public class AccessControlFilter extends HttpFilter implements Filter {
         servletToRoles.put("/register.jsp", Arrays.asList(ROLE_GUEST));
         servletToRoles.put("/proposals.jsp", Arrays.asList(ROLE_VALIDATOR));
         servletToRoles.put("/publications.jsp", Arrays.asList(ROLE_AUTHOR));
+        servletToRoles.put("/requisiti.jsp", Arrays.asList(ROLE_AUTHOR));
         //Load association servlet/page -> role
     }
 

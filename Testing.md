@@ -2,7 +2,13 @@
 
 ## Unit testing
 
+1. You must insert your credentials in the file [credentials.xml](src%2Ftest%2Fcredentials.xml)
+2. Then you can run testing located in the directory [unitTesting](src%2Ftest%2Fjava%2FunitTesting)
+
 ## Integration testing
+
+1. You must insert you credentials in the file [credentials.xml](src%2Ftest%2Fcredentials.xml)
+2. Then you can run testing located in the directory [storageSubSystem](src%2Ftest%2Fjava%2FintegrationTesting%2FstorageSubSystem)
 
 ## Functional testing
 
