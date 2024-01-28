@@ -71,7 +71,7 @@ function checkCover(){
 
 function checkTitle(){
     let title = document.getElementById("title");
-    if(title.value.length>30){
+    if(title.value.length>30 || title.value.length===0){
         error.innerText = "The title should have a maximum size of 30 characters";
         return false;
     }
@@ -79,8 +79,9 @@ function checkTitle(){
     return true;
 }
 function checkPrice(){
+    let reg = /^\d+$/;
     let price = document.getElementById("price");
-    if(price.value<0 || price.value>500){
+    if(!price.value.match(reg) || price.value<0 || price.value>500 || price.value.length===0){
         error.innerText = "The price must be in a range between 0 and 500";
         return false;
     }
@@ -89,7 +90,6 @@ function checkPrice(){
 }
 function checkDescription(){
     let description = document.getElementById("description");
-    console.log(description.value);
     if(description.value.length>500 || description.value.length===0 ){
         error.innerText = "The description should have a maximum size of 500 characters";
         return false;
@@ -126,5 +126,7 @@ function sendValidator(){
         form.submit();
     }
 }
+
+
 
 
