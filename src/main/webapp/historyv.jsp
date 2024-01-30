@@ -46,7 +46,7 @@
         </div>
         <div class="description">
             <p>Description<br></p>
-            <%=v.getDescription()%>asdsadsdsadaasdsadsdsadaasdsadsdsadaasdsadsdsadaasdsadsdsadaasdsadsdsadaasdsadsdsadaasdsadsdsadaasdsadsdsada
+            <%=v.getDescription()%>
         </div>
         <div class="genre-authors">
             <div class="raggruppa">
