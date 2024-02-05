@@ -46,7 +46,7 @@ public class AccessControlFilter extends HttpFilter implements Filter {
         servletToRoles.put("/RefuseProposal", Arrays.asList(ROLE_VALIDATOR));
 
         servletToRoles.put("/FileDownload", Arrays.asList(ROLE_VALIDATOR, ROLE_AUTHOR));
-
+        servletToRoles.put("/TestingTesting", Arrays.asList(ROLE_GUEST));
         servletToRoles.put("/confirmationPage.jsp", Arrays.asList(ROLE_VALIDATOR, ROLE_AUTHOR, ROLE_GUEST));
         servletToRoles.put("/correctProposalForm.jsp", Arrays.asList(ROLE_AUTHOR));
         servletToRoles.put("/history.jsp", Arrays.asList(ROLE_AUTHOR));
@@ -62,6 +62,7 @@ public class AccessControlFilter extends HttpFilter implements Filter {
         servletToRoles.put("/proposals.jsp", Arrays.asList(ROLE_VALIDATOR));
         servletToRoles.put("/publications.jsp", Arrays.asList(ROLE_AUTHOR));
         servletToRoles.put("/requisiti.jsp", Arrays.asList(ROLE_AUTHOR));
+
         //Load association servlet/page -> role
     }
 
